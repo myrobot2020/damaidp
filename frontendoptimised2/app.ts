@@ -872,7 +872,16 @@ function renderSuttaUI(details: SuttaDetail, entry: SuttaEntry) {
   const practiceContainer = getEl("practiceQuizCard");
   practiceContainer.innerHTML = "";
   
-  let quizData: SuttaQuiz | null = details.quiz || null;
+  let quizData: SuttaQuiz | null = null;
+  if (typeof (details.quiz as any) === "string") {
+    try {
+      quizData = JSON.parse(details.quiz as any);
+    } catch (e) {
+      quizData = null;
+    }
+  } else {
+    quizData = details.quiz || null;
+  }
   
   if (quizData) {
     const quizDiv = document.createElement("div");

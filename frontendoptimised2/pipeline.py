@@ -366,12 +366,13 @@ class DevServerHandler(SimpleHTTPRequestHandler):
             target_key = key_map.get(field, field)
 
             if target_key in ["quiz", "knowledge_graph"]:
-                clean_json_str = text_output
-                if "```" in text_output:
-                    clean_json_str = re.sub(r"^```(?:json)?\s*", "", text_output, flags=re.I | re.M)
-                    clean_json_str = re.sub(r"\s*```$", "", clean_json_str, flags=re.I | re.M).strip()
                 try:
-                    existing[target_key] = json.loads(clean_json_str)
+                    s_idx = text_output.find("{")
+                    e_idx = text_output.rfind("}")
+                    if s_idx != -1 and e_idx != -1:
+                        existing[target_key] = json.loads(text_output[s_idx:e_idx+1])
+                    else:
+                        existing[target_key] = text_output
                 except Exception:
                     existing[target_key] = text_output
             else:

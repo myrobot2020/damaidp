@@ -690,7 +690,18 @@ function renderSuttaUI(details, entry) {
     renderAdminToolbar("accordion-tree", "knowledge_graph", { canRerun: true });
     const practiceContainer = getEl("practiceQuizCard");
     practiceContainer.innerHTML = "";
-    let quizData = details.quiz || null;
+    let quizData = null;
+    if (typeof details.quiz === "string") {
+        try {
+            quizData = JSON.parse(details.quiz);
+        }
+        catch (e) {
+            quizData = null;
+        }
+    }
+    else {
+        quizData = details.quiz || null;
+    }
     if (quizData) {
         const quizDiv = document.createElement("div");
         quizDiv.style.display = "flex";
