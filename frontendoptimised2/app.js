@@ -749,39 +749,34 @@ function renderSuttaUI(details, entry) {
         optionsDiv.style.display = "flex";
         optionsDiv.style.flexDirection = "column";
         optionsDiv.style.gap = "10px";
+        let goldId = quizData.goldOptionId ? String(quizData.goldOptionId).trim() : "";
+        if (!goldId && quizData.options && quizData.options.length > 0) {
+            const summary = (quizData.teacherSummary || "").toLowerCase();
+            const matched = quizData.options.find(o => (o.title && summary.includes(o.title.toLowerCase())) ||
+                (o.body && summary.includes(o.body.toLowerCase().slice(0, 15))));
+            goldId = matched ? String(matched.id).trim() : String(quizData.options[0].id).trim();
+        }
         quizData.options.forEach(opt => {
             const optBtn = document.createElement("div");
             optBtn.className = "quiz-option";
-            optBtn.setAttribute("data-id", opt.id);
+            optBtn.setAttribute("data-id", String(opt.id).trim());
             optBtn.innerHTML = `
         <div style="font-weight:600; font-size:0.9rem;">${opt.title}</div>
         ${opt.body ? `<div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">${opt.body}</div>` : ""}
       `;
             optBtn.onclick = () => {
-                const isCorrect = (String(opt.id).trim() === String(quizData.goldOptionId).trim());
+                const isCorrect = (String(opt.id).trim() === goldId);
                 practiceContainer.querySelectorAll(".quiz-option").forEach(el => {
                     el.style.pointerEvents = "none";
                 });
                 if (isCorrect) {
-                    optBtn.classList.add("correct");
-                    optBtn.style.background = "#d1fae5";
-                    optBtn.style.borderColor = "#10b981";
-                    optBtn.style.color = "#065f46";
-                    optBtn.style.fontWeight = "700";
+                    optBtn.setAttribute("style", "background: #d1fae5 !important; border: 2px solid #10b981 !important; color: #065f46 !important; font-weight: 700 !important; box-shadow: 0 0 10px rgba(16,185,129,0.3) !important; padding: 12px 16px; border-radius: 8px; cursor: pointer;");
                 }
                 else {
-                    optBtn.classList.add("incorrect");
-                    optBtn.style.background = "#fee2e2";
-                    optBtn.style.borderColor = "#ef4444";
-                    optBtn.style.color = "#991b1b";
-                    optBtn.style.fontWeight = "700";
-                    const goldBtn = practiceContainer.querySelector(`.quiz-option[data-id="${String(quizData.goldOptionId).trim()}"]`);
+                    optBtn.setAttribute("style", "background: #fee2e2 !important; border: 2px solid #ef4444 !important; color: #991b1b !important; font-weight: 700 !important; box-shadow: 0 0 10px rgba(239,68,68,0.3) !important; padding: 12px 16px; border-radius: 8px; cursor: pointer;");
+                    const goldBtn = practiceContainer.querySelector(`.quiz-option[data-id="${goldId}"]`);
                     if (goldBtn) {
-                        goldBtn.classList.add("correct");
-                        goldBtn.style.background = "#d1fae5";
-                        goldBtn.style.borderColor = "#10b981";
-                        goldBtn.style.color = "#065f46";
-                        goldBtn.style.fontWeight = "700";
+                        goldBtn.setAttribute("style", "background: #d1fae5 !important; border: 2px solid #10b981 !important; color: #065f46 !important; font-weight: 700 !important; box-shadow: 0 0 10px rgba(16,185,129,0.3) !important; padding: 12px 16px; border-radius: 8px; cursor: pointer;");
                     }
                 }
                 if (quizData.teacherSummary) {

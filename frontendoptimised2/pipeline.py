@@ -384,6 +384,12 @@ class DevServerHandler(SimpleHTTPRequestHandler):
                         existing[target_key] = text_output
                 except Exception:
                     existing[target_key] = text_output
+            elif target_key == "image_url":
+                if text_output.startswith("http"):
+                    existing["image_url"] = text_output
+                else:
+                    clean_p = urllib.parse.quote(text_output[:180].replace("\n", " "))
+                    existing["image_url"] = f"https://image.pollinations.ai/prompt/{clean_p}?width=800&height=600&seed=42&nologo=true"
             else:
                 existing[target_key] = text_output
 
