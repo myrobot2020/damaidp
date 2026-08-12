@@ -214,7 +214,6 @@ function onNikayaChange() {
   suttaSel.innerHTML = '<option value="">SUTTA</option>';
   
   if (!nikVal) {
-    if (!selectedSuttaId) renderHomeScreen();
     return;
   }
   
@@ -242,8 +241,6 @@ function onNikayaChange() {
     opt.innerText = getBookLabel(book, nikVal);
     bookSel.appendChild(opt);
   });
-
-  if (!selectedSuttaId) renderHomeScreen();
 }
 (window as any).onNikayaChange = onNikayaChange;
 
@@ -256,7 +253,6 @@ function onBookChange() {
   suttaSel.innerHTML = '<option value="">SUTTA</option>';
   
   if (!nikVal || !bookVal) {
-    if (!selectedSuttaId) renderHomeScreen();
     return;
   }
   
@@ -278,8 +274,6 @@ function onBookChange() {
       }
     }
   });
-
-  if (!selectedSuttaId) renderHomeScreen();
 }
 (window as any).onBookChange = onBookChange;
 
@@ -316,7 +310,7 @@ function handleRouting() {
     
     getEl("breadcrumbBar").innerHTML = `<span class="breadcrumb-dot">•</span> SUTTA DISCOURSE CATALOG EXPLORER`;
     resetLeftPane();
-    renderHomeScreen();
+    showHomeView();
   }
 }
 
@@ -489,6 +483,7 @@ async function selectSutta(suttaId: string) {
   
   // Load data
   getEl("suttaNotFoundCard").style.display = "none";
+  getEl("homeViewPane").style.display = "none";
   getEl("suttaViewActive").style.display = "flex";
   
   try {
@@ -967,10 +962,25 @@ async function sendSuttaChatMessage() {
 }
 (window as any).sendSuttaChatMessage = sendSuttaChatMessage;
 
-// Render Home Screen View (Project Status Table + Home RAG Bot)
-function renderHomeScreen() {
+// Show Dedicated Home View Tab (Status Table + Home RAG Bot)
+function showHomeView() {
+  selectedSuttaId = null;
+  getEl("suttaViewActive").style.display = "none";
   getEl("suttaNotFoundCard").style.display = "none";
-  getEl("suttaViewActive").style.display = "flex";
+  const homePane = getEl("homeViewPane");
+  homePane.style.display = "flex";
+  getEl("breadcrumbBar").innerHTML = `<span class="breadcrumb-dot">•</span> SUTTA DISCOURSE CATALOG & RAG ASSISTANT`;
+  resetLeftPane();
+  renderHomeScreen();
+}
+(window as any).showHomeView = showHomeView;
+
+// Render Home Screen View (Project Status Table + Home RAG Bot inside homeViewPane)
+function renderHomeScreen() {
+  const homePane = getEl("homeViewPane");
+  homePane.style.display = "flex";
+  getEl("suttaNotFoundCard").style.display = "none";
+  getEl("suttaViewActive").style.display = "none";
   
   if (!appRegistry) return;
   
@@ -1014,8 +1024,7 @@ function renderHomeScreen() {
     `;
   });
   
-  const rightPane = getEl("rightViewPane");
-  rightPane.innerHTML = `
+  homePane.innerHTML = `
     <div style="display:flex; flex-direction:column; gap:24px;">
       <div>
         <h2 style="font-family:'Playfair Display', serif; font-size:2rem; font-weight:700; margin-bottom:6px; color:var(--text-main);">DAMA Sutta Universe Status</h2>

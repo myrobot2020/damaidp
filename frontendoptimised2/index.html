@@ -580,6 +580,7 @@
         <option value="">SUTTA</option>
       </select>
       <button class="capsule-select" id="langToggleBtn" onclick="toggleLanguage()" style="display:none;"></button>
+      <button class="capsule-select" id="ragTabBtn" onclick="showHomeView()" style="background-image:none; padding-right:16px;">📊 UNIVERSE & RAG</button>
     </div>
     
     <!-- Grid/Menu button (Right) -->
@@ -711,6 +712,9 @@
         <p class="error-msg" id="errorDescription">Please select a sutta from the navigation dropdowns above.</p>
         <button class="go-back-btn" onclick="goHome()">GO BACK HOME</button>
       </div>
+      
+      <!-- Home View Pane (Status Table + Home RAG Bot) -->
+      <div id="homeViewPane" style="display:none; flex-direction:column; gap:24px;"></div>
       
     </section>
   </main>
