@@ -20,21 +20,39 @@ GEMINI_KEY_FILE = BUDDHA3_DIR / "gemini_api_key.txt"
 ELEVEN_KEY_FILE = BUDDHA3_DIR / "11labskey.txt"
 
 def get_gemini_key():
-    candidates = [
-        os.getenv("GEMINI_API_KEY"),
-        (GEMINI_KEY_FILE.read_text(encoding="utf-8").strip() if GEMINI_KEY_FILE.exists() else None),
-        (BUDDHA3_DIR.parent / "buddha" / "gemini_api_key.txt").read_text(encoding="utf-8").strip() if (BUDDHA3_DIR.parent / "buddha" / "gemini_api_key.txt").exists() else None,
-        (BUDDHA3_DIR.parent / "buddha2" / "gemini_api_key.txt").read_text(encoding="utf-8").strip() if (BUDDHA3_DIR.parent / "buddha2" / "gemini_api_key.txt").exists() else None,
-    ]
-    for c in candidates:
-        if c and c.startswith("AIza"):
-            return c
-    keys_txt = Path(r"C:\Users\ADMIN\Desktop\res\keys.txt")
-    if keys_txt.exists():
-        for line in keys_txt.read_text(encoding="utf-8").splitlines():
-            if line.startswith("gemini:"):
-                return line.split(":", 1)[1].strip()
-    return "AIzaSyCBoF_vpzWsDnDqrevpN479YhQ2NmKHCrQ"
+    if os.getenv("GEMINI_API_KEY") and os.getenv("GEMINI_API_KEY").strip():
+        return os.getenv("GEMINI_API_KEY").strip()
+    if GEMINI_KEY_FILE.exists() and GEMINI_KEY_FILE.read_text(encoding="utf-8").strip():
+        return GEMINI_KEY_FILE.read_text(encoding="utf-8").strip()
+    buddha_key = BUDDHA3_DIR.parent / "buddha" / "gemini_api_key.txt"
+    if buddha_key.exists() and buddha_key.read_text(encoding="utf-8").strip():
+        return buddha_key.read_text(encoding="utf-8").strip()
+    return None
+
+def call_gemini_api(payload: dict, key: str) -> str:
+    models = ["gemini-flash-latest", "gemini-3-flash-preview", "gemini-2.5-flash", "gemini-1.5-flash"]
+    last_err = None
+    for model in models:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+        req_obj = urllib.request.Request(
+            url,
+            data=json.dumps(payload).encode("utf-8"),
+            headers={
+                "Content-Type": "application/json",
+                "X-goog-api-key": key
+            }
+        )
+        try:
+            with urllib.request.urlopen(req_obj, timeout=60) as resp:
+                result_raw = json.loads(resp.read().decode("utf-8"))
+                return result_raw["candidates"][0]["content"]["parts"][0]["text"].strip()
+        except urllib.error.HTTPError as e:
+            err_body = e.read().decode("utf-8", errors="ignore")
+            last_err = RuntimeError(f"Gemini {model} error ({e.code}): {err_body}")
+            continue
+    if last_err:
+        raise last_err
+    raise RuntimeError("Gemini API call failed")
 
 def get_eleven_key():
     if os.getenv("ELEVENLABS_API_KEY"):
@@ -339,21 +357,12 @@ class DevServerHandler(SimpleHTTPRequestHandler):
 
             formatted_prompt = prompt_template.replace("{sid}", sutta_id).replace("{transcript}", transcript)
 
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={key}"
             payload = {
                 "contents": [{"parts": [{"text": formatted_prompt}]}],
                 "generationConfig": {"temperature": 0.2}
             }
 
-            req_obj = urllib.request.Request(
-                url,
-                data=json.dumps(payload).encode("utf-8"),
-                headers={"Content-Type": "application/json"}
-            )
-            with urllib.request.urlopen(req_obj, timeout=60) as resp:
-                result_raw = json.loads(resp.read().decode("utf-8"))
-
-            text_output = result_raw["candidates"][0]["content"]["parts"][0]["text"].strip()
+            text_output = call_gemini_api(payload, key)
 
             key_map = {
                 "sutta": "sutta",
@@ -454,22 +463,13 @@ class DevServerHandler(SimpleHTTPRequestHandler):
                 role = "user" if msg.get("role") == "user" else "model"
                 contents.append({"role": role, "parts": [{"text": msg.get("content", "")}]})
 
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={key}"
             payload = {
                 "systemInstruction": {"parts": [{"text": system_instruction}]},
                 "contents": contents,
                 "generationConfig": {"temperature": 0.3}
             }
 
-            req_obj = urllib.request.Request(
-                url,
-                data=json.dumps(payload).encode("utf-8"),
-                headers={"Content-Type": "application/json"}
-            )
-            with urllib.request.urlopen(req_obj, timeout=60) as resp:
-                result_raw = json.loads(resp.read().decode("utf-8"))
-
-            reply = result_raw["candidates"][0]["content"]["parts"][0]["text"]
+            reply = call_gemini_api(payload, key)
             self.send_json_response({"status": "ok", "reply": reply})
         except Exception as e:
             self.send_json_response({"error": str(e)}, 500)

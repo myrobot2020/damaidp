@@ -8,3 +8,5 @@ panels/
 .gemini/
 *.log
 node_modules/
+gemini_api_key.txt
+11labskey.txt
