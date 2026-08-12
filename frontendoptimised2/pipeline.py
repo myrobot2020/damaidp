@@ -8,6 +8,7 @@ import urllib.request
 import urllib.parse
 import urllib.error
 import base64
+import re
 from pathlib import Path
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
@@ -333,17 +334,16 @@ class DevServerHandler(SimpleHTTPRequestHandler):
                     existing = json.load(f)
 
             transcript = existing.get("transcript") or existing.get("sutta") or ""
+            if len(transcript) > 12000:
+                transcript = transcript[:6000] + "\n\n[OMITTED TRANSCRIPT SECTION]\n\n" + transcript[-6000:]
+
             formatted_prompt = prompt_template.replace("{sid}", sutta_id).replace("{transcript}", transcript)
 
-            # Gemini API call
             url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={key}"
             payload = {
                 "contents": [{"parts": [{"text": formatted_prompt}]}],
                 "generationConfig": {"temperature": 0.2}
             }
-
-            if field in ["quiz", "knowledge_graph", "tree"]:
-                payload["generationConfig"]["responseMimeType"] = "application/json"
 
             req_obj = urllib.request.Request(
                 url,
@@ -353,9 +353,8 @@ class DevServerHandler(SimpleHTTPRequestHandler):
             with urllib.request.urlopen(req_obj, timeout=60) as resp:
                 result_raw = json.loads(resp.read().decode("utf-8"))
 
-            text_output = result_raw["candidates"][0]["content"]["parts"][0]["text"]
+            text_output = result_raw["candidates"][0]["content"]["parts"][0]["text"].strip()
 
-            # Parse and save result
             key_map = {
                 "sutta": "sutta",
                 "commentary": "commentary",
@@ -367,13 +366,16 @@ class DevServerHandler(SimpleHTTPRequestHandler):
             target_key = key_map.get(field, field)
 
             if target_key in ["quiz", "knowledge_graph"]:
+                clean_json_str = text_output
+                if "```" in text_output:
+                    clean_json_str = re.sub(r"^```(?:json)?\s*", "", text_output, flags=re.I | re.M)
+                    clean_json_str = re.sub(r"\s*```$", "", clean_json_str, flags=re.I | re.M).strip()
                 try:
-                    parsed_json = json.loads(text_output)
-                    existing[target_key] = parsed_json
+                    existing[target_key] = json.loads(clean_json_str)
                 except Exception:
                     existing[target_key] = text_output
             else:
-                existing[target_key] = text_output.strip()
+                existing[target_key] = text_output
 
             if json_path:
                 atomic_write(json_path, existing)

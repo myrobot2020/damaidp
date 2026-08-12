@@ -160,7 +160,20 @@ function onBookChange() {
             if (match) {
                 const opt = document.createElement("option");
                 opt.value = sid;
-                opt.innerText = `${sid} - ${entry.title || "Untitled"}`;
+                const status = entry.status || "GHOST";
+                if (status === "COMPLETE") {
+                    opt.innerText = `🟢 ${sid} - ${entry.title || "Untitled"}`;
+                    opt.style.color = "#065f46";
+                    opt.style.fontWeight = "bold";
+                }
+                else if (status === "RAW") {
+                    opt.innerText = `🟡 [RAW] ${sid} - ${entry.title || "Untitled"}`;
+                    opt.style.color = "#b45309";
+                }
+                else {
+                    opt.innerText = `⚪ [GHOST] ${sid} - ${entry.title || "Untitled"}`;
+                    opt.style.color = "#9ca3af";
+                }
                 suttaSel.appendChild(opt);
             }
         }
@@ -703,12 +716,24 @@ function renderSuttaUI(details, entry) {
                 });
                 if (isCorrect) {
                     optBtn.classList.add("correct");
+                    optBtn.style.background = "#d1fae5";
+                    optBtn.style.borderColor = "#10b981";
+                    optBtn.style.color = "#065f46";
+                    optBtn.style.fontWeight = "700";
                 }
                 else {
                     optBtn.classList.add("incorrect");
+                    optBtn.style.background = "#fee2e2";
+                    optBtn.style.borderColor = "#ef4444";
+                    optBtn.style.color = "#991b1b";
+                    optBtn.style.fontWeight = "700";
                     const goldBtn = practiceContainer.querySelector(`.quiz-option[data-id="${String(quizData.goldOptionId).trim()}"]`);
                     if (goldBtn) {
                         goldBtn.classList.add("correct");
+                        goldBtn.style.background = "#d1fae5";
+                        goldBtn.style.borderColor = "#10b981";
+                        goldBtn.style.color = "#065f46";
+                        goldBtn.style.fontWeight = "700";
                     }
                 }
                 if (quizData.teacherSummary) {
