@@ -55,6 +55,7 @@ interface SuttaDetail {
   sutta_name?: string;
   names?: { official?: string };
   sutta?: string;
+  transcript?: string;
   commentary?: string;
   quiz?: SuttaQuiz;
   knowledge_graph?: {
@@ -542,7 +543,7 @@ async function selectSutta(suttaId: string) {
     let details: SuttaDetail;
     const cacheKey = `${suttaId}_${currentLanguage}`;
     
-    const response = await fetch("../" + langPath, { cache: "no-cache" });
+    const response = await fetch("../" + langPath + `?t=${Date.now()}`, { cache: "no-cache" });
     if (!response.ok) throw new Error("Failed to fetch sutta data file.");
     details = await response.json() as SuttaDetail;
     detailCache[cacheKey] = details;
@@ -825,29 +826,48 @@ function renderSuttaUI(details: SuttaDetail, entry: SuttaEntry) {
   
   // 1. Setup VISUAL Image
   const leafImg = getEl<HTMLImageElement>("leafImg");
+  const visualCard = getEl("illustrationCard");
   const nikFolder = appRegistry!.config.nikaya_folders[entry.nikaya];
   
-  let heroUrl = details.image_url || "";
-  if (heroUrl && !heroUrl.startsWith("http")) {
-    if (heroUrl.startsWith("/")) heroUrl = ".." + heroUrl;
-    else if (!heroUrl.startsWith("..")) heroUrl = "../" + heroUrl;
-  }
+  const existingErr = visualCard.querySelector(".no-img-msg");
+  if (existingErr) existingErr.remove();
   
-  // Prefer direct local folder image if panel fails or missing
-  if (!heroUrl || heroUrl.includes("panels/")) {
+  let heroUrl = details.image_url || "";
+  if (!heroUrl && entry.folder) {
     heroUrl = `../${nikFolder}/${entry.folder}/${entry.folder}_image.png`;
   }
   
-  leafImg.src = heroUrl;
-  leafImg.onerror = () => {
-    if (!leafImg.src.includes("_graph.png")) {
-      leafImg.src = `../${nikFolder}/${entry.folder}/${entry.folder}_graph.png`;
-    } else if (!leafImg.src.includes("_image.png")) {
-      leafImg.src = `../${nikFolder}/${entry.folder}/${entry.folder}_image.png`;
-    } else {
-      leafImg.src = "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&q=80&w=300";
+  if (heroUrl) {
+    if (heroUrl.startsWith("/")) heroUrl = ".." + heroUrl;
+    else if (!heroUrl.startsWith("..") && !heroUrl.startsWith("http")) heroUrl = "../" + heroUrl;
+    
+    const cacheBuster = `?t=${Date.now()}`;
+    leafImg.style.display = "block";
+    leafImg.src = heroUrl.startsWith("http") ? heroUrl : (heroUrl + cacheBuster);
+    leafImg.onerror = () => {
+      leafImg.style.display = "none";
+      if (!visualCard.querySelector(".no-img-msg")) {
+        const noImg = document.createElement("div");
+        noImg.className = "no-img-msg";
+        noImg.style.color = "var(--text-muted)";
+        noImg.style.fontSize = "0.85rem";
+        noImg.style.padding = "12px";
+        noImg.innerText = "[!] Visual illustration image file not found on disk.";
+        visualCard.appendChild(noImg);
+      }
+    };
+  } else {
+    leafImg.style.display = "none";
+    if (!visualCard.querySelector(".no-img-msg")) {
+      const noImg = document.createElement("div");
+      noImg.className = "no-img-msg";
+      noImg.style.color = "var(--text-muted)";
+      noImg.style.fontSize = "0.85rem";
+      noImg.style.padding = "12px";
+      noImg.innerText = "[!] Visual illustration image not found in json.";
+      visualCard.appendChild(noImg);
     }
-  };
+  }
   
   renderAdminToolbar("accordion-visual", "image", { canUpload: "png", canRerun: true });
   
@@ -883,6 +903,13 @@ function renderSuttaUI(details: SuttaDetail, entry: SuttaEntry) {
     : `<div style="color:var(--text-muted); font-size:0.85rem;">[!] Sutta script translation not found in json.</div>`;
     
   renderAdminToolbar("accordion-sutta", "sutta", { canEdit: true, canRerun: true }, () => details.sutta || "");
+  
+  // 3b. TRANSCRIPT Panel
+  getEl("transcriptProse").innerText = details.transcript 
+    ? details.transcript 
+    : "[!] Raw transcript text not found in json.";
+    
+  renderAdminToolbar("accordion-transcript", "transcript", { canEdit: true, canRerun: true }, () => details.transcript || "");
   
   // 4. COMMENTARY Panel
   const commentaryHtml = details.commentary 

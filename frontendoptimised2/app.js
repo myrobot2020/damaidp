@@ -398,7 +398,7 @@ async function selectSutta(suttaId) {
             throw new Error("No translation track available.");
         let details;
         const cacheKey = `${suttaId}_${currentLanguage}`;
-        const response = await fetch("../" + langPath, { cache: "no-cache" });
+        const response = await fetch("../" + langPath + `?t=${Date.now()}`, { cache: "no-cache" });
         if (!response.ok)
             throw new Error("Failed to fetch sutta data file.");
         details = await response.json();
@@ -657,29 +657,48 @@ function renderAdminToolbar(containerId, fieldKey, options, currentValueGetter) 
 function renderSuttaUI(details, entry) {
     getEl("suttaTitle").innerText = details.sutta_name || details.names?.official || details.sutta_id;
     const leafImg = getEl("leafImg");
+    const visualCard = getEl("illustrationCard");
     const nikFolder = appRegistry.config.nikaya_folders[entry.nikaya];
+    const existingErr = visualCard.querySelector(".no-img-msg");
+    if (existingErr)
+        existingErr.remove();
     let heroUrl = details.image_url || "";
-    if (heroUrl && !heroUrl.startsWith("http")) {
-        if (heroUrl.startsWith("/"))
-            heroUrl = ".." + heroUrl;
-        else if (!heroUrl.startsWith(".."))
-            heroUrl = "../" + heroUrl;
-    }
-    if (!heroUrl || heroUrl.includes("panels/")) {
+    if (!heroUrl && entry.folder) {
         heroUrl = `../${nikFolder}/${entry.folder}/${entry.folder}_image.png`;
     }
-    leafImg.src = heroUrl;
-    leafImg.onerror = () => {
-        if (!leafImg.src.includes("_graph.png")) {
-            leafImg.src = `../${nikFolder}/${entry.folder}/${entry.folder}_graph.png`;
+    if (heroUrl) {
+        if (heroUrl.startsWith("/"))
+            heroUrl = ".." + heroUrl;
+        else if (!heroUrl.startsWith("..") && !heroUrl.startsWith("http"))
+            heroUrl = "../" + heroUrl;
+        const cacheBuster = `?t=${Date.now()}`;
+        leafImg.style.display = "block";
+        leafImg.src = heroUrl.startsWith("http") ? heroUrl : (heroUrl + cacheBuster);
+        leafImg.onerror = () => {
+            leafImg.style.display = "none";
+            if (!visualCard.querySelector(".no-img-msg")) {
+                const noImg = document.createElement("div");
+                noImg.className = "no-img-msg";
+                noImg.style.color = "var(--text-muted)";
+                noImg.style.fontSize = "0.85rem";
+                noImg.style.padding = "12px";
+                noImg.innerText = "[!] Visual illustration image file not found on disk.";
+                visualCard.appendChild(noImg);
+            }
+        };
+    }
+    else {
+        leafImg.style.display = "none";
+        if (!visualCard.querySelector(".no-img-msg")) {
+            const noImg = document.createElement("div");
+            noImg.className = "no-img-msg";
+            noImg.style.color = "var(--text-muted)";
+            noImg.style.fontSize = "0.85rem";
+            noImg.style.padding = "12px";
+            noImg.innerText = "[!] Visual illustration image not found in json.";
+            visualCard.appendChild(noImg);
         }
-        else if (!leafImg.src.includes("_image.png")) {
-            leafImg.src = `../${nikFolder}/${entry.folder}/${entry.folder}_image.png`;
-        }
-        else {
-            leafImg.src = "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&q=80&w=300";
-        }
-    };
+    }
     renderAdminToolbar("accordion-visual", "image", { canUpload: "png", canRerun: true });
     const ytPlayer = getEl("youtubePlayer");
     const localPlayer = getEl("localVideoPlayer");
@@ -708,6 +727,10 @@ function renderSuttaUI(details, entry) {
         ? `<p>${details.sutta}</p>`
         : `<div style="color:var(--text-muted); font-size:0.85rem;">[!] Sutta script translation not found in json.</div>`;
     renderAdminToolbar("accordion-sutta", "sutta", { canEdit: true, canRerun: true }, () => details.sutta || "");
+    getEl("transcriptProse").innerText = details.transcript
+        ? details.transcript
+        : "[!] Raw transcript text not found in json.";
+    renderAdminToolbar("accordion-transcript", "transcript", { canEdit: true, canRerun: true }, () => details.transcript || "");
     const commentaryHtml = details.commentary
         ? details.commentary.split("\n")
             .filter(p => p.trim())

@@ -366,6 +366,7 @@ class DevServerHandler(SimpleHTTPRequestHandler):
 
             key_map = {
                 "sutta": "sutta",
+                "transcript": "transcript",
                 "commentary": "commentary",
                 "quiz": "quiz",
                 "tree": "knowledge_graph",
