@@ -541,32 +541,33 @@ function renderAdminToolbar(containerId: string, fieldKey: string, options: { ca
         isEditing = false;
         editBtn.innerText = "✎ EDIT";
         cancelBtn.style.display = "none";
-        if (originalHtml) {
-          container.innerHTML = originalHtml;
-        }
-        renderAdminToolbar(containerId, fieldKey, options, currentValueGetter);
+        if (textAreaEl) textAreaEl.remove();
+        Array.from(container.children).forEach(child => {
+          if (child !== tb) (child as HTMLElement).style.display = "";
+        });
       }
     };
     
     editBtn.onclick = async () => {
       if (!isEditing) {
         isEditing = true;
-        originalHtml = container.innerHTML;
         editBtn.innerText = "💾 SAVE";
         cancelBtn.style.display = "inline-block";
         
         const val = currentValueGetter ? currentValueGetter() : container.innerText;
         
-        container.innerHTML = "";
+        Array.from(container.children).forEach(child => {
+          if (child !== tb) (child as HTMLElement).style.display = "none";
+        });
+        
         textAreaEl = document.createElement("textarea");
         textAreaEl.className = "admin-textarea";
-        textAreaEl.style.minHeight = "220px";
+        textAreaEl.style.minHeight = "240px";
         textAreaEl.style.fontSize = "0.98rem";
         textAreaEl.style.lineHeight = "1.6";
         textAreaEl.style.padding = "12px";
         textAreaEl.value = val.trim();
-        container.appendChild(textAreaEl);
-        container.appendChild(tb);
+        container.insertBefore(textAreaEl, tb);
       } else {
         if (textAreaEl && selectedSuttaId) {
           statusEl.className = "admin-status";
@@ -885,7 +886,7 @@ function renderSuttaUI(details: SuttaDetail, entry: SuttaEntry) {
       `;
       
       optBtn.onclick = () => {
-        const isCorrect = (opt.id === quizData!.goldOptionId);
+        const isCorrect = (String(opt.id).trim() === String(quizData!.goldOptionId).trim());
         practiceContainer.querySelectorAll(".quiz-option").forEach(el => {
           (el as HTMLElement).style.pointerEvents = "none";
         });
@@ -894,7 +895,7 @@ function renderSuttaUI(details: SuttaDetail, entry: SuttaEntry) {
           optBtn.classList.add("correct");
         } else {
           optBtn.classList.add("incorrect");
-          const goldBtn = practiceContainer.querySelector(`.quiz-option[data-id="${quizData!.goldOptionId}"]`);
+          const goldBtn = practiceContainer.querySelector(`.quiz-option[data-id="${String(quizData!.goldOptionId).trim()}"]`);
           if (goldBtn) {
             goldBtn.classList.add("correct");
           }

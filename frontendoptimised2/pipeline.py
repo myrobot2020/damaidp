@@ -19,22 +19,21 @@ GEMINI_KEY_FILE = BUDDHA3_DIR / "gemini_api_key.txt"
 ELEVEN_KEY_FILE = BUDDHA3_DIR / "11labskey.txt"
 
 def get_gemini_key():
-    if os.getenv("GEMINI_API_KEY") and os.getenv("GEMINI_API_KEY").strip():
-        return os.getenv("GEMINI_API_KEY").strip()
-    if GEMINI_KEY_FILE.exists() and GEMINI_KEY_FILE.read_text(encoding="utf-8").strip():
-        return GEMINI_KEY_FILE.read_text(encoding="utf-8").strip()
-    buddha_key = BUDDHA3_DIR.parent / "buddha" / "gemini_api_key.txt"
-    if buddha_key.exists() and buddha_key.read_text(encoding="utf-8").strip():
-        return buddha_key.read_text(encoding="utf-8").strip()
-    buddha2_key = BUDDHA3_DIR.parent / "buddha2" / "gemini_api_key.txt"
-    if buddha2_key.exists() and buddha2_key.read_text(encoding="utf-8").strip():
-        return buddha2_key.read_text(encoding="utf-8").strip()
+    candidates = [
+        os.getenv("GEMINI_API_KEY"),
+        (GEMINI_KEY_FILE.read_text(encoding="utf-8").strip() if GEMINI_KEY_FILE.exists() else None),
+        (BUDDHA3_DIR.parent / "buddha" / "gemini_api_key.txt").read_text(encoding="utf-8").strip() if (BUDDHA3_DIR.parent / "buddha" / "gemini_api_key.txt").exists() else None,
+        (BUDDHA3_DIR.parent / "buddha2" / "gemini_api_key.txt").read_text(encoding="utf-8").strip() if (BUDDHA3_DIR.parent / "buddha2" / "gemini_api_key.txt").exists() else None,
+    ]
+    for c in candidates:
+        if c and c.startswith("AIza"):
+            return c
     keys_txt = Path(r"C:\Users\ADMIN\Desktop\res\keys.txt")
     if keys_txt.exists():
         for line in keys_txt.read_text(encoding="utf-8").splitlines():
             if line.startswith("gemini:"):
                 return line.split(":", 1)[1].strip()
-    return None
+    return "AIzaSyCBoF_vpzWsDnDqrevpN479YhQ2NmKHCrQ"
 
 def get_eleven_key():
     if os.getenv("ELEVENLABS_API_KEY"):
@@ -285,6 +284,7 @@ class DevServerHandler(SimpleHTTPRequestHandler):
                 with open(target_file2, "wb") as f:
                     f.write(file_bytes)
                 
+                target_file = target_file1
                 rel_path = target_file1.relative_to(BUDDHA3_DIR).as_posix()
                 json_path = get_sutta_json_path(sutta_id, "en")
                 if json_path and json_path.exists():
