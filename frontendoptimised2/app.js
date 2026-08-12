@@ -375,23 +375,48 @@ function renderAdminToolbar(containerId, fieldKey, options, currentValueGetter) 
         const editBtn = document.createElement("button");
         editBtn.className = "admin-btn primary";
         editBtn.innerText = "✎ EDIT";
+        const cancelBtn = document.createElement("button");
+        cancelBtn.className = "admin-btn";
+        cancelBtn.innerText = "❌ CANCEL";
+        cancelBtn.style.display = "none";
         let isEditing = false;
         let textAreaEl = null;
+        let originalHtml = "";
+        cancelBtn.onclick = () => {
+            if (isEditing) {
+                isEditing = false;
+                editBtn.innerText = "✎ EDIT";
+                cancelBtn.style.display = "none";
+                if (originalHtml) {
+                    container.innerHTML = originalHtml;
+                }
+                renderAdminToolbar(containerId, fieldKey, options, currentValueGetter);
+            }
+        };
         editBtn.onclick = async () => {
             if (!isEditing) {
                 isEditing = true;
+                originalHtml = container.innerHTML;
                 editBtn.innerText = "💾 SAVE";
+                cancelBtn.style.display = "inline-block";
                 const val = currentValueGetter ? currentValueGetter() : container.innerText;
+                container.innerHTML = "";
                 textAreaEl = document.createElement("textarea");
                 textAreaEl.className = "admin-textarea";
+                textAreaEl.style.minHeight = "220px";
+                textAreaEl.style.fontSize = "0.98rem";
+                textAreaEl.style.lineHeight = "1.6";
+                textAreaEl.style.padding = "12px";
                 textAreaEl.value = val.trim();
                 container.appendChild(textAreaEl);
+                container.appendChild(tb);
             }
             else {
                 if (textAreaEl && selectedSuttaId) {
                     statusEl.className = "admin-status";
                     statusEl.innerText = "Saving changes...";
                     try {
+                        const newVal = textAreaEl.value;
                         const res = await fetch("/api/save", {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
@@ -399,14 +424,17 @@ function renderAdminToolbar(containerId, fieldKey, options, currentValueGetter) 
                                 sutta_id: selectedSuttaId,
                                 lang: currentLanguage,
                                 field: fieldKey,
-                                value: textAreaEl.value
+                                value: newVal
                             })
                         });
                         const data = await res.json();
                         if (res.ok) {
                             statusEl.className = "admin-status ok";
                             statusEl.innerText = "Saved ✓";
-                            setTimeout(() => selectSutta(selectedSuttaId), 800);
+                            isEditing = false;
+                            editBtn.innerText = "✎ EDIT";
+                            cancelBtn.style.display = "none";
+                            setTimeout(() => selectSutta(selectedSuttaId), 600);
                         }
                         else {
                             throw new Error(data.error || "Save failed");
@@ -420,6 +448,7 @@ function renderAdminToolbar(containerId, fieldKey, options, currentValueGetter) 
             }
         };
         tb.appendChild(editBtn);
+        tb.appendChild(cancelBtn);
     }
     if (options.canRerun) {
         const rerunBtn = document.createElement("button");
@@ -575,20 +604,28 @@ function renderAdminToolbar(containerId, fieldKey, options, currentValueGetter) 
 function renderSuttaUI(details, entry) {
     getEl("suttaTitle").innerText = details.sutta_name || details.names?.official || details.sutta_id;
     const leafImg = getEl("leafImg");
+    const nikFolder = appRegistry.config.nikaya_folders[entry.nikaya];
     let heroUrl = details.image_url || "";
-    if (heroUrl) {
-        heroUrl = heroUrl.replace(/(_hero)?\.(mp4|gif|webp)$/i, '.png');
-        if (heroUrl.startsWith("/panels/")) {
+    if (heroUrl && !heroUrl.startsWith("http")) {
+        if (heroUrl.startsWith("/"))
             heroUrl = ".." + heroUrl;
-        }
-        leafImg.src = heroUrl;
+        else if (!heroUrl.startsWith(".."))
+            heroUrl = "../" + heroUrl;
     }
-    else {
-        const nikFolder = appRegistry.config.nikaya_folders[entry.nikaya];
-        leafImg.src = `../${nikFolder}/${entry.folder}/${entry.folder}_graph.png`;
+    if (!heroUrl || heroUrl.includes("panels/")) {
+        heroUrl = `../${nikFolder}/${entry.folder}/${entry.folder}_image.png`;
     }
+    leafImg.src = heroUrl;
     leafImg.onerror = () => {
-        leafImg.src = "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&q=80&w=300";
+        if (!leafImg.src.includes("_graph.png")) {
+            leafImg.src = `../${nikFolder}/${entry.folder}/${entry.folder}_graph.png`;
+        }
+        else if (!leafImg.src.includes("_image.png")) {
+            leafImg.src = `../${nikFolder}/${entry.folder}/${entry.folder}_image.png`;
+        }
+        else {
+            leafImg.src = "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&q=80&w=300";
+        }
     };
     renderAdminToolbar("accordion-visual", "image", { canUpload: "png", canRerun: true });
     const ytPlayer = getEl("youtubePlayer");
@@ -708,7 +745,14 @@ function renderSuttaUI(details, entry) {
       </p>
     </div>
   `;
+    openAccordion("visual");
+    openAccordion("audio");
     openAccordion("sutta");
+    openAccordion("commentary");
+    openAccordion("tree");
+    openAccordion("practice");
+    openAccordion("suttacentral");
+    openAccordion("reflect");
 }
 function renderSuttaChatUI() {
     const container = getEl("accordion-reflect").querySelector(".accordion-content");
@@ -918,9 +962,6 @@ async function sendHomeChatMessage() {
 }
 window.sendHomeChatMessage = sendHomeChatMessage;
 function openAccordion(tabId) {
-    document.querySelectorAll(".accordion-item").forEach(item => {
-        item.classList.remove("active");
-    });
     const activeItem = document.getElementById(`accordion-${tabId}`);
     if (activeItem) {
         activeItem.classList.add("active");
@@ -929,13 +970,7 @@ function openAccordion(tabId) {
 function toggleAccordion(tabId) {
     const item = document.getElementById(`accordion-${tabId}`);
     if (item) {
-        const isActive = item.classList.contains("active");
-        document.querySelectorAll(".accordion-item").forEach(el => {
-            el.classList.remove("active");
-        });
-        if (!isActive) {
-            item.classList.add("active");
-        }
+        item.classList.toggle("active");
     }
 }
 window.toggleAccordion = toggleAccordion;

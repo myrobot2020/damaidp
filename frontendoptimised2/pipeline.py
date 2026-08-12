@@ -19,10 +19,21 @@ GEMINI_KEY_FILE = BUDDHA3_DIR / "gemini_api_key.txt"
 ELEVEN_KEY_FILE = BUDDHA3_DIR / "11labskey.txt"
 
 def get_gemini_key():
-    if os.getenv("GEMINI_API_KEY"):
+    if os.getenv("GEMINI_API_KEY") and os.getenv("GEMINI_API_KEY").strip():
         return os.getenv("GEMINI_API_KEY").strip()
-    if GEMINI_KEY_FILE.exists():
+    if GEMINI_KEY_FILE.exists() and GEMINI_KEY_FILE.read_text(encoding="utf-8").strip():
         return GEMINI_KEY_FILE.read_text(encoding="utf-8").strip()
+    buddha_key = BUDDHA3_DIR.parent / "buddha" / "gemini_api_key.txt"
+    if buddha_key.exists() and buddha_key.read_text(encoding="utf-8").strip():
+        return buddha_key.read_text(encoding="utf-8").strip()
+    buddha2_key = BUDDHA3_DIR.parent / "buddha2" / "gemini_api_key.txt"
+    if buddha2_key.exists() and buddha2_key.read_text(encoding="utf-8").strip():
+        return buddha2_key.read_text(encoding="utf-8").strip()
+    keys_txt = Path(r"C:\Users\ADMIN\Desktop\res\keys.txt")
+    if keys_txt.exists():
+        for line in keys_txt.read_text(encoding="utf-8").splitlines():
+            if line.startswith("gemini:"):
+                return line.split(":", 1)[1].strip()
     return None
 
 def get_eleven_key():
@@ -265,17 +276,21 @@ class DevServerHandler(SimpleHTTPRequestHandler):
 
             sutta_dir.mkdir(parents=True, exist_ok=True)
             
-            ext = Path(filename).suffix.lower() if filename else ".bin"
+            ext = Path(filename).suffix.lower() if filename else ".png"
             if ext in [".png", ".jpg", ".jpeg", ".webp"]:
-                target_file = sutta_dir / f"{sutta_dir.name}_graph{ext}"
-                with open(target_file, "wb") as f:
+                target_file1 = sutta_dir / f"{sutta_dir.name}_image{ext}"
+                target_file2 = sutta_dir / f"{sutta_dir.name}_graph{ext}"
+                with open(target_file1, "wb") as f:
                     f.write(file_bytes)
-                # Update image_url in JSON
+                with open(target_file2, "wb") as f:
+                    f.write(file_bytes)
+                
+                rel_path = target_file1.relative_to(BUDDHA3_DIR).as_posix()
                 json_path = get_sutta_json_path(sutta_id, "en")
                 if json_path and json_path.exists():
                     with open(json_path, "r", encoding="utf-8") as jf:
                         jdata = json.load(jf)
-                    jdata["image_url"] = target_file.relative_to(BUDDHA3_DIR).as_posix()
+                    jdata["image_url"] = rel_path
                     atomic_write(json_path, jdata)
             elif ext in [".mp4", ".mp3", ".m4a"]:
                 target_file = sutta_dir / f"{sutta_dir.name}{ext}"
