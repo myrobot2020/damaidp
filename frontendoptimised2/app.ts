@@ -1,13 +1,16 @@
 // Types & Interfaces for Sutta Explorer
 
 interface SuttaEntry {
+  sutta_id: string;
   title: string;
+  sutta_name?: string;
   nikaya: string;
   folder: string;
   video_id: string;
   status: string;
   languages: Record<string, string>;
   sc_url?: string;
+  last_edited_timestamp?: number;
 }
 
 interface SuttaRegistry {
@@ -1168,6 +1171,33 @@ function renderHomeScreen() {
     `;
   });
   
+  // Recently Edited Suttas calculation
+  const sortedEntries = Object.entries(appRegistry.entries)
+    .map(([id, entry]) => ({ ...entry, sutta_id: entry.sutta_id || id }))
+    .filter(e => e.status !== "GHOST" || e.last_edited_timestamp)
+    .sort((a, b) => (b.last_edited_timestamp || 0) - (a.last_edited_timestamp || 0))
+    .slice(0, 10);
+
+  const formatTimeAgo = (ts?: number) => {
+    if (!ts) return "Catalog Sync";
+    const diffSec = Math.floor((Date.now() - ts) / 1000);
+    if (diffSec < 60) return "Just now";
+    if (diffSec < 3600) return `${Math.floor(diffSec / 60)} mins ago`;
+    if (diffSec < 86400) return `${Math.floor(diffSec / 3600)} hours ago`;
+    return new Date(ts).toLocaleDateString();
+  };
+
+  const recentRowsHtml = sortedEntries.map(e => `
+    <tr style="cursor:pointer;" onclick="selectSutta('${e.sutta_id}')">
+      <td><strong style="color:var(--color-primary);">${e.sutta_id}</strong></td>
+      <td>${e.title || e.sutta_name || "Untitled"}</td>
+      <td>${getNikayaLabel(e.nikaya)}</td>
+      <td style="font-size:0.8rem; color:var(--text-muted);">${formatTimeAgo(e.last_edited_timestamp)}</td>
+      <td><span style="padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:700; background:${e.status==='COMPLETE'?'#d1fae5':'#fef3c7'}; color:${e.status==='COMPLETE'?'#065f46':'#92400e'};">${e.status}</span></td>
+      <td><button class="go-back-btn" style="padding:4px 10px; font-size:0.75rem;" onclick="event.stopPropagation(); selectSutta('${e.sutta_id}');">Open ↗</button></td>
+    </tr>
+  `).join("");
+
   homePane.innerHTML = `
     <div style="display:flex; flex-direction:column; gap:24px;">
       <div>
@@ -1197,6 +1227,27 @@ function renderHomeScreen() {
           </tr>
         </tbody>
       </table>
+      
+      <!-- Recently Edited Suttas Section -->
+      <div style="border-top:1px solid var(--border-color); padding-top:20px;">
+        <h3 style="font-family:'Playfair Display', serif; font-size:1.3rem; font-weight:600; margin-bottom:4px; color:var(--color-primary);">Recently Edited Suttas</h3>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">Click any sutta row to open discourse text and edit panels on the left.</p>
+        <table class="status-table">
+          <thead>
+            <tr>
+              <th>SUTTA ID</th>
+              <th>SUTTA NAME</th>
+              <th>NIKAYA</th>
+              <th>LAST EDITED</th>
+              <th>STATUS</th>
+              <th>ACTION</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${recentRowsHtml.length > 0 ? recentRowsHtml : '<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">No edited suttas recorded yet.</td></tr>'}
+          </tbody>
+        </table>
+      </div>
       
       <!-- Home RAG Chatbot Section -->
       <div style="border-top:1px solid var(--border-color); padding-top:20px;">

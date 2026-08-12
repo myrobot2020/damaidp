@@ -107,6 +107,7 @@ def sync_master_json():
             
         languages = {}
         sutta_name_from_json = ""
+        last_edited = 0
         
         for p in sutta_dir.rglob("*.json"):
             if p.is_file():
@@ -114,6 +115,10 @@ def sync_master_json():
                 parent_name = p.parent.name
                 lang = "en" if parent_name == folder else parent_name
                 languages[lang] = rel_path
+                
+                mtime = int(p.stat().st_mtime * 1000)
+                if mtime > last_edited:
+                    last_edited = mtime
                 
                 if lang == "en" or not sutta_name_from_json:
                     try:
@@ -138,11 +143,13 @@ def sync_master_json():
                 status = "RAW"
                 raw_count += 1
         else:
+            status = "GHOST"
             ghost_count += 1
             
         entry["status"] = status
         entry["languages"] = languages
-        if sutta_name_from_json and not entry.get("title"):
+        entry["last_edited_timestamp"] = last_edited
+        if sutta_name_from_json:
             entry["title"] = sutta_name_from_json
             
     atomic_write(MAPPING_PATH, mapping)
@@ -266,6 +273,7 @@ class DevServerHandler(SimpleHTTPRequestHandler):
             }
             target_key = key_map.get(field, field)
             existing[target_key] = value
+            existing["last_edited_timestamp"] = int(time.time() * 1000)
 
             atomic_write(json_path, existing)
             sync_master_json()
