@@ -1,0 +1,6152 @@
+{
+  "config": {
+    "audio_defaults": {
+      "fallback_audio_file": "005_Anguttara Nikaya Book 1D 1184 - 12148 by Bhante Hye Dhammavuddho Mahathera.mp3",
+      "fallback_end_s": 120.0,
+      "fallback_start_s": 0.0
+    },
+    "nikaya_folders": {
+      "an": "Anguttara Nikaya by Bhante Hye Dhammavuddho Mahathera",
+      "dn": "Digha Nikaya by Bhante Hye Dhammavuddho Mahathera",
+      "kn": "Khuddaka Nikaya by Bhante Dhammavuddho Hye Mahathera",
+      "mn": "Majjhima Nikaya by Bhante Hye Dhammavuddho Mahathera",
+      "sn": "Samyutta Nikaya by Bhante Hye Dhammavuddho Mahathera"
+    }
+  },
+  "entries": {
+    "AN 1": {
+      "folder": "1",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "6BzN4erh0xI"
+    },
+    "AN 1.1": {
+      "folder": "1_1",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an1.1-10",
+      "status": "GHOST",
+      "title": "Rūpādi Vagga",
+      "video_id": "FaYQ72fGNhY"
+    },
+    "AN 1.10.18": {
+      "folder": "1_10_18",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an1.306-315",
+      "status": "GHOST",
+      "title": "Ekani-pāta (Eka-dhamma Vagga)",
+      "video_id": ""
+    },
+    "AN 1.18.4": {
+      "folder": "1_18_4",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an1.316-332",
+      "status": "GHOST",
+      "title": "Makkhali Sutta",
+      "video_id": "i_48Iq8mZKc"
+    },
+    "AN 1.19": {
+      "folder": "1_19",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an1.333-377",
+      "status": "GHOST",
+      "title": "Jambudvīpa Vagga",
+      "video_id": ""
+    },
+    "AN 1.19.2": {
+      "folder": "1_19_2",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an1.333-377",
+      "status": "GHOST",
+      "title": "Jambudvīpa Vagga",
+      "video_id": ""
+    },
+    "AN 1.2": {
+      "folder": "1_2",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an1.11-20",
+      "status": "GHOST",
+      "title": "Nīvaraṇappahāna Vagga",
+      "video_id": "FaYQ72fGNhY"
+    },
+    "AN 1.20.1": {
+      "folder": "1_20_1",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an1.378-401",
+      "status": "GHOST",
+      "title": "Ekadhamma Vagga / Lābha Vagga",
+      "video_id": ""
+    },
+    "AN 1.21.47": {
+      "folder": "1_21_47",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an1.575-627",
+      "status": "GHOST",
+      "title": "Amatapāna Vagga",
+      "video_id": ""
+    },
+    "AN 1.3.1": {
+      "folder": "1_3_1",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an1.21-30",
+      "status": "GHOST",
+      "title": "Akammaniya Vagga",
+      "video_id": ""
+    },
+    "AN 1.3.2": {
+      "folder": "1",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "A Controllable Mind",
+      "video_id": ""
+    },
+    "AN 1.3.3": {
+      "folder": "1_3_3",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an1.21-30",
+      "status": "GHOST",
+      "title": "Akammaniya Vagga",
+      "video_id": ""
+    },
+    "AN 1.5.6": {
+      "folder": "1_5_6",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an1.41-50",
+      "status": "GHOST",
+      "title": "Pabhashvara Vagga",
+      "video_id": ""
+    },
+    "AN 1.6.3": {
+      "folder": "1_6_3",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an1.51-60",
+      "status": "GHOST",
+      "title": "Metta Vagga / Kalyāṇamitta Vagga",
+      "video_id": ""
+    },
+    "AN 10": {
+      "folder": "10",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ede7WQJ5U3Y"
+    },
+    "AN 10.12": {
+      "folder": "10_12",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/sn10.12",
+      "status": "GHOST",
+      "title": "Alavaka Sutta",
+      "video_id": "M6KB5d-dsM4"
+    },
+    "AN 10.13": {
+      "folder": "10_13",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an10.13",
+      "status": "GHOST",
+      "title": "Samyojana Sutta: Fetters",
+      "video_id": "M6KB5d-dsM4"
+    },
+    "AN 10.14": {
+      "folder": "10_14",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an10.14",
+      "status": "GHOST",
+      "title": "Ceto-khila Sutta",
+      "video_id": "NfhOKPsIrOA"
+    },
+    "AN 10.177": {
+      "folder": "10_177",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an10.177",
+      "status": "GHOST",
+      "title": "Janussoni Sutta",
+      "video_id": "sQY5LlneRCI"
+    },
+    "AN 10.2": {
+      "folder": "10_2",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an10.2",
+      "status": "GHOST",
+      "title": "Cetana Sutta",
+      "video_id": "ede7WQJ5U3Y"
+    },
+    "AN 10.20": {
+      "folder": "10_20",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an10.20",
+      "status": "GHOST",
+      "title": "Ariya-vasa Sutta",
+      "video_id": "8M0tMBvOv3M"
+    },
+    "AN 10.30": {
+      "folder": "10_31",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an10.30",
+      "status": "GHOST",
+      "title": "Samyojana Sutta: Fetters",
+      "video_id": "3nTBsAB2q3Y"
+    },
+    "AN 10.31": {
+      "folder": "10",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "Kosala Sutta: The King of Kosala",
+      "video_id": "3nTBsAB2q3Y"
+    },
+    "AN 10.35": {
+      "folder": "10_35",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/sn10.12",
+      "status": "GHOST",
+      "title": "Sānu Sutta",
+      "video_id": "3nTBsAB2q3Y"
+    },
+    "AN 10.6": {
+      "folder": "10_6",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/sn10.6",
+      "status": "GHOST",
+      "title": "Piyaṅkaramātā Sutta",
+      "video_id": "ede7WQJ5U3Y"
+    },
+    "AN 10.63": {
+      "folder": "10_63",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an10.63",
+      "status": "GHOST",
+      "title": "Nibbāna Sutta",
+      "video_id": "CDACMwK2h4Y"
+    },
+    "AN 10.7": {
+      "folder": "10_7",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/sn10.7",
+      "status": "GHOST",
+      "title": "Punabbasusutta",
+      "video_id": "ede7WQJ5U3Y"
+    },
+    "AN 10.73": {
+      "folder": "10_73",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an10.73",
+      "status": "GHOST",
+      "title": "Iṭṭha Sutta",
+      "video_id": "YNf3NTgCeUY"
+    },
+    "AN 10.74": {
+      "folder": "10_74",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an10.74",
+      "status": "GHOST",
+      "title": "Vaḍḍhi Sutta",
+      "video_id": "YNf3NTgCeUY"
+    },
+    "AN 10.8": {
+      "folder": "10_8",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/sn10.8",
+      "status": "GHOST",
+      "title": "Anāthapiṇḍika Sutta",
+      "video_id": "ede7WQJ5U3Y"
+    },
+    "AN 10.93": {
+      "folder": "10_93",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an10.93",
+      "status": "GHOST",
+      "title": "Samatha Sutta",
+      "video_id": "YNf3NTgCeUY"
+    },
+    "AN 11": {
+      "folder": "11",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "8cz9rqFY5xg"
+    },
+    "AN 11.6": {
+      "folder": "11_6",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an11.6",
+      "status": "GHOST",
+      "title": "Byasana Sutta",
+      "video_id": "8cz9rqFY5xg"
+    },
+    "AN 11.7": {
+      "folder": "11",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "Concentration & The 11 Advantages of Loving-Kindness",
+      "video_id": "8cz9rqFY5xg"
+    },
+    "AN 2": {
+      "folder": "2",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "IPtVBQCwIw4"
+    },
+    "AN 2.1.3": {
+      "folder": "2_1_3",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an2.1-10",
+      "status": "GHOST",
+      "title": "Tapanīya Sutta",
+      "video_id": ""
+    },
+    "AN 2.2.5": {
+      "folder": "2",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "Strict Self-Examination & Commission and Omission",
+      "video_id": ""
+    },
+    "AN 2.3.9": {
+      "folder": "2_3_9",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an2.30",
+      "status": "GHOST",
+      "title": "Aranya Sutta",
+      "video_id": "IPtVBQCwIw4"
+    },
+    "AN 2.4": {
+      "folder": "2_4",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an2.32-41",
+      "status": "GHOST",
+      "title": "Cūḷani Sutta / Parisā Sutta",
+      "video_id": "lJXVAL3a_Rg"
+    },
+    "AN 2.4.1": {
+      "folder": "2_4_1",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an2.31",
+      "status": "GHOST",
+      "title": "Kataññū Sutta",
+      "video_id": ""
+    },
+    "AN 2.4.2": {
+      "folder": "2_4_2",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an2.32",
+      "status": "GHOST",
+      "title": "Kataññū Sutta",
+      "video_id": ""
+    },
+    "AN 2.5.6": {
+      "folder": "2_5_6",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an2.42-51",
+      "status": "GHOST",
+      "title": "Parisā Sutta / Ukkācitavinīta Sutta",
+      "video_id": ""
+    },
+    "AN 3": {
+      "folder": "3",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "znbe02l03ss"
+    },
+    "AN 3.10.100": {
+      "folder": "3_10_100",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.100",
+      "status": "GHOST",
+      "title": "Pānsudhovaka Sutta / Nimitta Sutta",
+      "video_id": "KC3KM5gVdiw"
+    },
+    "AN 3.10.94": {
+      "folder": "3_10_94",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.94-102",
+      "status": "GHOST",
+      "title": "Āhananā Sutta / Loṇaphala Sutta",
+      "video_id": ""
+    },
+    "AN 3.11.101": {
+      "folder": "3_11_101",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.101",
+      "status": "GHOST",
+      "title": "Pubbeva Sambodha Sutta",
+      "video_id": ""
+    },
+    "AN 3.11.102": {
+      "folder": "3_11_102",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.102",
+      "status": "GHOST",
+      "title": "Assāda Sutta",
+      "video_id": ""
+    },
+    "AN 3.11.103": {
+      "folder": "3_11_103",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.103",
+      "status": "GHOST",
+      "title": "Rona Sutta",
+      "video_id": ""
+    },
+    "AN 3.11.104": {
+      "folder": "3_11_104",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.104",
+      "status": "GHOST",
+      "title": "Anassāda Sutta / Mada Sutta",
+      "video_id": "KC3KM5gVdiw"
+    },
+    "AN 3.11.109": {
+      "folder": "3_11_109",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.109",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 3.11.110": {
+      "folder": "3_11_110",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.110",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 3.12": {
+      "folder": "3_12",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.12",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "I_WcYFNiX1Y"
+    },
+    "AN 3.13.124": {
+      "folder": "3_13_124",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.124",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 3.13.125": {
+      "folder": "3_13_125",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.125",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 3.13.126": {
+      "folder": "3_13_126",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.126",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 3.14.131": {
+      "folder": "3_14_131",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.131",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "vWVXTRthyUw"
+    },
+    "AN 3.2.12": {
+      "folder": "3_2_12",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.12",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "znbe02l03ss"
+    },
+    "AN 3.3.24": {
+      "folder": "3_3_24",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.24",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "znbe02l03ss"
+    },
+    "AN 3.3.26": {
+      "folder": "3_3_26",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.26",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "Lj6mFEOjCNQ"
+    },
+    "AN 3.4.34": {
+      "folder": "3_4_34",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.34",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 3.4.38": {
+      "folder": "3_4_38",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.38",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 3.4.39": {
+      "folder": "3_4_39",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.39",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 3.4.40": {
+      "folder": "3_4_40",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.40",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 3.5.45": {
+      "folder": "3_5_45",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.45",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 3.6.58": {
+      "folder": "3_6_58",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.58",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "lOqPFieLwYc"
+    },
+    "AN 3.7.63": {
+      "folder": "3_7_63",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.63",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "Kb7_hBSViBY"
+    },
+    "AN 3.7.64": {
+      "folder": "3_7_64",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.64",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "Kb7_hBSViBY"
+    },
+    "AN 3.7.65": {
+      "folder": "3_7_65",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.65",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "qI38JvG7fpA"
+    },
+    "AN 3.7.7": {
+      "folder": "3_7_7",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.7",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "IEA4C0UiUtk"
+    },
+    "AN 3.8.72": {
+      "folder": "3_8_72",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.72",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "IEA4C0UiUtk"
+    },
+    "AN 3.8.75": {
+      "folder": "3_8_75",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.75",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "8DT2tfYHK_k"
+    },
+    "AN 3.8.76": {
+      "folder": "3_8_76",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.76",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 3.9.81": {
+      "folder": "3_9_81",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.81",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "8DT2tfYHK_k"
+    },
+    "AN 3.9.85": {
+      "folder": "3_9_85",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an3.85",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 4": {
+      "folder": "4",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "8AEZaZICKz0"
+    },
+    "AN 4.1.3": {
+      "folder": "4_1_3",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "8AEZaZICKz0"
+    },
+    "AN 4.1.4": {
+      "folder": "4_1_4",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 4.10.94": {
+      "folder": "4_10_94",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.94",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "PS4OX1mD7m4"
+    },
+    "AN 4.10.95": {
+      "folder": "4_10_95",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.95",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 4.11.110": {
+      "folder": "4_11_110",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.110",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 4.12.115": {
+      "folder": "4_12_115",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.115",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 4.16": {
+      "folder": "4_16",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.16",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "IOxeDp4NHeA"
+    },
+    "AN 4.17.167": {
+      "folder": "4_17_167",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.167",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 4.18.174": {
+      "folder": "4_18_174",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.174",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 4.18.180": {
+      "folder": "4_18_180",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.180",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "O1aBjxxZtTs"
+    },
+    "AN 4.19": {
+      "folder": "4_19",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.19",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "O1aBjxxZtTs"
+    },
+    "AN 4.19.183": {
+      "folder": "4_19_183",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.183",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 4.19.184": {
+      "folder": "4_19_184",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.184",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 4.19.185": {
+      "folder": "4_19_185",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.185",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "O1aBjxxZtTs"
+    },
+    "AN 4.19.190": {
+      "folder": "4_19_190",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.190",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 4.2.13": {
+      "folder": "4_2_13",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.13",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 4.20.192": {
+      "folder": "4_20_192",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.192",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "e8ACyMMGc_o"
+    },
+    "AN 4.20.194": {
+      "folder": "4_20_194",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.194",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "Q9zzcde5IDU"
+    },
+    "AN 4.20.196": {
+      "folder": "4_20_196",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.196",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "H5niJDYQaZA"
+    },
+    "AN 4.20.197": {
+      "folder": "4_20_197",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.197",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "H5niJDYQaZA"
+    },
+    "AN 4.20.198": {
+      "folder": "4_20_198",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.198",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "pRVoGmqfgYw"
+    },
+    "AN 4.21.201": {
+      "folder": "4_21_201",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.201",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 4.3.22": {
+      "folder": "4_3_22",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.22",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 4.3.25": {
+      "folder": "4_3_25",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.25",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "X52P_gV7DCY"
+    },
+    "AN 4.4.32": {
+      "folder": "4_4_32",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.32",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 4.4.36": {
+      "folder": "4_4_36",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.36",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "TzefYCr5ILc"
+    },
+    "AN 4.5.41": {
+      "folder": "4_5_41",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.41",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 4.5.50": {
+      "folder": "4_5_50",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.50",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "rjiXw6wea8g"
+    },
+    "AN 4.6.51": {
+      "folder": "4_6_51",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.51",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 4.7.61": {
+      "folder": "4_7_61",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.61",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "rjiXw6wea8g"
+    },
+    "AN 4.7.67": {
+      "folder": "4_7_67",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.67",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 4.8": {
+      "folder": "4_8",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.8",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "DXfQaED4F6Y"
+    },
+    "AN 4.8.77": {
+      "folder": "4_8_77",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.77",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "DXfQaED4F6Y"
+    },
+    "AN 4.9.85": {
+      "folder": "4_9_85",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an4.85",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5": {
+      "folder": "5",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "5HAAM4tuRJk"
+    },
+    "AN 5.1.2": {
+      "folder": "5_1_2",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "5HAAM4tuRJk"
+    },
+    "AN 5.10": {
+      "folder": "5_10",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.10",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.10.96": {
+      "folder": "5_10_96",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.96",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.12.114": {
+      "folder": "5_12_114",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.114",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "wkU_YSNIgXg"
+    },
+    "AN 5.13": {
+      "folder": "5_13",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.13",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.13.124": {
+      "folder": "5_13_124",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.124",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.14.1": {
+      "folder": "5_14_1",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.15": {
+      "folder": "5_15",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.15",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "wkU_YSNIgXg"
+    },
+    "AN 5.15.147": {
+      "folder": "5_15_147",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.147",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.16.157": {
+      "folder": "5_16_157",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.157",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "tw0gWrYyN4s"
+    },
+    "AN 5.17.161": {
+      "folder": "5_17_161",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.161",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.17.162": {
+      "folder": "5_17_162",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.162",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.18.177": {
+      "folder": "5_18_177",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.177",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.2.15": {
+      "folder": "5_2_15",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.15",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.20": {
+      "folder": "5_20",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.20",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "SzhWDTAy2EQ"
+    },
+    "AN 5.20.191": {
+      "folder": "5_20_191",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.191",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.20.199": {
+      "folder": "5_20_199",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.199",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.21.201": {
+      "folder": "5_21_201",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.201",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.22.213": {
+      "folder": "5_22_213",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.213",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.3.22": {
+      "folder": "5_3_22",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.22",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "5HAAM4tuRJk"
+    },
+    "AN 5.3.26": {
+      "folder": "5_3_26",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.26",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "jxsKnlI-law"
+    },
+    "AN 5.3.27": {
+      "folder": "5_3_27",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.27",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.3.28": {
+      "folder": "5_3_28",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.28",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.3.29": {
+      "folder": "5_3_29",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.29",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.3.30": {
+      "folder": "5_3_30",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.30",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "jxsKnlI-law"
+    },
+    "AN 5.4.31": {
+      "folder": "5_4_31",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.31",
+      "status": "GHOST",
+      "title": "Sumana Sutta: To Sumana (On the Benefits of Giving)",
+      "video_id": "m7b47xzyHDE"
+    },
+    "AN 5.4.32": {
+      "folder": "5",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.4.33": {
+      "folder": "5",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.4.34": {
+      "folder": "5_4_34",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.34",
+      "status": "GHOST",
+      "title": "Siha Sutta (AN 5.34)",
+      "video_id": ""
+    },
+    "AN 5.4.36": {
+      "folder": "5_4_36",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "Kala Sutta (AN 5.36)",
+      "video_id": ""
+    },
+    "AN 5.4.39": {
+      "folder": "5_4_39",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "Putta Sutta (AN 5.39)",
+      "video_id": ""
+    },
+    "AN 5.4.40": {
+      "folder": "5_4_40",
+      "languages": {
+        "en": "Anguttara Nikaya by Bhante Hye Dhammavuddho Mahathera/5_4_40/5_4_40.json",
+        "jp": "Anguttara Nikaya by Bhante Hye Dhammavuddho Mahathera/5_4_40/jp/5_4_40.json"
+      },
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.40",
+      "status": "COMPLETE",
+      "title": "Sālandana Sutta",
+      "video_id": "m7b47xzyHDE"
+    },
+    "AN 5.5.48": {
+      "folder": "5_5_48",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.48",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.6.13": {
+      "folder": "5_6_13",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.13",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.6.52": {
+      "folder": "5_6_52",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.52",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "snc0Cl49XW4"
+    },
+    "AN 5.6.53": {
+      "folder": "5_6_53",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.53",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "YxjPiLTePiE"
+    },
+    "AN 5.6.54": {
+      "folder": "5_6_54",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.54",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.6.59": {
+      "folder": "5_6_59",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.59",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.7.13": {
+      "folder": "5_7_13",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.13",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 5.8.78": {
+      "folder": "5_8_78",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.78",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "3Tb9n0TfaAE"
+    },
+    "AN 5.8.79": {
+      "folder": "5_8_79",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an5.79",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 6": {
+      "folder": "6",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "XIhfYwmmlew"
+    },
+    "AN 6.2.16": {
+      "folder": "6_2_16",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an6.16",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 6.2.19": {
+      "folder": "6_2_19",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an6.19",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "VMKkLTjYkuQ"
+    },
+    "AN 6.3.27": {
+      "folder": "6_3_27",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an6.27",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 6.4.37": {
+      "folder": "6_4_37",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an6.37",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 6.5.45": {
+      "folder": "6_5_45",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an6.45",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "aGBovylNRfg"
+    },
+    "AN 6.5.46": {
+      "folder": "6_5_46",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an6.46",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 6.6.55": {
+      "folder": "6_6_55",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an6.55",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "yH7G_p-qqgo"
+    },
+    "AN 6.6.61": {
+      "folder": "6_6_61",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an6.61",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 6.6.63": {
+      "folder": "6_6_63",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an6.63",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "EXcAUePTvnY"
+    },
+    "AN 6.6.64": {
+      "folder": "6_6_64",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an6.64",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 6.7.69": {
+      "folder": "6_7_69",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an6.69",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 6.7.70": {
+      "folder": "6_7_70",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an6.70",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 7": {
+      "folder": "7",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "8zU1AsW0-4o"
+    },
+    "AN 7.1.6": {
+      "folder": "7_1_6",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.6",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 7.10": {
+      "folder": "7_10",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.10",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 7.11": {
+      "folder": "7_11",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.11",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 7.12": {
+      "folder": "7_12",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.12",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 7.2.13": {
+      "folder": "7_2_13",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.13",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 7.3.22": {
+      "folder": "7_3_22",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.22",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 7.3.23": {
+      "folder": "7_3_23",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.23",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 7.4.35": {
+      "folder": "7_4_35",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.35",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 7.5.44": {
+      "folder": "7_5_44",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.44",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 7.5.49": {
+      "folder": "7_5_49",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.49",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "mfP_jOG_if0"
+    },
+    "AN 7.5.50": {
+      "folder": "7_5_50",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.50",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 7.6.51": {
+      "folder": "7_6_51",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.51",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 7.6.54": {
+      "folder": "7_6_54",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.54",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 7.6.59": {
+      "folder": "7_6_59",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.59",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "Pek43WT8gM0"
+    },
+    "AN 7.6.60": {
+      "folder": "7_6_60",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.60",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 7.7.62": {
+      "folder": "7_7_62",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.62",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "Pek43WT8gM0"
+    },
+    "AN 7.7.63": {
+      "folder": "7_7_63",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.63",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "aB6O-5PGBzA"
+    },
+    "AN 7.7.64": {
+      "folder": "7_7_64",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.64",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "aB6O-5PGBzA"
+    },
+    "AN 7.7.66": {
+      "folder": "7_7_66",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.66",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 7.7.67": {
+      "folder": "7_7_67",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.67",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "6IRquOK6_nA"
+    },
+    "AN 7.7.69": {
+      "folder": "7_7_69",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.69",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 7.7.70": {
+      "folder": "7_7_70",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.70",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 7.8": {
+      "folder": "7_8",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.8",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "O6XSNHw107o"
+    },
+    "AN 7.9": {
+      "folder": "7_9",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an7.9",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 8": {
+      "folder": "8",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "eCpQZc8iwsk"
+    },
+    "AN 8.1.6": {
+      "folder": "8_1_6",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an8.6",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 8.2.15": {
+      "folder": "8_2_15",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an8.15",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 8.2.20": {
+      "folder": "8_2_20",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an8.20",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "BQsBR7LCkUo"
+    },
+    "AN 8.3.21": {
+      "folder": "8_3_21",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an8.21",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 8.3.27": {
+      "folder": "8_3_27",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an8.27",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "p0ws82oF32Y"
+    },
+    "AN 8.4.35": {
+      "folder": "8_4_35",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an8.35",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "p0ws82oF32Y"
+    },
+    "AN 8.4.36": {
+      "folder": "8_4_36",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an8.36",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "7Fj0GdkMI6g"
+    },
+    "AN 8.4.37": {
+      "folder": "8_4_37",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an8.37",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 8.4.38": {
+      "folder": "8_4_38",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an8.38",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 8.5.46": {
+      "folder": "8_5_46",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an8.46",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 8.6.51": {
+      "folder": "8_6_51",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an8.51",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "greCCKr4YPs"
+    },
+    "AN 8.6.52": {
+      "folder": "8_6_52",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an8.52",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 8.6.59": {
+      "folder": "8_6_59",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an8.59",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "U7vkvZ6hu3w"
+    },
+    "AN 8.7.63": {
+      "folder": "8_7_63",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an8.63",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 8.7.66": {
+      "folder": "8_7_66",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an8.66",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 8.8.74": {
+      "folder": "8_8_74",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an8.74",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "U7vkvZ6hu3w"
+    },
+    "AN 8.9": {
+      "folder": "8_9",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an8.9",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "_re29yV59zM"
+    },
+    "AN 8.9.82": {
+      "folder": "8_9_82",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an8.82",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 8.9.83": {
+      "folder": "8_9_83",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an8.83",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 9": {
+      "folder": "9",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "qT5GUmoAnYE"
+    },
+    "AN 9.1.3": {
+      "folder": "9_1_3",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an9.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "qT5GUmoAnYE"
+    },
+    "AN 9.1.4": {
+      "folder": "9_1_4",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an9.4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 9.2.21": {
+      "folder": "9_2_21",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an9.21",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "BGD75NKmFBU"
+    },
+    "AN 9.2.5": {
+      "folder": "9_2_5",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an9.5",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 9.3.23": {
+      "folder": "9_3_23",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an9.23",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 9.4.14": {
+      "folder": "9_4_14",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an9.14",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 9.4.33": {
+      "folder": "9_4_33",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an9.33",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 9.4.34": {
+      "folder": "9_4_34",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an9.34",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "BGD75NKmFBU"
+    },
+    "AN 9.4.36": {
+      "folder": "9_4_36",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an9.36",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "AN 9.4.38": {
+      "folder": "9_4_38",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an9.38",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "TWdUX2wsWCg"
+    },
+    "AN 9.4.39": {
+      "folder": "9_4_39",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an9.39",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "TWdUX2wsWCg"
+    },
+    "AN 9.5.43": {
+      "folder": "9_5_43",
+      "languages": {},
+      "nikaya": "an",
+      "sc_url": "https://suttacentral.net/an9.43",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1": {
+      "folder": "1",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "Brahmajāla Sutta",
+      "video_id": "U_4WrY1s4Hk"
+    },
+    "DN 1.10": {
+      "folder": "1_10",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.10.14": {
+      "folder": "1_10_14",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.11": {
+      "folder": "1_11",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.11.1": {
+      "folder": "1_11_1",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.11.8": {
+      "folder": "1_11_8",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.13": {
+      "folder": "1_13",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.14": {
+      "folder": "1_14",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.15": {
+      "folder": "1_15",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.15.10": {
+      "folder": "1_15_10",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.16": {
+      "folder": "1_16",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.17.5": {
+      "folder": "1_17_5",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.17.6": {
+      "folder": "1_17_6",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.17.7": {
+      "folder": "1_17_7",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.18": {
+      "folder": "1_18",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.18.13": {
+      "folder": "1_18_13",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.21.48": {
+      "folder": "1_21_48",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.29": {
+      "folder": "1_29",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.3.9": {
+      "folder": "1_3_9",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.30": {
+      "folder": "1_30",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.32": {
+      "folder": "1_32",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.34": {
+      "folder": "1_34",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.36": {
+      "folder": "1_36",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.46": {
+      "folder": "1_46",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.49": {
+      "folder": "1_49",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.5": {
+      "folder": "1_5",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.5.10": {
+      "folder": "1_5_10",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.5.8": {
+      "folder": "1_5_8",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.52": {
+      "folder": "1_52",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.55": {
+      "folder": "1_55",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.6.8": {
+      "folder": "1_6_8",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.6.9": {
+      "folder": "1_6_9",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.7": {
+      "folder": "1_7",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.71": {
+      "folder": "1_71",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.73": {
+      "folder": "1_73",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.76": {
+      "folder": "1_76",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.8": {
+      "folder": "1_8",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.8.1": {
+      "folder": "1_8_1",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.8.8": {
+      "folder": "1_8_8",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.8.9": {
+      "folder": "1_8_9",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.81": {
+      "folder": "1_81",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 1.87": {
+      "folder": "1_87",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 11": {
+      "folder": "11",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn11",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "OLqr2Zz-bJQ"
+    },
+    "DN 13": {
+      "folder": "13",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn13",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "qBSMQ4uFca0"
+    },
+    "DN 13.7": {
+      "folder": "13_7",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn13",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 14": {
+      "folder": "14",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn14",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "2f-5p8sG8Zo"
+    },
+    "DN 15": {
+      "folder": "15",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn15",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "rqRG9kPHT40"
+    },
+    "DN 16": {
+      "folder": "16",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn16",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "cI9tWtEOIyw"
+    },
+    "DN 17": {
+      "folder": "17",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn17",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "9G7wWCkAZFM"
+    },
+    "DN 19": {
+      "folder": "19",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn19",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ao4MEeP7eq8"
+    },
+    "DN 2": {
+      "folder": "2",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "I94ZyzJ97NE"
+    },
+    "DN 2.1": {
+      "folder": "2_1",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 2.1.5": {
+      "folder": "2_1_5",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 2.1.6": {
+      "folder": "2_1_6",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 2.1.9": {
+      "folder": "2_1_9",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 2.10.1": {
+      "folder": "2_10_1",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 2.10.2": {
+      "folder": "2_10_2",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 2.11.2": {
+      "folder": "2_11_2",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 2.11.8": {
+      "folder": "2_11_8",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 2.11.9": {
+      "folder": "2_11_9",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 2.12.1": {
+      "folder": "2_12_1",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 2.17": {
+      "folder": "2_17",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 2.2": {
+      "folder": "2_2",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 2.26": {
+      "folder": "2_26",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 2.3": {
+      "folder": "2_3",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 2.3.10": {
+      "folder": "2_3_10",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 2.4.4": {
+      "folder": "2_4_4",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 2.44": {
+      "folder": "2_44",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 2.9": {
+      "folder": "2_9",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 21": {
+      "folder": "21",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn21",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "Mx4vEjiyEQc"
+    },
+    "DN 22": {
+      "folder": "22",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn22",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "o-ToWCvx4Vo"
+    },
+    "DN 23": {
+      "folder": "23",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn23",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "VOvJgSC-sRk"
+    },
+    "DN 24": {
+      "folder": "24",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn24",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "DGFtr1Bbt7w"
+    },
+    "DN 25": {
+      "folder": "25",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn25",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "7n4hu_Rikvs"
+    },
+    "DN 27": {
+      "folder": "27",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn27",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "KmYlUbhLn9o"
+    },
+    "DN 29": {
+      "folder": "29",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn29",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "3_XTBb94TAo"
+    },
+    "DN 3": {
+      "folder": "3",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "vwWDnhqxkGk"
+    },
+    "DN 3.10.99": {
+      "folder": "3_10_99",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 3.13": {
+      "folder": "3_13",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 3.13.128": {
+      "folder": "3_13_128",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 3.13.129": {
+      "folder": "3_13_129",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 3.18": {
+      "folder": "3_18",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 3.19": {
+      "folder": "3_19",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 3.2.16": {
+      "folder": "3_2_16",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 3.2.19": {
+      "folder": "3_2_19",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 3.20": {
+      "folder": "3_20",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 3.21": {
+      "folder": "3_21",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 3.24": {
+      "folder": "3_24",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 3.4.36": {
+      "folder": "3_4_36",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 3.4.42": {
+      "folder": "3_4_42",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 3.5.47": {
+      "folder": "3_5_47",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 3.7.68": {
+      "folder": "3_7_68",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 3.73": {
+      "folder": "3_73",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 3.8.79": {
+      "folder": "3_8_79",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 3.85": {
+      "folder": "3_85",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 3.9": {
+      "folder": "3_9",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 30": {
+      "folder": "30",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn30",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "rXKP7hcqSno"
+    },
+    "DN 31": {
+      "folder": "31",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn31",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "jKJKZh57tJs"
+    },
+    "DN 33": {
+      "folder": "33",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn33",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "U9-G3sVblcY"
+    },
+    "DN 34": {
+      "folder": "34",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn34",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "fDSYyFBfcFI"
+    },
+    "DN 4": {
+      "folder": "4",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "M5GcYYp5W8M"
+    },
+    "DN 4.100": {
+      "folder": "4_100",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.17": {
+      "folder": "4_17",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.170": {
+      "folder": "4_170",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.18": {
+      "folder": "4_18",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.180": {
+      "folder": "4_180",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.20": {
+      "folder": "4_20",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.22": {
+      "folder": "4_22",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.23": {
+      "folder": "4_23",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.24": {
+      "folder": "4_24",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.25": {
+      "folder": "4_25",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.25.244": {
+      "folder": "4_25_244",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.25.245": {
+      "folder": "4_25_245",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.27.261": {
+      "folder": "4_27_261",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.3.24": {
+      "folder": "4_3_24",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.3.28": {
+      "folder": "4_3_28",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.4.35": {
+      "folder": "4_4_35",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.5.49": {
+      "folder": "4_5_49",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.6": {
+      "folder": "4_6",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.6.5": {
+      "folder": "4_6_5",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.7": {
+      "folder": "4_7",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.7.70": {
+      "folder": "4_7_70",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.8": {
+      "folder": "4_8",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.9": {
+      "folder": "4_9",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.9.87": {
+      "folder": "4_9_87",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 4.9.89": {
+      "folder": "4_9_89",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 6": {
+      "folder": "6",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn6",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ri-A2x3SbsM"
+    },
+    "DN 6.29": {
+      "folder": "6_29",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn6",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 6.9": {
+      "folder": "6_9",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn6",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 9": {
+      "folder": "9",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn9",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "5o0J6hUyzQY"
+    },
+    "DN 99.9": {
+      "folder": "99_9",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn99",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "DN 99.99": {
+      "folder": "99_99",
+      "languages": {},
+      "nikaya": "dn",
+      "sc_url": "https://suttacentral.net/dn99",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 1": {
+      "folder": "1",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "0ToXHUNZFaQ"
+    },
+    "KN 1.1": {
+      "folder": "1",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "Abandoning Greed",
+      "video_id": ""
+    },
+    "KN 1.10": {
+      "folder": "1_10",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn1.10",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 1.11": {
+      "folder": "1_11",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn1.11",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 1.12": {
+      "folder": "1_12",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn1.12",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 1.2": {
+      "folder": "1_2",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn1.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 1.3": {
+      "folder": "1_3",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn1.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 1.4": {
+      "folder": "1_4",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn1.4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 1.5": {
+      "folder": "1_5",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn1.5",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 1.6": {
+      "folder": "1_6",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn1.6",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 1.7": {
+      "folder": "1_7",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn1.7",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 1.8": {
+      "folder": "1_8",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn1.8",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 1.9": {
+      "folder": "1_9",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn1.9",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 100": {
+      "folder": "100",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "cKl4qtYU6r4"
+    },
+    "KN 1018": {
+      "folder": "1018",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 102": {
+      "folder": "102",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "Wed-rUm7_No"
+    },
+    "KN 1091": {
+      "folder": "1091",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 1209": {
+      "folder": "1209",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 121": {
+      "folder": "121",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ZRa-mxCwatY"
+    },
+    "KN 129": {
+      "folder": "129",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "PZev_sgTw3E"
+    },
+    "KN 179": {
+      "folder": "179",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "5Osr_6nbUFQ"
+    },
+    "KN 197": {
+      "folder": "197",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "Zj1keUprPx8"
+    },
+    "KN 2": {
+      "folder": "2",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "UNyeuB6Rvrs"
+    },
+    "KN 2.1": {
+      "folder": "2_1",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn2.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 2.10": {
+      "folder": "2_10",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn2.10",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 2.11": {
+      "folder": "2_11",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn2.11",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 2.2": {
+      "folder": "2_2",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn2.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 2.3": {
+      "folder": "2_3",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn2.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 2.4": {
+      "folder": "2_4",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn2.4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 2.5": {
+      "folder": "2_5",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn2.5",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 2.6": {
+      "folder": "2_6",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn2.6",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 219": {
+      "folder": "219",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "l55RM3dET3E"
+    },
+    "KN 224": {
+      "folder": "224",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "yc7VTHmTjiI"
+    },
+    "KN 235": {
+      "folder": "235",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "RGrmcjwfLa0"
+    },
+    "KN 25.1": {
+      "folder": "25_1",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn25.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 267": {
+      "folder": "267",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 273": {
+      "folder": "273",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 290": {
+      "folder": "290",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 3": {
+      "folder": "3",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "-5vM5n83vbo"
+    },
+    "KN 3.1": {
+      "folder": "3_1",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn3.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 3.11": {
+      "folder": "3_11",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn3.11",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 3.12": {
+      "folder": "3_12",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn3.12",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 3.2": {
+      "folder": "3_2",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn3.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 3.2.2": {
+      "folder": "3_2_2",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn3.2.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 3.28": {
+      "folder": "3_28",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn3.28",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 3.29": {
+      "folder": "3_29",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn3.29",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 3.3": {
+      "folder": "3_3",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn3.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 3.30": {
+      "folder": "3_30",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn3.30",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 3.31": {
+      "folder": "3_31",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn3.31",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 3.32": {
+      "folder": "3_32",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn3.32",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 3.33": {
+      "folder": "3_33",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn3.33",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 3.34": {
+      "folder": "3_34",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn3.34",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 3.4": {
+      "folder": "3_4",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn3.4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 3.40": {
+      "folder": "3_40",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn3.40",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 3.6": {
+      "folder": "3_6",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn3.6",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 3.7": {
+      "folder": "3_7",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn3.7",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 3.8": {
+      "folder": "3_8",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn3.8",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 33": {
+      "folder": "33",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "Dq16s3uI3Q4"
+    },
+    "KN 334": {
+      "folder": "334",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 375": {
+      "folder": "375",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 383": {
+      "folder": "383",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 4": {
+      "folder": "4",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "bmNPlzfi71I"
+    },
+    "KN 4.1": {
+      "folder": "4_1",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn4.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 4.1801": {
+      "folder": "4_1801",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn4.1801",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 4.2": {
+      "folder": "4_2",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn4.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 4.3": {
+      "folder": "4_3",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn4.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 4.4": {
+      "folder": "4_4",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn4.4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 4.5": {
+      "folder": "4_5",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn4.5",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 44": {
+      "folder": "44",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "EhwIr4MmUBc"
+    },
+    "KN 459": {
+      "folder": "459",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 487": {
+      "folder": "487",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 5": {
+      "folder": "5",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ef4_3YKK5dA"
+    },
+    "KN 5.2": {
+      "folder": "5_2",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn5.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 5.3": {
+      "folder": "5_3",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn5.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 5.4": {
+      "folder": "5_4",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn5.4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 5.5": {
+      "folder": "5_5",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn5.5",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 5.6": {
+      "folder": "5_6",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn5.6",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 5.7": {
+      "folder": "5_7",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn5.7",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 5.8": {
+      "folder": "5_8",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn5.8",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 5.9": {
+      "folder": "5_9",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn5.9",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 597": {
+      "folder": "597",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 6": {
+      "folder": "6",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "YyuB4gdCXW8"
+    },
+    "KN 6.2": {
+      "folder": "6_2",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn6.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 6.43": {
+      "folder": "6_43",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn6.43",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 673": {
+      "folder": "673",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 68": {
+      "folder": "68",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "iJ1JPxSP1OM"
+    },
+    "KN 7": {
+      "folder": "7",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "wPzQY38U760"
+    },
+    "KN 7.1": {
+      "folder": "7_1",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn7.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 8": {
+      "folder": "8",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "d5_XxykjZck"
+    },
+    "KN 8.1": {
+      "folder": "8_1",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn8.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 8.2": {
+      "folder": "8_2",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn8.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 8.3": {
+      "folder": "8_3",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn8.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 818": {
+      "folder": "818",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 892": {
+      "folder": "892",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "KN 99.99": {
+      "folder": "99_99",
+      "languages": {},
+      "nikaya": "kn",
+      "sc_url": "https://suttacentral.net/kn99.99",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "MN 1": {
+      "folder": "1",
+      "languages": {
+        "en": "Majjhima Nikaya by Bhante Hye Dhammavuddho Mahathera/1/1.json"
+      },
+      "nikaya": "mn",
+      "sc_url": "",
+      "status": "RAW",
+      "title": "",
+      "video_id": "LTos07bzzbk"
+    },
+    "SN 0.3": {
+      "folder": "0_3",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn0.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 0.6": {
+      "folder": "0_6",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn0.6",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 0.9": {
+      "folder": "0_9",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn0.9",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 01": {
+      "folder": "01",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn1.1",
+      "status": "GHOST",
+      "title": "Crossing the Flood & Emancipation",
+      "video_id": ""
+    },
+    "SN 02": {
+      "folder": "02",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn02",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 03": {
+      "folder": "03",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn03",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 04": {
+      "folder": "04",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn04",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 05": {
+      "folder": "05",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn05",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 06": {
+      "folder": "06",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn06",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 07": {
+      "folder": "07",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn07",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 09": {
+      "folder": "09",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn09",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 1": {
+      "folder": "1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "Crossing the Flood & Emancipation",
+      "video_id": "7J0h61kRqBg"
+    },
+    "SN 1.1": {
+      "folder": "1_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn1.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "7J0h61kRqBg"
+    },
+    "SN 1.19": {
+      "folder": "1_19",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn1.19",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "G9KEzovtvfE"
+    },
+    "SN 1.20": {
+      "folder": "1_20",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn1.20",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "G9KEzovtvfE"
+    },
+    "SN 1.21": {
+      "folder": "1_21",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn1.21",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "BQli_Xu5h2M"
+    },
+    "SN 1.22": {
+      "folder": "1_22",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn1.22",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "BQli_Xu5h2M"
+    },
+    "SN 1.23": {
+      "folder": "1_23",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn1.23",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "BQli_Xu5h2M"
+    },
+    "SN 1.24": {
+      "folder": "1_24",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn1.24",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "BQli_Xu5h2M"
+    },
+    "SN 1.25": {
+      "folder": "1_25",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn1.25",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "BQli_Xu5h2M"
+    },
+    "SN 1.41": {
+      "folder": "1_41",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn1.41",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "BQli_Xu5h2M"
+    },
+    "SN 1.42": {
+      "folder": "1_42",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn1.42",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "BQli_Xu5h2M"
+    },
+    "SN 10.2": {
+      "folder": "10_2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn10.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 10.3": {
+      "folder": "10_3",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn10.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 11": {
+      "folder": "11",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn11",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "WittW0CF-38"
+    },
+    "SN 11.101": {
+      "folder": "11_101",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn11.101",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "WittW0CF-38"
+    },
+    "SN 11.11": {
+      "folder": "11_11",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn11.11",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "WittW0CF-38"
+    },
+    "SN 11.12": {
+      "folder": "11_12",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn11.12",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "WittW0CF-38"
+    },
+    "SN 11.14": {
+      "folder": "11_14",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn11.14",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "WittW0CF-38"
+    },
+    "SN 11.18": {
+      "folder": "11_18",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn11.18",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "WittW0CF-38"
+    },
+    "SN 11.4": {
+      "folder": "11_4",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn11.4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "WittW0CF-38"
+    },
+    "SN 11.6": {
+      "folder": "11_6",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn11.6",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "WittW0CF-38"
+    },
+    "SN 11.9": {
+      "folder": "11_9",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn11.9",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "WittW0CF-38"
+    },
+    "SN 12": {
+      "folder": "12",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "3X7f_aEgyK4"
+    },
+    "SN 12.10": {
+      "folder": "12_10",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.10",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "3X7f_aEgyK4"
+    },
+    "SN 12.12": {
+      "folder": "12_12",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.12",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "zSrXkK7cDo0"
+    },
+    "SN 12.16": {
+      "folder": "12_16",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.16",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "zSrXkK7cDo0"
+    },
+    "SN 12.17": {
+      "folder": "12_17",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.17",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "zSrXkK7cDo0"
+    },
+    "SN 12.18": {
+      "folder": "12_18",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.18",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "zSrXkK7cDo0"
+    },
+    "SN 12.19": {
+      "folder": "12_19",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.19",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "zSrXkK7cDo0"
+    },
+    "SN 12.22": {
+      "folder": "12_22",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.22",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "lRzeZPP1GwA"
+    },
+    "SN 12.23": {
+      "folder": "12_23",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.23",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "lRzeZPP1GwA"
+    },
+    "SN 12.24": {
+      "folder": "12_24",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.24",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "lRzeZPP1GwA"
+    },
+    "SN 12.25": {
+      "folder": "12_25",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.25",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "lRzeZPP1GwA"
+    },
+    "SN 12.31": {
+      "folder": "12_31",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.31",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "lRzeZPP1GwA"
+    },
+    "SN 12.32": {
+      "folder": "12_32",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.32",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "lRzeZPP1GwA"
+    },
+    "SN 12.38": {
+      "folder": "12_38",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.38",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "lRzeZPP1GwA"
+    },
+    "SN 12.43": {
+      "folder": "12_43",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.43",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "lRzeZPP1GwA"
+    },
+    "SN 12.51": {
+      "folder": "12_51",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.51",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "lRzeZPP1GwA"
+    },
+    "SN 12.52": {
+      "folder": "12_52",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.52",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "lRzeZPP1GwA"
+    },
+    "SN 12.60": {
+      "folder": "12_60",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.60",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "lRzeZPP1GwA"
+    },
+    "SN 12.61": {
+      "folder": "12_61",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.61",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "lRzeZPP1GwA"
+    },
+    "SN 12.63": {
+      "folder": "12_63",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.63",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "lRzeZPP1GwA"
+    },
+    "SN 12.64": {
+      "folder": "12_64",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.64",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "lRzeZPP1GwA"
+    },
+    "SN 12.66": {
+      "folder": "12_66",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.66",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "lRzeZPP1GwA"
+    },
+    "SN 12.67": {
+      "folder": "12_67",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.67",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "lRzeZPP1GwA"
+    },
+    "SN 12.68": {
+      "folder": "12_68",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.68",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "lRzeZPP1GwA"
+    },
+    "SN 12.70": {
+      "folder": "12_70",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn12.70",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "lRzeZPP1GwA"
+    },
+    "SN 13.1": {
+      "folder": "13_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn13.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 14": {
+      "folder": "14",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn14",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "Cl09UGHJIck"
+    },
+    "SN 14.1": {
+      "folder": "14_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn14.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "Cl09UGHJIck"
+    },
+    "SN 14.11": {
+      "folder": "14_11",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn14.11",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "Cl09UGHJIck"
+    },
+    "SN 14.15": {
+      "folder": "14_15",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn14.15",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "Cl09UGHJIck"
+    },
+    "SN 14.4": {
+      "folder": "14_4",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn14.4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "Cl09UGHJIck"
+    },
+    "SN 14.7": {
+      "folder": "14_7",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn14.7",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "Cl09UGHJIck"
+    },
+    "SN 15.1": {
+      "folder": "15_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn15.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 15.13": {
+      "folder": "15_13",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn15.13",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 15.20": {
+      "folder": "15_20",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn15.20",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 15.3": {
+      "folder": "15_3",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn15.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 15.5": {
+      "folder": "15_5",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn15.5",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 16": {
+      "folder": "16",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn16",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "YG2VRvhjII8"
+    },
+    "SN 16.13": {
+      "folder": "16_13",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn16.13",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "6WD8nw3eEKc"
+    },
+    "SN 16.2": {
+      "folder": "16_2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn16.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "YG2VRvhjII8"
+    },
+    "SN 16.4": {
+      "folder": "16_4",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn16.4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "YG2VRvhjII8"
+    },
+    "SN 16.5": {
+      "folder": "16_5",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn16.5",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "YG2VRvhjII8"
+    },
+    "SN 17.3": {
+      "folder": "17_3",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn17.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 18.1": {
+      "folder": "18_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn18.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 19.1": {
+      "folder": "19_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn19.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 2": {
+      "folder": "2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "lDL2rEkcU5k"
+    },
+    "SN 2.15": {
+      "folder": "2_15",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn2.15",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "lDL2rEkcU5k"
+    },
+    "SN 20": {
+      "folder": "20",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn20",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "EKYTQVexkHQ"
+    },
+    "SN 20.1": {
+      "folder": "20_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn20.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "EKYTQVexkHQ"
+    },
+    "SN 21": {
+      "folder": "21",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 21.1": {
+      "folder": "21_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn21.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 21.10": {
+      "folder": "21_10",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn21.10",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 21.11": {
+      "folder": "21_11",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn21.11",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 21.2": {
+      "folder": "21_2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn21.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 21.3": {
+      "folder": "21_3",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn21.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 21.4": {
+      "folder": "21_4",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn21.4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 22": {
+      "folder": "22",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn22",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "9j8k77yDTF8"
+    },
+    "SN 22.2": {
+      "folder": "22_2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn22.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "9j8k77yDTF8"
+    },
+    "SN 22.3": {
+      "folder": "22_3",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn22.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "9j8k77yDTF8"
+    },
+    "SN 22.53": {
+      "folder": "22_53",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn22.53",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ZzODPuor7Zw"
+    },
+    "SN 22.54": {
+      "folder": "22_54",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn22.54",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ZzODPuor7Zw"
+    },
+    "SN 22.55": {
+      "folder": "22_55",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn22.55",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ZzODPuor7Zw"
+    },
+    "SN 22.59": {
+      "folder": "22_59",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn22.59",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ZzODPuor7Zw"
+    },
+    "SN 22.60": {
+      "folder": "22_60",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn22.60",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ZzODPuor7Zw"
+    },
+    "SN 22.83": {
+      "folder": "22_83",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn22.83",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ZzODPuor7Zw"
+    },
+    "SN 22.84": {
+      "folder": "22_84",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn22.84",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ZzODPuor7Zw"
+    },
+    "SN 22.89": {
+      "folder": "22_89",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn22.89",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ZzODPuor7Zw"
+    },
+    "SN 23": {
+      "folder": "23",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn23",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 23.1": {
+      "folder": "23_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn23.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 23.2": {
+      "folder": "23_2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn23.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 24.2": {
+      "folder": "24_2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn24.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 25.1": {
+      "folder": "25_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn25.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 26": {
+      "folder": "26",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn26",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "1mHaGE5ZYoc"
+    },
+    "SN 26.1": {
+      "folder": "26_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn26.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "1mHaGE5ZYoc"
+    },
+    "SN 26.259": {
+      "folder": "26_259",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn26.259",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "1mHaGE5ZYoc"
+    },
+    "SN 27.2": {
+      "folder": "27_2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn27.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 28.1": {
+      "folder": "28_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn28.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 29.2": {
+      "folder": "29_2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn29.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 29.3": {
+      "folder": "29_3",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn29.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 3": {
+      "folder": "3",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "3mmWN5_NKcA"
+    },
+    "SN 3.11": {
+      "folder": "3_11",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn3.11",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "3mmWN5_NKcA"
+    },
+    "SN 3.6": {
+      "folder": "3_6",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn3.6",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "3mmWN5_NKcA"
+    },
+    "SN 30.2": {
+      "folder": "30_2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn30.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 30.3": {
+      "folder": "30_3",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn30.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 31.1": {
+      "folder": "31_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn31.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 31.2": {
+      "folder": "31_2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn31.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 32.1": {
+      "folder": "32_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn32.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 32.2": {
+      "folder": "32_2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn32.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 32.3": {
+      "folder": "32_3",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn32.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 33.1": {
+      "folder": "33_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn33.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 34.1": {
+      "folder": "34_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn34.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 35": {
+      "folder": "35",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn35",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "r-Olsu9HzPg"
+    },
+    "SN 35.120": {
+      "folder": "35_120",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn35.120",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "7oApG32mji4"
+    },
+    "SN 35.133": {
+      "folder": "35_133",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn35.133",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "7oApG32mji4"
+    },
+    "SN 35.206": {
+      "folder": "35_206",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn35.206",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "7oApG32mji4"
+    },
+    "SN 35.231": {
+      "folder": "35_231",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn35.231",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "7oApG32mji4"
+    },
+    "SN 35.232": {
+      "folder": "35_232",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn35.232",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "7oApG32mji4"
+    },
+    "SN 35.241": {
+      "folder": "35_241",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn35.241",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "7oApG32mji4"
+    },
+    "SN 35.247": {
+      "folder": "35_247",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn35.247",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "7oApG32mji4"
+    },
+    "SN 35.248": {
+      "folder": "35_248",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn35.248",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "7oApG32mji4"
+    },
+    "SN 35.70": {
+      "folder": "35_70",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn35.70",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "7oApG32mji4"
+    },
+    "SN 35.97": {
+      "folder": "35_97",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn35.97",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "7oApG32mji4"
+    },
+    "SN 36": {
+      "folder": "36",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn36",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "wZdoFzLhFIM"
+    },
+    "SN 36.3": {
+      "folder": "36_3",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn36.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "wZdoFzLhFIM"
+    },
+    "SN 36.7": {
+      "folder": "36_7",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn36.7",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "wZdoFzLhFIM"
+    },
+    "SN 37": {
+      "folder": "37",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn37",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "HA4LJ0ru6Gk"
+    },
+    "SN 37.2": {
+      "folder": "37_2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn37.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "HA4LJ0ru6Gk"
+    },
+    "SN 37.3": {
+      "folder": "37_3",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn37.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "HA4LJ0ru6Gk"
+    },
+    "SN 37.4": {
+      "folder": "37_4",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn37.4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "HA4LJ0ru6Gk"
+    },
+    "SN 37.5": {
+      "folder": "37_5",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn37.5",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "HA4LJ0ru6Gk"
+    },
+    "SN 38.8": {
+      "folder": "38_8",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn38.8",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 38.9": {
+      "folder": "38_9",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn38.9",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 4": {
+      "folder": "4",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "1jp6LGAwg3c"
+    },
+    "SN 4.1": {
+      "folder": "4_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn4.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "1jp6LGAwg3c"
+    },
+    "SN 41": {
+      "folder": "41",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn41",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 41.1": {
+      "folder": "41_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn41.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 41.10": {
+      "folder": "41_10",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn41.10",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 41.8": {
+      "folder": "41_8",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn41.8",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 41.9": {
+      "folder": "41_9",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn41.9",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 42": {
+      "folder": "42",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn42",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ZcvQDKW-InE"
+    },
+    "SN 42.1": {
+      "folder": "42_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn42.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ZcvQDKW-InE"
+    },
+    "SN 42.10": {
+      "folder": "42_10",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn42.10",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ZcvQDKW-InE"
+    },
+    "SN 42.11": {
+      "folder": "42_11",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn42.11",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ZcvQDKW-InE"
+    },
+    "SN 42.2": {
+      "folder": "42_2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn42.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ZcvQDKW-InE"
+    },
+    "SN 42.3": {
+      "folder": "42_3",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn42.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ZcvQDKW-InE"
+    },
+    "SN 42.8": {
+      "folder": "42_8",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn42.8",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ZcvQDKW-InE"
+    },
+    "SN 42.9": {
+      "folder": "42_9",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn42.9",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ZcvQDKW-InE"
+    },
+    "SN 43": {
+      "folder": "43",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn43",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ZIEF6JjcYyc"
+    },
+    "SN 43.1": {
+      "folder": "43_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn43.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ZIEF6JjcYyc"
+    },
+    "SN 43.2": {
+      "folder": "43_2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn43.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ZIEF6JjcYyc"
+    },
+    "SN 43.3": {
+      "folder": "43_3",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn43.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ZIEF6JjcYyc"
+    },
+    "SN 43.4": {
+      "folder": "43_4",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn43.4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ZIEF6JjcYyc"
+    },
+    "SN 44.2": {
+      "folder": "44_2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn44.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 45": {
+      "folder": "45",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn45",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 45.75": {
+      "folder": "45_75",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn45.75",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 46": {
+      "folder": "46",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn46",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "ouwOKVnasGY"
+    },
+    "SN 46.35": {
+      "folder": "46_35",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn46.35",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "yPhvDtxS43g"
+    },
+    "SN 46.4.8": {
+      "folder": "46_4_8",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn46.4.8",
+      "status": "GHOST",
+      "title": "Hindrances",
+      "video_id": "ouwOKVnasGY"
+    },
+    "SN 46.51": {
+      "folder": "46_51",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn46.51",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "yPhvDtxS43g"
+    },
+    "SN 46.53": {
+      "folder": "46_53",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn46.53",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "yPhvDtxS43g"
+    },
+    "SN 46.54": {
+      "folder": "46_54",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn46.54",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "yPhvDtxS43g"
+    },
+    "SN 46.55": {
+      "folder": "46_55",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn46.55",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "yPhvDtxS43g"
+    },
+    "SN 46.56": {
+      "folder": "46_56",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn46.56",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "yPhvDtxS43g"
+    },
+    "SN 47": {
+      "folder": "47",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn47",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "yL1Ayx-yYxQ"
+    },
+    "SN 47.35": {
+      "folder": "47_35",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn47.35",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "zIZf-LQC5Nk"
+    },
+    "SN 48": {
+      "folder": "48",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn48",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "QfLh7SIZwOQ"
+    },
+    "SN 48.10": {
+      "folder": "48_10",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn48.10",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "QfLh7SIZwOQ"
+    },
+    "SN 48.41": {
+      "folder": "48_41",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn48.41",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "QfLh7SIZwOQ"
+    },
+    "SN 48.42": {
+      "folder": "48_42",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn48.42",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "QfLh7SIZwOQ"
+    },
+    "SN 49.1": {
+      "folder": "49_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn49.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 5": {
+      "folder": "5",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "mju1YT3bbBM"
+    },
+    "SN 5.5": {
+      "folder": "5_5",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn5.5",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "mju1YT3bbBM"
+    },
+    "SN 50.1": {
+      "folder": "50_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn50.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 51": {
+      "folder": "51",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn51",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "cMcHowU0MIA"
+    },
+    "SN 51.2": {
+      "folder": "51_2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn51.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "cMcHowU0MIA"
+    },
+    "SN 52.4": {
+      "folder": "52_4",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn52.4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 52.5": {
+      "folder": "52_5",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn52.5",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 52.6": {
+      "folder": "52_6",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn52.6",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 53.1": {
+      "folder": "53_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn53.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 54": {
+      "folder": "54",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn54",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "mI3BmyliW2s"
+    },
+    "SN 54.1": {
+      "folder": "54_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn54.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "mI3BmyliW2s"
+    },
+    "SN 54.10": {
+      "folder": "54_10",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn54.10",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "mI3BmyliW2s"
+    },
+    "SN 54.11": {
+      "folder": "54_11",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn54.11",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "mI3BmyliW2s"
+    },
+    "SN 54.12": {
+      "folder": "54_12",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn54.12",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "mI3BmyliW2s"
+    },
+    "SN 54.13": {
+      "folder": "54_13",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn54.13",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "mI3BmyliW2s"
+    },
+    "SN 54.8": {
+      "folder": "54_8",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn54.8",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "mI3BmyliW2s"
+    },
+    "SN 54.9": {
+      "folder": "54_9",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn54.9",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "mI3BmyliW2s"
+    },
+    "SN 55": {
+      "folder": "55",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn55",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "W7aar94foAk"
+    },
+    "SN 55.1": {
+      "folder": "55_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn55.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "W7aar94foAk"
+    },
+    "SN 55.1.2": {
+      "folder": "55_1_2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn55.1.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "W7aar94foAk"
+    },
+    "SN 55.2": {
+      "folder": "55_2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn55.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "W7aar94foAk"
+    },
+    "SN 55.21": {
+      "folder": "55_21",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn55.21",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "RO98Q5QlI6Q"
+    },
+    "SN 55.24": {
+      "folder": "55_24",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn55.24",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "RO98Q5QlI6Q"
+    },
+    "SN 55.3": {
+      "folder": "55_3",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn55.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "W7aar94foAk"
+    },
+    "SN 56": {
+      "folder": "56",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn56",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "RTIUWh-PsWo"
+    },
+    "SN 56.1": {
+      "folder": "56_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn56.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "RTIUWh-PsWo"
+    },
+    "SN 56.2": {
+      "folder": "56_2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn56.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "RTIUWh-PsWo"
+    },
+    "SN 56.3": {
+      "folder": "56_3",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn56.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "RTIUWh-PsWo"
+    },
+    "SN 56.32": {
+      "folder": "56_32",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn56.32",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "RTIUWh-PsWo"
+    },
+    "SN 6": {
+      "folder": "6",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "mXO6V1mfBtE"
+    },
+    "SN 6.12": {
+      "folder": "6_12",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn6.12",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "mXO6V1mfBtE"
+    },
+    "SN 6.13": {
+      "folder": "6_13",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn6.13",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "mXO6V1mfBtE"
+    },
+    "SN 6.14": {
+      "folder": "6_14",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn6.14",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "mXO6V1mfBtE"
+    },
+    "SN 6.15": {
+      "folder": "6_15",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn6.15",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "mXO6V1mfBtE"
+    },
+    "SN 6.2": {
+      "folder": "6_2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn6.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "mXO6V1mfBtE"
+    },
+    "SN 6.3": {
+      "folder": "6_3",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn6.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "mXO6V1mfBtE"
+    },
+    "SN 6.4": {
+      "folder": "6_4",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn6.4",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "mXO6V1mfBtE"
+    },
+    "SN 6.5": {
+      "folder": "6_5",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn6.5",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "mXO6V1mfBtE"
+    },
+    "SN 7": {
+      "folder": "7",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "2_mLvo7rWHU"
+    },
+    "SN 7.14": {
+      "folder": "7_14",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn7.14",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "2_mLvo7rWHU"
+    },
+    "SN 7.2": {
+      "folder": "7_2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn7.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "2_mLvo7rWHU"
+    },
+    "SN 7.3": {
+      "folder": "7_3",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn7.3",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "2_mLvo7rWHU"
+    },
+    "SN 8.1": {
+      "folder": "8_1",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn8.1",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 8.2": {
+      "folder": "8_2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn8.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": ""
+    },
+    "SN 9": {
+      "folder": "9",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "QGDzr0Bv-Jw"
+    },
+    "SN 9.13": {
+      "folder": "9_13",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn9.13",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "QGDzr0Bv-Jw"
+    },
+    "SN 9.14": {
+      "folder": "9_14",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn9.14",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "QGDzr0Bv-Jw"
+    },
+    "SN 9.2": {
+      "folder": "9_2",
+      "languages": {},
+      "nikaya": "sn",
+      "sc_url": "https://suttacentral.net/sn9.2",
+      "status": "GHOST",
+      "title": "",
+      "video_id": "QGDzr0Bv-Jw"
+    }
+  }
+}

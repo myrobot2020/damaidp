@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DAMA Sutta Explorer</title>
+  
+  <!-- Premium Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-page: #eae4d3;
+      --bg-card: #fdfbf7;
+      --bg-hover: #efe9d8;
+      --border-color: #dcd2ba;
+      --text-main: #2c2820;
+      --text-muted: #7c7566;
+      --color-primary: #f59e0b;
+      --color-danger: #d9383a;
+      --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-page);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+    
+    /* Top Header Styling */
+    .nav-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 24px;
+      border-bottom: 1px solid var(--border-color);
+      background: transparent;
+      z-index: 100;
+    }
+    
+    .nav-dropdowns {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    
+    /* Custom Dropdowns */
+    .capsule-select {
+      padding: 6px 32px 6px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%232c2820' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      transition: var(--transition-smooth);
+    }
+    
+    .capsule-select:hover {
+      background-color: var(--bg-hover);
+      border-color: var(--text-muted);
+    }
+    
+    /* Language button (No dropdown arrow) */
+    #langToggleBtn {
+      background-image: none;
+      padding-right: 16px;
+    }
+    
+    /* Circle Buttons */
+    .circle-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      color: var(--text-main);
+      outline: none;
+    }
+    
+    .circle-btn:hover {
+      background: var(--bg-hover);
+      border-color: var(--text-muted);
+    }
+    
+    /* Breadcrumbs Bar */
+    .breadcrumbs {
+      padding: 12px 24px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .breadcrumb-dot {
+      color: var(--color-primary);
+      font-size: 0.95rem;
+      margin-right: 4px;
+    }
+    
+    /* Main Content Layout */
+    .main-layout {
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      flex: 1;
+      height: calc(100vh - 63px - 40px); /* Subtract header and breadcrumbs height */
+      overflow: hidden;
+      padding: 0 24px 24px 24px;
+      gap: 24px;
+    }
+    
+    /* Left Pane - Accordions list */
+    .left-pane {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    
+    .left-pane::-webkit-scrollbar {
+      width: 6px;
+    }
+    .left-pane::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 3px;
+    }
+    
+    .sutta-illustration {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 260px;
+      max-height: 280px;
+      overflow: hidden;
+    }
+    
+    .sutta-illustration img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+    
+    /* Accordion Panels */
+    .accordion-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: var(--transition-smooth);
+    }
+    
+    .accordion-header {
+      width: 100%;
+      padding: 16px 20px;
+      background: transparent;
+      border: none;
+      text-align: left;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      outline: none;
+      transition: var(--transition-smooth);
+    }
+    
+    .accordion-header:hover {
+      background: var(--bg-hover);
+    }
+    
+    .accordion-header::after {
+      content: "";
+      width: 12px;
+      height: 12px;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237c7566' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      transition: transform 0.25s ease;
+    }
+    
+    .accordion-item.active .accordion-header::after {
+      transform: rotate(180deg);
+    }
+    
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      padding: 0 20px;
+      transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    
+    .accordion-item.active .accordion-content {
+      max-height: 480px;
+      padding: 0 20px 20px 20px;
+      overflow-y: auto;
+      border-top: 1px solid rgba(220, 210, 186, 0.5);
+    }
+    
+    /* Right Pane - Content View Area */
+    .right-pane {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 40px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    
+    .right-pane::-webkit-scrollbar {
+      width: 6px;
+    }
+    .right-pane::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 3px;
+    }
+    
+    /* Sutta Content View styling */
+    .sutta-view-active {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      height: 100%;
+    }
+    
+    .sutta-view-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--text-main);
+    }
+    
+    /* Error Card (Sutta Not Found) */
+    .error-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      max-width: 480px;
+      width: 100%;
+      margin: auto;
+      text-align: center;
+      padding: 24px;
+    }
+    
+    .hexagon-icon {
+      margin-bottom: 20px;
+      color: var(--color-danger);
+    }
+    
+    .error-title {
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      color: var(--color-danger);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    
+    .error-msg {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+    
+    .go-back-btn {
+      padding: 10px 24px;
+      border-radius: 30px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      outline: none;
+    }
+    
+    .go-back-btn:hover {
+      background: var(--bg-hover);
+      border-color: var(--text-muted);
+    }
+    
+    /* Tree Rendering Styles */
+    .tree-node {
+      position: relative;
+      margin-left: 20px;
+    }
+    
+    .tree-node-line {
+      position: absolute;
+      left: -14px;
+      top: 18px;
+      width: 14px;
+      border-top: 1px solid rgba(220, 210, 186, 0.8);
+    }
+    
+    .tree-node-content {
+      display: inline-flex;
+      padding: 8px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      font-size: 0.88rem;
+      margin: 5px 0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      color: var(--text-main);
+    }
+    
+    .tree-node-content.root {
+      border-color: var(--color-primary);
+      font-weight: 700;
+      color: var(--color-primary);
+      box-shadow: 0 0 8px rgba(245, 158, 11, 0.1);
+    }
+    
+    .tree-children {
+      margin-left: 10px;
+      border-left: 1px solid rgba(220, 210, 186, 0.8);
+      padding-left: 10px;
+    }
+    
+    /* Visual items */
+    .node-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(220, 210, 186, 0.4);
+    }
+    .node-label {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+    .node-type {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+    
+    /* Quiz Options */
+    .quiz-option {
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+    .quiz-option:hover {
+      background: var(--bg-hover);
+    }
+    .quiz-option.correct {
+      background: rgba(16, 185, 129, 0.08);
+      border-color: #10b981;
+      color: #10b981;
+    }
+    .quiz-option.incorrect {
+      background: rgba(239, 68, 68, 0.08);
+      border-color: var(--color-danger);
+      color: var(--color-danger);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="nav-header">
+    <!-- Home button (Left) -->
+    <button class="circle-btn" onclick="goHome()" title="Go Home">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+      </svg>
+    </button>
+    
+    <!-- Capsule Selectors (Center) -->
+    <div class="nav-dropdowns">
+      <select class="capsule-select" id="nikayaSelector" onchange="onNikayaChange()">
+        <option value="">NIKAYA</option>
+      </select>
+      <select class="capsule-select" id="bookSelector" onchange="onBookChange()">
+        <option value="">BOOK</option>
+      </select>
+      <select class="capsule-select" id="suttaSelector" onchange="onSuttaChange()">
+        <option value="">SUTTA</option>
+      </select>
+      <button class="capsule-select" id="langToggleBtn" onclick="toggleLanguage()" style="display:none;"></button>
+    </div>
+    
+    <!-- Grid/Menu button (Right) -->
+    <button class="circle-btn" onclick="toggleDashboard()" title="Toggle Test Dashboard">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="7"></rect>
+        <rect x="14" y="3" width="7" height="7"></rect>
+        <rect x="14" y="14" width="7" height="7"></rect>
+        <rect x="3" y="14" width="7" height="7"></rect>
+      </svg>
+    </button>
+  </header>
+
+  <!-- Breadcrumbs Area -->
+  <div class="breadcrumbs" id="breadcrumbBar">
+    <span class="breadcrumb-dot">•</span> SUTTA DISCOURSE CATALOG EXPLORER
+  </div>
+
+  <!-- Test Suite Dashboard Overlay -->
+  <div id="testDashboard" style="display:none; flex-direction:column; background:var(--bg-card); border:1px solid var(--border-color); border-radius:20px; padding:24px; position:absolute; top:75px; right:24px; width:340px; box-shadow:0 10px 30px rgba(0,0,0,0.08); z-index:999; gap:12px;">
+    <h4 style="font-weight:700; border-bottom:1px solid var(--border-color); padding-bottom:8px;">Integration Tests</h4>
+    <div style="display:flex; flex-direction:column; gap:8px; font-size:0.85rem;" id="testList">
+      <div style="display:flex; justify-content:space-between;"><span>Zero Hardcoding</span><span id="test-1-badge" style="font-weight:600; color:var(--text-muted);">PENDING</span></div>
+      <div style="display:flex; justify-content:space-between;"><span>Registry Map load</span><span id="test-2-badge" style="font-weight:600; color:var(--text-muted);">PENDING</span></div>
+      <div style="display:flex; justify-content:space-between;"><span>Fetch Sutta Details</span><span id="test-3-badge" style="font-weight:600; color:var(--text-muted);">PENDING</span></div>
+      <div style="display:flex; justify-content:space-between;"><span>JA translation fetch</span><span id="test-4-badge" style="font-weight:600; color:var(--text-muted);">PENDING</span></div>
+      <div style="display:flex; justify-content:space-between;"><span>Theme Tokens</span><span id="test-5-badge" style="font-weight:600; color:var(--text-muted);">PENDING</span></div>
+    </div>
+    <div style="font-size:0.8rem; font-weight:700; margin-top:8px; text-align:center;" id="testSummaryText">Dashboard inactive</div>
+    <button class="go-back-btn" style="padding:6px; font-size:0.75rem;" onclick="runTests()">Execute Test Routines</button>
+  </div>
+
+  <!-- Main Body Layout -->
+  <main class="main-layout">
+    
+    <!-- Left Column: 8 Collapsible Accordion Components -->
+    <section class="left-pane">
+      
+      <!-- 1. VISUAL Panel -->
+      <div class="accordion-item" id="accordion-visual">
+        <button class="accordion-header" onclick="toggleAccordion('visual')">VISUAL</button>
+        <div class="accordion-content">
+          <div class="sutta-illustration" id="illustrationCard" style="border:none; padding:0; min-height:200px;">
+            <img id="leafImg" src="" alt="Sutta Visualization" style="max-height: 220px;">
+          </div>
+        </div>
+      </div>
+      
+      <!-- 2. AUDIO Panel -->
+      <div class="accordion-item" id="accordion-audio">
+        <button class="accordion-header" onclick="toggleAccordion('audio')">AUDIO</button>
+        <div class="accordion-content">
+          <iframe id="youtubePlayer" style="width:100%; height:200px; border:0; border-radius:8px; display:none;" allowfullscreen></iframe>
+          <video id="localVideoPlayer" controls style="width:100%; display:none; margin-top:8px; border-radius:8px; border:1px solid var(--border-color);"></video>
+        </div>
+      </div>
+      
+      <!-- 3. SUTTA Panel -->
+      <div class="accordion-item" id="accordion-sutta">
+        <button class="accordion-header" onclick="toggleAccordion('sutta')">SUTTA</button>
+        <div class="accordion-content" id="suttaProse" style="font-family:'Playfair Display', serif; font-size:1.1rem; line-height:1.7;">
+          Select a sutta to view scripture text.
+        </div>
+      </div>
+      
+      <!-- 4. COMMENTARY Panel -->
+      <div class="accordion-item" id="accordion-commentary">
+        <button class="accordion-header" onclick="toggleAccordion('commentary')">COMMENTARY</button>
+        <div class="accordion-content" id="commentaryProse" style="font-size:1.05rem; line-height:1.7; display:flex; flex-direction:column; gap:12px;">
+          Select a sutta to view commentary details.
+        </div>
+      </div>
+      
+      <!-- 5. TREE Panel (Conceptual Node Hierarchical Tree) -->
+      <div class="accordion-item" id="accordion-tree">
+        <button class="accordion-header" onclick="toggleAccordion('tree')">TREE</button>
+        <div class="accordion-content" id="treeVisualization" style="overflow-x:auto; padding-bottom:12px;">
+          Select a sutta to view concept tree structures.
+        </div>
+      </div>
+      
+      <!-- 6. PRACTICE Panel (Quiz MCQ Card) -->
+      <div class="accordion-item" id="accordion-practice">
+        <button class="accordion-header" onclick="toggleAccordion('practice')">PRACTICE</button>
+        <div class="accordion-content" id="practiceQuizCard">
+          Select a sutta to view conceptual checks.
+        </div>
+      </div>
+      
+      <!-- 7. SUTTACENTRAL Panel (Metadata and Source link) -->
+      <div class="accordion-item" id="accordion-suttacentral">
+        <button class="accordion-header" onclick="toggleAccordion('suttacentral')">SUTTACENTRAL</button>
+        <div class="accordion-content" id="suttaCentralMeta" style="padding-bottom:16px;">
+          Select a sutta to access external sources.
+        </div>
+      </div>
+      
+      <!-- 8. REFLECT Panel (Embedded Norbu-AI Chatbot Frame) -->
+      <div class="accordion-item" id="accordion-reflect">
+        <button class="accordion-header" onclick="toggleAccordion('reflect')">REFLECT</button>
+        <div class="accordion-content" style="padding:0; overflow:hidden;">
+          <iframe id="reflectFrame" src="https://norbu-ai.org/en/norbu" title="Reflect Assistant" style="width:100%; height:450px; border:0; background:#fff;" loading="lazy"></iframe>
+        </div>
+      </div>
+      
+    </section>
+    
+    <!-- Right Column: Sutta Details Display OR Error card -->
+    <section class="right-pane" id="rightViewPane">
+      
+      <!-- Sutta View Active (Loaded state) -->
+      <div class="sutta-view-active" id="suttaViewActive" style="display:none;">
+        <h2 class="sutta-view-title" id="suttaTitle">Select a Sutta</h2>
+        
+        <!-- Tab display for quizzes, MCQs, or extra metrics -->
+        <div style="background:var(--bg-page); border:1px solid var(--border-color); border-radius:16px; padding:24px; display:flex; flex-direction:column; gap:16px;" id="quizContainer">
+          Select a sutta in the top menu bar to explore the discourse.
+        </div>
+      </div>
+      
+      <!-- Sutta Not Found / Error card (Empty state) -->
+      <div class="error-card" id="suttaNotFoundCard">
+        <svg class="hexagon-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+          <line x1="12" y1="9" x2="12" y2="13"></line>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+        <h3 class="error-title">SUTTA NOT FOUND</h3>
+        <p class="error-msg" id="errorDescription">Please select a sutta from the navigation dropdowns above.</p>
+        <button class="go-back-btn" onclick="goHome()">GO BACK HOME</button>
+      </div>
+      
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
