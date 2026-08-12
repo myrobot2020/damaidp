@@ -8,7 +8,6 @@ import urllib.request
 import urllib.parse
 import urllib.error
 import base64
-import cgi
 from pathlib import Path
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
@@ -249,26 +248,13 @@ class DevServerHandler(SimpleHTTPRequestHandler):
             filename = None
             file_bytes = None
 
-            if "multipart/form-data" in content_type:
-                form = cgi.FieldStorage(
-                    fp=self.rfile,
-                    headers=self.headers,
-                    environ={'REQUEST_METHOD': 'POST', 'CONTENT_TYPE': content_type}
-                )
-                sutta_id = form.getvalue("sutta_id")
-                field = form.getvalue("field")
-                if "file" in form:
-                    file_item = form["file"]
-                    filename = file_item.filename
-                    file_bytes = file_item.file.read()
-            else:
-                req = self.read_json_body()
-                sutta_id = req.get("sutta_id")
-                field = req.get("field")
-                filename = req.get("filename")
-                b64_content = req.get("content_base64")
-                if b64_content:
-                    file_bytes = base64.b64decode(b64_content)
+            req = self.read_json_body()
+            sutta_id = req.get("sutta_id")
+            field = req.get("field")
+            filename = req.get("filename")
+            b64_content = req.get("content_base64")
+            if b64_content:
+                file_bytes = base64.b64decode(b64_content)
 
             if not sutta_id or not file_bytes:
                 return self.send_json_response({"error": "Missing sutta_id or file data"}, 400)
