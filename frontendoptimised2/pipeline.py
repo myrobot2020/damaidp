@@ -350,6 +350,7 @@ class DevServerHandler(SimpleHTTPRequestHandler):
             if not key:
                 return self.send_json_response({"error": "Gemini API key not found in gemini_api_key.txt"}, 400)
 
+            sutta_dir, entry = find_sutta_dir(sutta_id)
             json_path = get_sutta_json_path(sutta_id, "en")
             existing = {}
             if json_path and json_path.exists():
@@ -394,18 +395,21 @@ class DevServerHandler(SimpleHTTPRequestHandler):
                 clean_p = urllib.parse.quote(text_output[:220].replace("\n", " "))
                 img_gen_url = f"https://image.pollinations.ai/prompt/{clean_p}?width=800&height=600&nologo=true"
                 
-                target_file1 = sutta_dir / f"{sutta_dir.name}_image.png"
-                target_file2 = sutta_dir / f"{sutta_dir.name}_graph.png"
-                try:
-                    req_img = urllib.request.Request(img_gen_url, headers={"User-Agent": "Mozilla/5.0"})
-                    with urllib.request.urlopen(req_img, timeout=20) as resp_img:
-                        file_bytes = resp_img.read()
-                    with open(target_file1, "wb") as f:
-                        f.write(file_bytes)
-                    with open(target_file2, "wb") as f:
-                        f.write(file_bytes)
-                    existing["image_url"] = target_file1.relative_to(BUDDHA3_DIR).as_posix()
-                except Exception:
+                if sutta_dir:
+                    target_file1 = sutta_dir / f"{sutta_dir.name}_image.png"
+                    target_file2 = sutta_dir / f"{sutta_dir.name}_graph.png"
+                    try:
+                        req_img = urllib.request.Request(img_gen_url, headers={"User-Agent": "Mozilla/5.0"})
+                        with urllib.request.urlopen(req_img, timeout=20) as resp_img:
+                            file_bytes = resp_img.read()
+                        with open(target_file1, "wb") as f:
+                            f.write(file_bytes)
+                        with open(target_file2, "wb") as f:
+                            f.write(file_bytes)
+                        existing["image_url"] = target_file1.relative_to(BUDDHA3_DIR).as_posix()
+                    except Exception:
+                        existing["image_url"] = img_gen_url
+                else:
                     existing["image_url"] = img_gen_url
             else:
                 existing[target_key] = text_output
