@@ -379,7 +379,7 @@ def update_metadata(path: Path, row: Row, languages: list[str], lang_code: str =
 def download_all_suttas():
     ensure_census()
     mapping = read_mapping()
-    log.info("Starting download process for %d registered Suttas across all Nikayas...", len(mapping))
+    log.info("Starting direct download process (no splitting) for %d registered Suttas across all Nikayas...", len(mapping))
     
     downloads_root = ROOT / "downloads"
     downloads_root.mkdir(parents=True, exist_ok=True)
@@ -399,52 +399,65 @@ def download_all_suttas():
         
         f_existing, j_existing, m_existing, s_existing = row.paths
         
+        # 1. Copy existing assets if available
         if m_existing.exists() and not mp4_path.exists():
-            try:
-                shutil.copy2(m_existing, mp4_path)
-                log.info("[%d/%d] Copied existing MP4 for %s", idx, len(mapping), row.sid)
+            try: shutil.copy2(m_existing, mp4_path)
             except Exception: pass
             
         if s_existing.exists() and not srt_path.exists():
-            try:
-                shutil.copy2(s_existing, srt_path)
-                log.info("[%d/%d] Copied existing SRT for %s", idx, len(mapping), row.sid)
+            try: shutil.copy2(s_existing, srt_path)
             except Exception: pass
 
+        # 2. Direct full download from YouTube (NO SPLITTING)
         if row.video_id and (not mp4_path.exists() or not srt_path.exists()):
-            try:
-                log.info("[%d/%d] Downloading YouTube media for %s (video_id: %s)...", idx, len(mapping), row.sid, row.video_id)
-                video_file, sub_file, title = acquire(row)
-                if video_file.exists() and not mp4_path.exists():
-                    shutil.move(str(video_file), str(mp4_path))
-                if sub_file.exists() and not srt_path.exists():
-                    shutil.move(str(sub_file), str(srt_path))
-            except Exception as e:
-                log.warning("[%d/%d] Media download skipped or failed for %s: %s", idx, len(mapping), row.sid, e)
+            url = f"https://www.youtube.com/watch?v={urllib.parse.quote(row.video_id, safe='')}"
+            log.info("[%d/%d] Direct YouTube download for %s (video_id: %s)...", idx, len(mapping), row.sid, row.video_id)
+            
+            # Download full video MP4
+            if not mp4_path.exists():
+                try:
+                    run([YTDLP, "--no-playlist", "--no-progress", "--extractor-args", "youtube:player_client=android,web", "-f", "b/best/bv*+ba/b", "--merge-output-format", "mp4", "-o", str(mp4_path), url])
+                    log.info("[%d/%d] Downloaded MP4 for %s", idx, len(mapping), row.sid)
+                except Exception as ve:
+                    log.warning("[%d/%d] MP4 download failed for %s: %s", idx, len(mapping), row.sid, ve)
+                    
+            # Download full subtitle SRT
+            if not srt_path.exists():
+                sub_prefix = sutta_dir / f"{row.sid}_sub"
+                for l_code in ["en", "en.*"]:
+                    try:
+                        run([YTDLP, "--no-playlist", "--skip-download", "--write-auto-subs", "--sub-langs", l_code, "--sub-format", "srt", "-o", str(sub_prefix), url])
+                        dl_srt = next(sutta_dir.glob(f"{row.sid}_sub*.srt"), None)
+                        if dl_srt:
+                            shutil.move(str(dl_srt), str(srt_path))
+                            log.info("[%d/%d] Downloaded SRT for %s", idx, len(mapping), row.sid)
+                            break
+                    except Exception: continue
 
+        # 3. Extract audio MP3 from full MP4
         if mp4_path.exists() and not mp3_path.exists():
             try:
                 run([FFMPEG, "-y", "-i", str(mp4_path), "-vn", "-acodec", "libmp3lame", "-q:a", "2", str(mp3_path)])
                 log.info("[%d/%d] Extracted MP3 for %s", idx, len(mapping), row.sid)
-            except Exception as e:
-                log.warning("MP3 extraction failed for %s: %s", row.sid, e)
+            except Exception as ae:
+                log.warning("[%d/%d] MP3 extraction failed for %s: %s", idx, len(mapping), row.sid, ae)
 
+        # 4. Generate clean text transcript from full SRT
         if srt_path.exists() and not txt_path.exists():
             try:
                 cues = parse_srt(srt_path)
                 txt_lines = [text for (_, _, text) in cues]
-                txt_content = "\n".join(txt_lines)
-                txt_path.write_text(txt_content, encoding="utf-8")
+                txt_path.write_text("\n".join(txt_lines), encoding="utf-8")
                 log.info("[%d/%d] Generated transcript text for %s", idx, len(mapping), row.sid)
-            except Exception as e:
-                log.warning("Transcript generation failed for %s: %s", row.sid, e)
+            except Exception as te:
+                log.warning("[%d/%d] Transcript text generation failed for %s: %s", idx, len(mapping), row.sid, te)
 
-        if txt_path.exists():
+        if txt_path.exists() or mp4_path.exists():
             success_count += 1
         else:
             skipped_count += 1
 
-    log.info("Download pipeline finished: %d succeeded/existing, %d skipped/incomplete.", success_count, skipped_count)
+    log.info("Direct download pipeline finished: %d downloaded/existing, %d pending.", success_count, skipped_count)
     return 0
 
 def main()->int:
