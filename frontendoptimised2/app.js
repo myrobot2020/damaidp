@@ -100,7 +100,21 @@ function initNikayaSelector() {
     Array.from(nikayas).sort().forEach(nik => {
         const opt = document.createElement("option");
         opt.value = nik;
-        opt.innerText = getNikayaLabel(nik);
+        let hasData = false;
+        Object.values(appRegistry.entries).forEach(e => {
+            if (e.nikaya && e.nikaya.toLowerCase() === nik && (e.status === "COMPLETE" || e.status === "RAW")) {
+                hasData = true;
+            }
+        });
+        if (hasData) {
+            opt.innerText = `🟢 ${getNikayaLabel(nik)}`;
+            opt.style.color = "#065f46";
+            opt.style.fontWeight = "bold";
+        }
+        else {
+            opt.innerText = `⚪ [GHOST] ${getNikayaLabel(nik)}`;
+            opt.style.color = "#9ca3af";
+        }
         sel.appendChild(opt);
     });
 }
@@ -134,7 +148,30 @@ function onNikayaChange() {
     sortedBooks.forEach(book => {
         const opt = document.createElement("option");
         opt.value = book;
-        opt.innerText = getBookLabel(book, nikVal);
+        let hasData = false;
+        Object.values(appRegistry.entries).forEach(e => {
+            if (e.nikaya.toLowerCase() === nikVal && e.folder) {
+                let match = false;
+                if (nikVal === "an" && e.folder.includes("_")) {
+                    match = (e.folder.split("_")[0] === book);
+                }
+                else {
+                    match = (e.folder === book);
+                }
+                if (match && (e.status === "COMPLETE" || e.status === "RAW")) {
+                    hasData = true;
+                }
+            }
+        });
+        if (hasData) {
+            opt.innerText = `🟢 ${getBookLabel(book, nikVal)}`;
+            opt.style.color = "#065f46";
+            opt.style.fontWeight = "bold";
+        }
+        else {
+            opt.innerText = `⚪ [GHOST] ${getBookLabel(book, nikVal)}`;
+            opt.style.color = "#9ca3af";
+        }
         bookSel.appendChild(opt);
     });
 }
