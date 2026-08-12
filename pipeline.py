@@ -205,6 +205,23 @@ def split_transcript(text:str)->tuple[str,str]:
         return text[start_idx:comm_idx].strip(), text[comm_idx:].strip()
     return text.strip(), ""
 
+def get_sutta_central_url(did: str, row: Row, lang: str = "en") -> str:
+    m = re.match(r"^([A-Z]+)\s+([\d.]+)", did, re.I)
+    if m:
+        nikaya, full_id = m.group(1).lower(), m.group(2)
+    else:
+        nikaya, full_id = row.nid.lower(), did
+
+    parts = full_id.split('.')
+    if nikaya == "an" and len(parts) == 3:
+        sc_id = f"an{parts[0]}.{parts[2]}"
+    elif nikaya == "an" and len(parts) == 2:
+        sc_id = f"an{parts[0]}.{parts[1]}"
+    else:
+        sc_id = f"{nikaya}{full_id}"
+
+    return f"https://suttacentral.net/{sc_id}?view=normal&lang={lang}"
+
 def repair(row:Row,librarian:Librarian|None,force:bool=False):
     f,j,m,s=row.paths;f.mkdir(parents=True,exist_ok=True);existing=json.loads(j.read_text(encoding="utf-8")) if j.exists() else {};video,src_srt,title=acquire(row)
     try:
@@ -223,7 +240,7 @@ def repair(row:Row,librarian:Librarian|None,force:bool=False):
             languages.append("hi")
 
         # Force the did (e.g. AN 5.4.40) into the JSON
-        atomic_write(j,{**existing,"schema_version":"2.0","sutta_id":row.did,"video_id":row.video_id,"nikaya":row.nikaya,"transcript":text, "sutta": sutta_text, "commentary": comm_text, "valid": True, "aud_file": m.name if m.exists() else "", "languages": languages, **enr})
+        atomic_write(j,{**existing,"schema_version":"2.0","sutta_id":row.did,"video_id":row.video_id,"nikaya":row.nikaya,"transcript":text, "sutta": sutta_text, "commentary": comm_text, "valid": True, "aud_file": m.name if m.exists() else "", "languages": languages, "sutta_central_link": get_sutta_central_url(row.did, "en"), **enr})
 
         # Also update languages in other lang folders if they exist
         for lcode, subf in [("ja", "jp"), ("hi", "hi")]:
@@ -231,9 +248,15 @@ def repair(row:Row,librarian:Librarian|None,force:bool=False):
             if lpath.exists():
                 try:
                     ldata = json.loads(lpath.read_text(encoding="utf-8"))
-                    if ldata.get("languages") != languages:
-                        ldata["languages"] = languages
-                        atomic_write(lpath, ldata)
+                    ldata["languages"] = languages
+                    ldata["sutta_central_link"] = get_sutta_central_url(row.did, lcode)
+
+                    # If sutta is essentially empty/music, put clonetest
+                    l_sutta = ldata.get("sutta", "").strip()
+                    if not l_sutta or l_sutta == "（音楽）" or len(l_sutta) < 5:
+                        ldata["sutta"] = "clonetest"
+
+                    atomic_write(lpath, ldata)
                 except: pass
     except Exception:
         log.error("[%s] FAILED. Keeping source files for inspection.", row.sid)
@@ -242,8 +265,194 @@ def repair(row:Row,librarian:Librarian|None,force:bool=False):
         # Only cleanup if we didn't crash
         if all(p.exists() for p in (j, m, s)):
             shutil.rmtree(video.parent,ignore_errors=True)
+def update_metadata(path: Path, row: Row, languages: list[str], lang_code: str = "en"):
+    if not path.exists(): return None
+    try:
+        metadata = json.loads(path.read_text(encoding="utf-8"))
+        needs_update = False
+
+        # Flatten media object if it exists
+        if "media" in metadata and isinstance(metadata["media"], dict):
+            media = metadata.pop("media")
+            if "audio_file" in media and "aud_file" not in metadata:
+                metadata["aud_file"] = media["audio_file"]
+            if "image_url" in media and "image_url" not in metadata:
+                metadata["image_url"] = media["image_url"]
+            needs_update = True
+
+        # Handle suttaId -> sutta_id
+        if "suttaId" in metadata and "sutta_id" not in metadata:
+            metadata["sutta_id"] = metadata.pop("suttaId")
+            needs_update = True
+
+        if metadata.get("languages") != languages:
+            metadata["languages"] = languages
+            needs_update = True
+
+        # Force Nikaya prefix for sutta_id
+        current_sid = metadata.get("sutta_id", "")
+        if current_sid and not re.match(r"^[A-Z]+\s+", str(current_sid), re.I):
+            metadata["sutta_id"] = row.did
+            needs_update = True
+        elif not current_sid:
+            metadata["sutta_id"] = row.did
+            needs_update = True
+
+        did = metadata.get("sutta_id") or row.did
+        sc_url = get_sutta_central_url(did, row, lang_code)
+        if metadata.get("sutta_central_link") != sc_url:
+            metadata["sutta_central_link"] = sc_url
+            needs_update = True
+
+        img = metadata.get("image_url")
+        if img and not img.startswith("/") and ("Nikaya" in img or "/" in img or "\\" in img):
+            metadata["image_url"] = "/" + img.replace("\\", "/")
+            needs_update = True
+            img = metadata["image_url"]
+
+        if not img or ("/" not in img and "\\" not in img) or img.startswith("/panels/"):
+            f = path.parent if lang_code == "en" else path.parent.parent
+            found_img = None
+            # Prioritize _image over _graph
+            for suffix in ["_image", ""]:
+                for ext in [".png", ".webp", ".jpg"]:
+                    img_file = next(f.glob(f"*{suffix}{ext}"), None)
+                    if img_file:
+                        found_img = img_file
+                        break
+                if found_img: break
+
+            if found_img:
+                metadata["image_url"] = "/" + found_img.relative_to(ROOT).as_posix()
+                needs_update = True
+
+        # Ensure valid=true and aud_file exists
+        if not metadata.get("valid"):
+            metadata["valid"] = True
+            needs_update = True
+
+        f_search_own = path.parent
+        f_search_parent = path.parent.parent if lang_code != "en" else path.parent
+
+        current_aud = metadata.get("aud_file", "")
+        if current_aud:
+            if not (f_search_own / current_aud).exists() and not (f_search_parent / current_aud).exists():
+                stem = Path(current_aud).stem
+                found = False
+                for search_dir in [f_search_own, f_search_parent]:
+                    for ext in [".mp4", ".mp3", ".m4a"]:
+                        if (search_dir / f"{stem}{ext}").exists():
+                            metadata["aud_file"] = f"{stem}{ext}"
+                            needs_update = True
+                            found = True
+                            break
+                    if found: break
+
+        if not metadata.get("aud_file"):
+            found = False
+            for search_dir in [f_search_own, f_search_parent]:
+                for ext in [".mp4", ".mp3", ".m4a"]:
+                    audio = next(search_dir.glob(f"*{ext}"), None)
+                    if audio:
+                        metadata["aud_file"] = audio.name
+                        needs_update = True
+                        found = True
+                        break
+                if found: break
+
+        sutta = metadata.get("sutta", "").strip()
+        if not sutta or sutta == "（音楽）" or len(sutta) < 5:
+            metadata["sutta"] = "clonetest"
+            needs_update = True
+
+        if needs_update:
+            atomic_write(path, metadata)
+        return metadata
+    except:
+        return None
+
+def download_all_suttas():
+    ensure_census()
+    mapping = read_mapping()
+    log.info("Starting download process for %d registered Suttas across all Nikayas...", len(mapping))
+    
+    downloads_root = ROOT / "downloads"
+    downloads_root.mkdir(parents=True, exist_ok=True)
+    
+    success_count = 0
+    skipped_count = 0
+    
+    for idx, row in enumerate(mapping, 1):
+        nikaya_folder_name = safe_name(row.nikaya)
+        sutta_dir = downloads_root / nikaya_folder_name / row.sid
+        sutta_dir.mkdir(parents=True, exist_ok=True)
+        
+        mp4_path = sutta_dir / f"{row.sid}_video.mp4"
+        mp3_path = sutta_dir / f"{row.sid}_audio.mp3"
+        srt_path = sutta_dir / f"{row.sid}.en.srt"
+        txt_path = sutta_dir / f"{row.sid}_transcript.txt"
+        
+        f_existing, j_existing, m_existing, s_existing = row.paths
+        
+        if m_existing.exists() and not mp4_path.exists():
+            try:
+                shutil.copy2(m_existing, mp4_path)
+                log.info("[%d/%d] Copied existing MP4 for %s", idx, len(mapping), row.sid)
+            except Exception: pass
+            
+        if s_existing.exists() and not srt_path.exists():
+            try:
+                shutil.copy2(s_existing, srt_path)
+                log.info("[%d/%d] Copied existing SRT for %s", idx, len(mapping), row.sid)
+            except Exception: pass
+
+        if row.video_id and (not mp4_path.exists() or not srt_path.exists()):
+            try:
+                log.info("[%d/%d] Downloading YouTube media for %s (video_id: %s)...", idx, len(mapping), row.sid, row.video_id)
+                video_file, sub_file, title = acquire(row)
+                if video_file.exists() and not mp4_path.exists():
+                    shutil.move(str(video_file), str(mp4_path))
+                if sub_file.exists() and not srt_path.exists():
+                    shutil.move(str(sub_file), str(srt_path))
+            except Exception as e:
+                log.warning("[%d/%d] Media download skipped or failed for %s: %s", idx, len(mapping), row.sid, e)
+
+        if mp4_path.exists() and not mp3_path.exists():
+            try:
+                run([FFMPEG, "-y", "-i", str(mp4_path), "-vn", "-acodec", "libmp3lame", "-q:a", "2", str(mp3_path)])
+                log.info("[%d/%d] Extracted MP3 for %s", idx, len(mapping), row.sid)
+            except Exception as e:
+                log.warning("MP3 extraction failed for %s: %s", row.sid, e)
+
+        if srt_path.exists() and not txt_path.exists():
+            try:
+                cues = parse_srt(srt_path)
+                txt_lines = [text for (_, _, text) in cues]
+                txt_content = "\n".join(txt_lines)
+                txt_path.write_text(txt_content, encoding="utf-8")
+                log.info("[%d/%d] Generated transcript text for %s", idx, len(mapping), row.sid)
+            except Exception as e:
+                log.warning("Transcript generation failed for %s: %s", row.sid, e)
+
+        if txt_path.exists():
+            success_count += 1
+        else:
+            skipped_count += 1
+
+    log.info("Download pipeline finished: %d succeeded/existing, %d skipped/incomplete.", success_count, skipped_count)
+    return 0
+
 def main()->int:
-    ap=argparse.ArgumentParser();ap.add_argument("--enrich",action="store_true");ap.add_argument("--inventory",action="store_true");args=ap.parse_args();logging.basicConfig(level=logging.INFO,format="%(asctime)s | %(message)s")
+    ap=argparse.ArgumentParser()
+    ap.add_argument("--enrich",action="store_true")
+    ap.add_argument("--inventory",action="store_true")
+    ap.add_argument("--download-all",action="store_true",help="Download media and text transcripts for all Nikayas into downloads/ directory")
+    args=ap.parse_args()
+    logging.basicConfig(level=logging.INFO,format="%(asctime)s | %(message)s")
+    
+    if args.download_all:
+        return download_all_suttas()
+
     ensure_census();mapping=read_mapping();log.info("Loaded %d suttas",len(mapping))
     if args.inventory:rebuild_inventory(mapping);return 0
     shutil.copy2(SUTTA_DATA_JS,SUTTA_DATA_APP_JS) if SUTTA_DATA_JS.exists() and SUTTA_DATA_APP_JS.parent.exists() else None
@@ -254,46 +463,17 @@ def main()->int:
             files_exist = all(p.exists() and p.stat().st_size > 0 for p in (j, m, s))
 
             if files_exist and not args.enrich:
-                # Update RAW JSONs to COMPLETE using heuristics if needed
-                metadata = json.loads(j.read_text(encoding="utf-8"))
-                needs_update = False
-                if not (metadata.get("sutta") and metadata.get("commentary")):
-                    log.info("[%s] Upgrading RAW JSON to COMPLETE", row.sid)
-                    sutta_text, comm_text = split_transcript(metadata.get("transcript", ""))
-                    metadata.update({"sutta": sutta_text, "commentary": comm_text})
-                    needs_update = True
-
-                if not metadata.get("valid") or not metadata.get("aud_file"):
-                    if not metadata.get("valid"):
-                        metadata["valid"] = True
-                    if not metadata.get("aud_file") and m.exists():
-                        metadata["aud_file"] = m.name
-                    needs_update = True
-
                 # Detect available languages
                 languages = ["en"]
-                if (f / "jp").exists():
-                    languages.append("ja")
-                if (f / "hi").exists():
-                    languages.append("hi")
+                if (f / "jp").exists(): languages.append("ja")
+                if (f / "hi").exists(): languages.append("hi")
 
-                if metadata.get("languages") != languages:
-                    metadata["languages"] = languages
-                    needs_update = True
+                # Update English metadata
+                metadata = update_metadata(j, row, languages, "en")
 
-                if needs_update:
-                    atomic_write(j, metadata)
-
-                # Also update languages in other lang folders if they exist
+                # Update other languages
                 for lcode, subf in [("ja", "jp"), ("hi", "hi")]:
-                    lpath = f / subf / j.name
-                    if lpath.exists():
-                        try:
-                            ldata = json.loads(lpath.read_text(encoding="utf-8"))
-                            if ldata.get("languages") != languages:
-                                ldata["languages"] = languages
-                                atomic_write(lpath, ldata)
-                        except: pass
+                    update_metadata(f / subf / j.name, row, languages, lcode)
                 continue
 
             repair(row,lib,args.enrich)
@@ -315,18 +495,24 @@ def main()->int:
 
         # Smarter data handling for images
         if metadata and f.exists():
-            # If JSON has a filename but no path, prefix it with the folder path
             img = metadata.get("image_url")
-            if img and "/" not in img and "\\" not in img:
-                metadata["image_url"] = (f.relative_to(ROOT) / img).as_posix()
+            # If image_url is missing or just a filename, auto-detect
+            if not img or ("/" not in img and "\\" not in img):
+                found_img = None
+                for suffix in ["_image", ""]:
+                    for ext in [".png", ".webp", ".jpg"]:
+                        img_file = next(f.glob(f"*{suffix}{ext}"), None)
+                        if img_file:
+                            found_img = img_file
+                            break
+                    if found_img: break
 
-            # Auto-detect image if missing but exists in folder
-            if not metadata.get("image_url"):
-                for ext in [".png", ".webp", ".jpg"]:
-                    img_file = next(f.glob(f"*{ext}"), None)
-                    if img_file:
-                        metadata["image_url"] = img_file.relative_to(ROOT).as_posix()
-                        break
+                if found_img:
+                    metadata["image_url"] = "/" + found_img.relative_to(ROOT).as_posix()
+                elif img:
+                    # If it's already a filename, try to resolve it to a path
+                    if "/" not in img and "\\" not in img:
+                        metadata["image_url"] = "/" + (f.relative_to(ROOT) / img).as_posix()
 
         # Detect available languages
         languages = ["en"]
@@ -343,14 +529,17 @@ def main()->int:
             "json": j.relative_to(ROOT).as_posix() if j.exists() else "",
             "mp4": m.relative_to(ROOT).as_posix() if m.exists() else "",
             "srt": s.relative_to(ROOT).as_posix() if s.exists() else "",
-            "sutta_name": metadata.get("names", {}).get("official", "") if status == "COMPLETE" else f"({status}) Sutta",
+            "sutta_name": metadata.get("sutta_name") or metadata.get("names", {}).get("official", "") or f"({status}) Sutta",
             "folder": r.sid,
             "aud_file": m.name if m.exists() else "",
+            "image_url": metadata.get("image_url", ""),
             "status": status,
             "languages": languages
         }
 
     atomic_write(FRONTEND_MAP, {"schema_version": "2.0", "entries": ents})
+    if FRONTEND_APP.parent.exists():
+        atomic_write(FRONTEND_APP, {"schema_version": "2.0", "entries": ents})
 
     if INDEX_HTML.exists():
         mini = {k: {"video_id": v["video_id"], "nikaya": v["nikaya"], "path": v["path"], "sutta_name": v["sutta_name"], "aud_file": v["aud_file"]} for k, v in ents.items()}

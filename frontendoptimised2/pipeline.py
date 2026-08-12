@@ -559,7 +559,14 @@ def main():
     parser = argparse.ArgumentParser(description="DAMA Sutta Pipeline & Dev Server")
     parser.add_argument("--serve", action="store_true", help="Run dev HTTP server")
     parser.add_argument("--port", type=int, default=8000, help="Port to run dev HTTP server on (default: 8000)")
+    parser.add_argument("--download-all", action="store_true", help="Download media and text transcripts for all Nikayas into downloads/ directory")
     args = parser.parse_args()
+
+    if args.download_all:
+        root_pipeline = BUDDHA3_DIR / "pipeline.py"
+        if root_pipeline.exists():
+            subprocess.run([sys.executable, str(root_pipeline), "--download-all"])
+        return 0
 
     if args.serve:
         sync_master_json()
