@@ -761,7 +761,7 @@ function renderSuttaUI(details, entry) {
     else {
         quizData = details.quiz || null;
     }
-    if (quizData) {
+    if (quizData && Array.isArray(quizData.options) && quizData.options.length > 0) {
         const quizDiv = document.createElement("div");
         quizDiv.style.display = "flex";
         quizDiv.style.flexDirection = "column";
