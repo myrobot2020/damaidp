@@ -65,27 +65,32 @@ def ensure_census():
         ws=wb.create_sheet(n) if n!=MAPPING else wb.active;ws.title=n;ws.append(h);style(ws)
     wb.save(CENSUS);log.info("Created %s",CENSUS)
 def read_mapping()->list[Row]:
-    ensure_census();wb=load_workbook(CENSUS,read_only=True,data_only=True);ws=wb[MAPPING];rows=list(ws.iter_rows(values_only=True));wb.close();out={}
-    if len(rows)>1:
-        h={str(v).strip():i for i,v in enumerate(rows[0]) if v}
-        for r in rows[1:]:
-            if r and any(r):
-                try:
-                    sid,vid,nik=str(r[h["Sutta ID"]]).strip(),str(r[h["Video ID"]]).strip(),str(r[h["Nikaya Folder"]]).strip()
-                    if sid and vid and nik:row=Row(sid,vid,nik);out[row.sid]=row
-                except Exception as e:log.warning("Skipping row %s: %s",r,e)
+    out = {}
+    master_path = ROOT / "frontendoptimised2" / "master.json"
+    if master_path.exists():
+        try:
+            with open(master_path, "r", encoding="utf-8") as f:
+                master = json.load(f)
+            nik_folders = master.get("config", {}).get("nikaya_folders", {})
+            for sid_key, entry in master.get("entries", {}).items():
+                vid = entry.get("video_id", "")
+                folder = entry.get("folder", "")
+                nik_code = entry.get("nikaya", "an")
+                nik_full = nik_folders.get(nik_code, f"{nik_code.upper()} Nikaya")
+                
+                sutta_folder_name = folder if folder else sid_key.replace(".", "_").replace(" ", "_")
+                out[sutta_folder_name] = Row(sutta_folder_name, vid, nik_full)
+        except Exception as e:
+            log.warning("Could not read master.json: %s", e)
 
-    # SCAN FILESYSTEM FOR ADDITIONAL SUTTAS NOT IN EXCEL
+    # SCAN FILESYSTEM FOR ADDITIONAL SUTTAS
     for nik_dir in [d for d in ROOT.iterdir() if d.is_dir() and "Nikaya" in d.name]:
         for sutta_dir in [d for d in nik_dir.iterdir() if d.is_dir()]:
             sid = sutta_dir.name
             if sid not in out:
-                log.info("Found unregistered sutta folder: %s/%s", nik_dir.name, sid)
-                # Try to guess a Sutta ID for display
-                did = f"{nik_dir.name.split()[0].upper()} {sid.replace('_','.')}"
                 out[sid] = Row(sid, "", nik_dir.name)
 
-    return sorted(out.values(),key=lambda x:(x.nikaya.lower(),x.sid))
+    return sorted(out.values(), key=lambda x: (x.nikaya.lower(), x.sid))
 def rebuild_inventory(mapping:list[Row]):
     wb=load_workbook(CENSUS);ws=wb[INVENTORY] if INVENTORY in wb.sheetnames else wb.create_sheet(INVENTORY);ws.delete_rows(1,ws.max_row);ws.append(["Sutta ID","Nikaya Folder","JSON","MP4","SRT","Status","JSON SHA256","MP4 SHA256","SRT SHA256"])
     inventory_data = [["Sutta ID","Nikaya Folder","JSON","MP4","SRT","Status","JSON SHA256","MP4 SHA256","SRT SHA256"]]
