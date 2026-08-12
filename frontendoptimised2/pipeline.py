@@ -391,11 +391,22 @@ class DevServerHandler(SimpleHTTPRequestHandler):
                 except Exception:
                     existing[target_key] = text_output
             elif target_key == "image_url":
-                if text_output.startswith("http"):
-                    existing["image_url"] = text_output
-                else:
-                    clean_p = urllib.parse.quote(text_output[:180].replace("\n", " "))
-                    existing["image_url"] = f"https://image.pollinations.ai/prompt/{clean_p}?width=800&height=600&seed=42&nologo=true"
+                clean_p = urllib.parse.quote(text_output[:220].replace("\n", " "))
+                img_gen_url = f"https://image.pollinations.ai/prompt/{clean_p}?width=800&height=600&nologo=true"
+                
+                target_file1 = sutta_dir / f"{sutta_dir.name}_image.png"
+                target_file2 = sutta_dir / f"{sutta_dir.name}_graph.png"
+                try:
+                    req_img = urllib.request.Request(img_gen_url, headers={"User-Agent": "Mozilla/5.0"})
+                    with urllib.request.urlopen(req_img, timeout=20) as resp_img:
+                        file_bytes = resp_img.read()
+                    with open(target_file1, "wb") as f:
+                        f.write(file_bytes)
+                    with open(target_file2, "wb") as f:
+                        f.write(file_bytes)
+                    existing["image_url"] = target_file1.relative_to(BUDDHA3_DIR).as_posix()
+                except Exception:
+                    existing["image_url"] = img_gen_url
             else:
                 existing[target_key] = text_output
 

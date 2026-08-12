@@ -832,6 +832,9 @@ function renderSuttaUI(details: SuttaDetail, entry: SuttaEntry) {
   if (existingErr) existingErr.remove();
   
   let heroUrl = (details && details.image_url) ? details.image_url.trim() : "";
+  if (!heroUrl && entry.folder) {
+    heroUrl = `../${nikFolder}/${entry.folder}/${entry.folder}_image.png`;
+  }
   
   if (heroUrl) {
     if (heroUrl.startsWith("/")) heroUrl = ".." + heroUrl;
