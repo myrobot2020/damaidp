@@ -358,8 +358,9 @@ class DevServerHandler(SimpleHTTPRequestHandler):
             if not key:
                 return self.send_json_response({"error": "Gemini API key not found in gemini_api_key.txt"}, 400)
 
+            lang = req.get("lang", "en")
             sutta_dir, entry = find_sutta_dir(sutta_id)
-            json_path = get_sutta_json_path(sutta_id, "en")
+            json_path = get_sutta_json_path(sutta_id, lang)
             existing = {}
             if json_path and json_path.exists():
                 with open(json_path, "r", encoding="utf-8") as f:
@@ -370,6 +371,8 @@ class DevServerHandler(SimpleHTTPRequestHandler):
                 transcript = transcript[:6000] + "\n\n[OMITTED TRANSCRIPT SECTION]\n\n" + transcript[-6000:]
 
             formatted_prompt = prompt_template.replace("{sid}", sutta_id).replace("{transcript}", transcript)
+            if lang in ["ja", "jp"]:
+                formatted_prompt += "\n\nCRITICAL INSTRUCTION: Output your entire response in fluent Japanese (日本語). Format all text and fields in natural Japanese."
 
             payload = {
                 "contents": [{"parts": [{"text": formatted_prompt}]}],

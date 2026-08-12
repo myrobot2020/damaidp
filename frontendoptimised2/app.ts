@@ -523,16 +523,7 @@ async function selectSutta(suttaId: string) {
     return;
   }
   
-  // Language button
-  const langToggle = getEl<HTMLButtonElement>("langToggleBtn");
-  const availLangs = Object.keys(entry.languages);
-  if (availLangs.length > 1) {
-    langToggle.style.display = "block";
-    langToggle.innerText = `🌐 ${currentLanguage.toUpperCase()}`;
-  } else {
-    langToggle.style.display = "none";
-    currentLanguage = availLangs[0] || "en";
-  }
+  updateLanguageButtonStyles();
   
   // Load data
   getEl("suttaNotFoundCard").style.display = "none";
@@ -540,15 +531,33 @@ async function selectSutta(suttaId: string) {
   getEl("suttaViewActive").style.display = "flex";
   
   try {
-    const langPath = entry.languages[currentLanguage] || entry.languages["en"] || Object.values(entry.languages)[0];
-    if (!langPath) throw new Error("No translation track available.");
+    const nikFolder = appRegistry!.config.nikaya_folders[entry.nikaya];
+    let langPath = entry.languages[currentLanguage];
+    if (!langPath) {
+      if (currentLanguage === "ja" || currentLanguage === "jp") {
+        langPath = `${nikFolder}/${entry.folder}/jp/${entry.folder}.json`;
+      } else {
+        langPath = `${nikFolder}/${entry.folder}/${entry.folder}.json`;
+      }
+    }
     
     let details: SuttaDetail;
-    const cacheKey = `${suttaId}_${currentLanguage}`;
-    
     const response = await fetch("../" + langPath + `?t=${Date.now()}`, { cache: "no-store" });
-    if (!response.ok) throw new Error("Failed to fetch sutta data file.");
-    details = await response.json() as SuttaDetail;
+    if (!response.ok) {
+      if (currentLanguage === "ja" || currentLanguage === "jp") {
+        details = {
+          sutta_id: suttaId,
+          sutta_name: `${entry.title || suttaId} (日本語)`,
+          sutta: "[!] まだ日本語訳が生成されていません。「✦ RERUN GEMINI」をクリックして日本語コンテンツを生成してください。",
+          commentary: "[!] 日本語の解説はまだありません。",
+          transcript: "[!] 日本語の文字起こしはまだありません。"
+        };
+      } else {
+        throw new Error("Failed to fetch sutta data file.");
+      }
+    } else {
+      details = await response.json() as SuttaDetail;
+    }
     
     renderSuttaUI(details, entry);
   } catch (err: any) {
@@ -556,6 +565,33 @@ async function selectSutta(suttaId: string) {
     getEl("suttaNotFoundCard").style.display = "flex";
     getEl("suttaViewActive").style.display = "none";
     getEl("errorDescription").innerText = `Error loading Sutta details: ${err.message}`;
+  }
+}
+
+function switchLanguage(lang: string) {
+  currentLanguage = lang;
+  updateLanguageButtonStyles();
+  if (selectedSuttaId) {
+    selectSutta(selectedSuttaId);
+  }
+}
+(window as any).switchLanguage = switchLanguage;
+
+function updateLanguageButtonStyles() {
+  const enBtn = getEl("langEnBtn");
+  const jpBtn = getEl("langJpBtn");
+  if (enBtn && jpBtn) {
+    if (currentLanguage === "ja" || currentLanguage === "jp") {
+      jpBtn.style.background = "var(--color-primary)";
+      jpBtn.style.color = "#fff";
+      enBtn.style.background = "var(--bg-card)";
+      enBtn.style.color = "var(--text-main)";
+    } else {
+      enBtn.style.background = "var(--color-primary)";
+      enBtn.style.color = "#fff";
+      jpBtn.style.background = "var(--bg-card)";
+      jpBtn.style.color = "var(--text-main)";
+    }
   }
 }
 
@@ -692,6 +728,7 @@ function renderAdminToolbar(containerId: string, fieldKey: string, options: { ca
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 sutta_id: selectedSuttaId,
+                lang: currentLanguage,
                 field: fieldKey,
                 prompt: promptAreaEl!.value
               })
@@ -882,19 +919,30 @@ function renderSuttaUI(details: SuttaDetail, entry: SuttaEntry) {
   ytPlayer.src = "";
   localPlayer.src = "";
   
-  if (details.aud_file) {
-    const nikFolder = appRegistry!.config.nikaya_folders[entry.nikaya];
-    localPlayer.src = `../${nikFolder}/${entry.folder}/${details.aud_file}`;
+  let primaryAudio = "";
+  if (currentLanguage === "ja" || currentLanguage === "jp") {
+    primaryAudio = `../${nikFolder}/${entry.folder}/jp/clonetest.mp4`;
+  } else if (details.aud_file) {
+    primaryAudio = `../${nikFolder}/${entry.folder}/${details.aud_file}`;
+  }
+  
+  if (primaryAudio) {
+    localPlayer.src = primaryAudio + `?t=${Date.now()}`;
     localPlayer.style.display = "block";
+    localPlayer.onerror = () => {
+      if (details.aud_file && primaryAudio.includes("/jp/")) {
+        localPlayer.src = `../${nikFolder}/${entry.folder}/${details.aud_file}?t=${Date.now()}`;
+      } else if (entry.video_id) {
+        localPlayer.style.display = "none";
+        ytPlayer.src = `https://www.youtube.com/embed/${entry.video_id}`;
+        ytPlayer.style.display = "block";
+      } else {
+        localPlayer.style.display = "none";
+      }
+    };
   } else if (entry.video_id) {
     ytPlayer.src = `https://www.youtube.com/embed/${entry.video_id}`;
     ytPlayer.style.display = "block";
-  } else {
-    getEl("accordion-audio").querySelector(".accordion-content")!.innerHTML = `
-      <div style="color:var(--text-muted); font-size:0.85rem; padding:10px 0;">
-        [!] Audio/video file not found in sutta folder.
-      </div>
-    `;
   }
   
   renderAdminToolbar("accordion-audio", "audio", { canUpload: "mp4", canClone: true });
