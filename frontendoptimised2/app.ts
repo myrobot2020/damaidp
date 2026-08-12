@@ -35,15 +35,6 @@ interface SuttaQuiz {
   teacherSummary?: string;
 }
 
-interface SuttaMCQ {
-  question?: string;
-  quote?: string;
-  options: (string | { id: string; title: string; body: string })[];
-  correct_index?: number;
-  answer_index?: number;
-  explanation?: string;
-}
-
 interface GraphNode {
   id: string;
   label: string;
@@ -66,7 +57,6 @@ interface SuttaDetail {
   sutta?: string;
   commentary?: string;
   quiz?: SuttaQuiz;
-  mcq?: SuttaMCQ[];
   knowledge_graph?: {
     nodes?: GraphNode[];
     edges?: GraphEdge[];
@@ -78,6 +68,11 @@ interface SuttaDetail {
   image_url?: string;
 }
 
+interface ChatMessage {
+  role: "user" | "model";
+  content: string;
+}
+
 // Tree view Node structure
 interface TreeNode {
   label: string;
@@ -87,8 +82,11 @@ interface TreeNode {
 // Global Application State
 let appRegistry: SuttaRegistry | null = null;
 let selectedSuttaId: string | null = null;
-let currentLanguage: "en" | "jp" = "en";
+let currentLanguage: string = "en";
 const detailCache: Record<string, SuttaDetail> = {};
+let promptsMap: Record<string, string> = {};
+let suttaChatHistory: ChatMessage[] = [];
+let homeChatHistory: ChatMessage[] = [];
 
 // Safe Element Retrieval Utility
 function getEl<T extends HTMLElement>(id: string): T {
@@ -140,6 +138,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!response.ok) throw new Error("Registry load failed.");
     appRegistry = await response.json() as SuttaRegistry;
 
+    // Load Prompts catalog
+    await loadPrompts();
+
     // Build the Nikaya dropdown options list
     initNikayaSelector();
     
@@ -152,6 +153,36 @@ document.addEventListener("DOMContentLoaded", async () => {
     getEl("breadcrumbBar").innerHTML = `<span class="breadcrumb-dot">•</span> <span style="color:red;">Failed to load master registry catalog.</span>`;
   }
 });
+
+// Load and parse prompts.txt into sections
+async function loadPrompts() {
+  try {
+    const res = await fetch("prompts.txt");
+    if (!res.ok) return;
+    const text = await res.text();
+    
+    let currentKey = "";
+    let currentContent: string[] = [];
+    
+    text.split("\n").forEach(line => {
+      const match = line.match(/^\[([a-zA-Z0-9_]+)\]$/);
+      if (match) {
+        if (currentKey) {
+          promptsMap[currentKey] = currentContent.join("\n").trim();
+        }
+        currentKey = match[1];
+        currentContent = [];
+      } else {
+        currentContent.push(line);
+      }
+    });
+    if (currentKey) {
+      promptsMap[currentKey] = currentContent.join("\n").trim();
+    }
+  } catch (err) {
+    console.warn("Prompts file loading skipped:", err);
+  }
+}
 
 // Populates Nikaya capsule selector
 function initNikayaSelector() {
@@ -182,7 +213,10 @@ function onNikayaChange() {
   bookSel.innerHTML = '<option value="">BOOK</option>';
   suttaSel.innerHTML = '<option value="">SUTTA</option>';
   
-  if (!nikVal) return;
+  if (!nikVal) {
+    if (!selectedSuttaId) renderHomeScreen();
+    return;
+  }
   
   const books = new Set<string>();
   Object.values(appRegistry!.entries).forEach(entry => {
@@ -208,6 +242,8 @@ function onNikayaChange() {
     opt.innerText = getBookLabel(book, nikVal);
     bookSel.appendChild(opt);
   });
+
+  if (!selectedSuttaId) renderHomeScreen();
 }
 (window as any).onNikayaChange = onNikayaChange;
 
@@ -219,7 +255,10 @@ function onBookChange() {
   
   suttaSel.innerHTML = '<option value="">SUTTA</option>';
   
-  if (!nikVal || !bookVal) return;
+  if (!nikVal || !bookVal) {
+    if (!selectedSuttaId) renderHomeScreen();
+    return;
+  }
   
   Object.keys(appRegistry!.entries).forEach(sid => {
     const entry = appRegistry!.entries[sid];
@@ -239,6 +278,8 @@ function onBookChange() {
       }
     }
   });
+
+  if (!selectedSuttaId) renderHomeScreen();
 }
 (window as any).onBookChange = onBookChange;
 
@@ -268,10 +309,6 @@ function handleRouting() {
     selectSutta(targetSuttaId);
   } else {
     selectedSuttaId = null;
-    getEl("suttaNotFoundCard").style.display = "flex";
-    getEl("suttaViewActive").style.display = "none";
-    getEl("errorDescription").innerText = "Please select a sutta from the navigation dropdowns above.";
-    
     getEl<HTMLSelectElement>("nikayaSelector").value = "";
     getEl<HTMLSelectElement>("bookSelector").innerHTML = '<option value="">BOOK</option>';
     getEl<HTMLSelectElement>("suttaSelector").innerHTML = '<option value="">SUTTA</option>';
@@ -279,13 +316,21 @@ function handleRouting() {
     
     getEl("breadcrumbBar").innerHTML = `<span class="breadcrumb-dot">•</span> SUTTA DISCOURSE CATALOG EXPLORER`;
     resetLeftPane();
+    renderHomeScreen();
   }
 }
 
 // Language Switch Action
 function toggleLanguage() {
   if (!selectedSuttaId || !appRegistry) return;
-  currentLanguage = (currentLanguage === "en") ? "jp" : "en";
+  const entry = appRegistry.entries[selectedSuttaId];
+  if (!entry || !entry.languages) return;
+  
+  const langs = Object.keys(entry.languages);
+  if (langs.length === 0) return;
+  
+  const idx = langs.indexOf(currentLanguage);
+  currentLanguage = langs[(idx + 1) % langs.length];
   selectSutta(selectedSuttaId);
 }
 (window as any).toggleLanguage = toggleLanguage;
@@ -299,7 +344,6 @@ function transformKnowledgeGraph(details: SuttaDetail): TreeNode | null {
   const nodesMap = new Map<string, GraphNode>(kg.nodes.map(n => [n.id, n]));
   const edges = kg.edges || [];
   
-  // Find roots (nodes that are not targets of any edges, or Support nodes)
   const targetIds = new Set<string>(edges.map(e => e.target));
   const potentialRoots = kg.nodes.filter(n => !targetIds.has(n.id) || n.type === "Support");
   const supportRoots = potentialRoots.filter(n => n.type === "Support");
@@ -355,6 +399,7 @@ async function selectSutta(suttaId: string) {
   if (!appRegistry) return;
   
   selectedSuttaId = suttaId;
+  suttaChatHistory = []; // Reset REFLECT chat
   const entry = appRegistry.entries[suttaId];
   
   if (!entry) {
@@ -417,33 +462,29 @@ async function selectSutta(suttaId: string) {
     getEl("treeVisualization").innerHTML = "Nodes not parsed.";
     getEl("practiceQuizCard").innerHTML = "Quiz questions not compiled.";
     
-    // Show SuttaCentral link even when GHOST/offline!
     const scUrl = entry.sc_url || "";
     getEl("suttaCentralMeta").innerHTML = scUrl ? `
       <div style="display:flex; flex-direction:column; gap:10px;">
         <p style="font-size:0.9rem; color:var(--text-muted);">Access parallel translations, grammar tools, and Pali notes on SuttaCentral:</p>
         <a href="${scUrl}" target="_blank" class="go-back-btn" style="text-align:center; display:block; text-decoration:none;">Open on SuttaCentral ↗</a>
       </div>
-    ` : `<div style="color:var(--text-muted); text-align:center; font-size:0.85rem;">No SuttaCentral linkage available.</div>`;
+    ` : `<div style="color:var(--text-muted); font-size:0.85rem;">[!] SuttaCentral link not found in json.</div>`;
     
-    // Hide leaf image
     getEl<HTMLImageElement>("leafImg").src = "";
-    
-    // Hide audio elements
     getEl<HTMLIFrameElement>("youtubePlayer").style.display = "none";
     getEl<HTMLVideoElement>("localVideoPlayer").style.display = "none";
-    
     return;
   }
   
-  // Show / Hide language switch pill button if Japanese translation is available
+  // Language button
   const langToggle = getEl<HTMLButtonElement>("langToggleBtn");
-  if (entry.languages && entry.languages["jp"]) {
+  const availLangs = Object.keys(entry.languages);
+  if (availLangs.length > 1) {
     langToggle.style.display = "block";
-    langToggle.innerText = (currentLanguage === "en") ? "🇯🇵 日本語" : "🇬🇧 ENGLISH";
+    langToggle.innerText = `🌐 ${currentLanguage.toUpperCase()}`;
   } else {
     langToggle.style.display = "none";
-    currentLanguage = "en"; // Default back to English if JP not supported
+    currentLanguage = availLangs[0] || "en";
   }
   
   // Load data
@@ -457,14 +498,10 @@ async function selectSutta(suttaId: string) {
     let details: SuttaDetail;
     const cacheKey = `${suttaId}_${currentLanguage}`;
     
-    if (detailCache[cacheKey]) {
-      details = detailCache[cacheKey];
-    } else {
-      const response = await fetch("../" + langPath);
-      if (!response.ok) throw new Error("Failed to fetch sutta data file.");
-      details = await response.json() as SuttaDetail;
-      detailCache[cacheKey] = details;
-    }
+    const response = await fetch("../" + langPath, { cache: "no-cache" });
+    if (!response.ok) throw new Error("Failed to fetch sutta data file.");
+    details = await response.json() as SuttaDetail;
+    detailCache[cacheKey] = details;
     
     renderSuttaUI(details, entry);
   } catch (err: any) {
@@ -475,11 +512,240 @@ async function selectSutta(suttaId: string) {
   }
 }
 
+// Inline Dev Admin Toolbar Renderer
+function renderAdminToolbar(containerId: string, fieldKey: string, options: { canEdit?: boolean; canRerun?: boolean; canUpload?: string; canClone?: boolean }, currentValueGetter?: () => string) {
+  const container = getEl(containerId);
+  
+  // Remove existing admin toolbar if present
+  const oldTb = container.querySelector(".admin-toolbar");
+  if (oldTb) oldTb.remove();
+  
+  const tb = document.createElement("div");
+  tb.className = "admin-toolbar";
+  
+  const statusEl = document.createElement("div");
+  statusEl.className = "admin-status";
+  
+  // Edit & Save button
+  if (options.canEdit) {
+    const editBtn = document.createElement("button");
+    editBtn.className = "admin-btn primary";
+    editBtn.innerText = "✎ EDIT";
+    
+    let isEditing = false;
+    let textAreaEl: HTMLTextAreaElement | null = null;
+    
+    editBtn.onclick = async () => {
+      if (!isEditing) {
+        isEditing = true;
+        editBtn.innerText = "💾 SAVE";
+        const val = currentValueGetter ? currentValueGetter() : container.innerText;
+        textAreaEl = document.createElement("textarea");
+        textAreaEl.className = "admin-textarea";
+        textAreaEl.value = val.trim();
+        container.appendChild(textAreaEl);
+      } else {
+        if (textAreaEl && selectedSuttaId) {
+          statusEl.className = "admin-status";
+          statusEl.innerText = "Saving changes...";
+          try {
+            const res = await fetch("/api/save", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                sutta_id: selectedSuttaId,
+                lang: currentLanguage,
+                field: fieldKey,
+                value: textAreaEl.value
+              })
+            });
+            const data = await res.json();
+            if (res.ok) {
+              statusEl.className = "admin-status ok";
+              statusEl.innerText = "Saved ✓";
+              setTimeout(() => selectSutta(selectedSuttaId!), 800);
+            } else {
+              throw new Error(data.error || "Save failed");
+            }
+          } catch (err: any) {
+            statusEl.className = "admin-status err";
+            statusEl.innerText = `Error ✗: ${err.message}`;
+          }
+        }
+      }
+    };
+    tb.appendChild(editBtn);
+  }
+  
+  // Rerun Gemini Button
+  if (options.canRerun) {
+    const rerunBtn = document.createElement("button");
+    rerunBtn.className = "admin-btn";
+    rerunBtn.innerText = "✦ RERUN GEMINI";
+    
+    let isPromptOpen = false;
+    let promptAreaEl: HTMLTextAreaElement | null = null;
+    let runActionBtn: HTMLButtonElement | null = null;
+    
+    rerunBtn.onclick = () => {
+      if (!isPromptOpen) {
+        isPromptOpen = true;
+        const defaultPrompt = promptsMap[fieldKey] || `Generate updated ${fieldKey} for sutta {sid}.\n\nTranscript: {transcript}`;
+        
+        promptAreaEl = document.createElement("textarea");
+        promptAreaEl.className = "admin-textarea";
+        promptAreaEl.value = defaultPrompt;
+        
+        runActionBtn = document.createElement("button");
+        runActionBtn.className = "admin-btn primary";
+        runActionBtn.style.marginTop = "6px";
+        runActionBtn.innerText = "🚀 EXECUTE RERUN";
+        
+        runActionBtn.onclick = async () => {
+          if (!selectedSuttaId) return;
+          statusEl.className = "admin-status";
+          statusEl.innerText = "Executing Gemini rerun pipeline...";
+          try {
+            const res = await fetch("/api/rerun", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                sutta_id: selectedSuttaId,
+                field: fieldKey,
+                prompt: promptAreaEl!.value
+              })
+            });
+            const data = await res.json();
+            if (res.ok) {
+              statusEl.className = "admin-status ok";
+              statusEl.innerText = "Rerun Complete ✓";
+              setTimeout(() => selectSutta(selectedSuttaId!), 1000);
+            } else {
+              throw new Error(data.error || "Rerun failed");
+            }
+          } catch (err: any) {
+            statusEl.className = "admin-status err";
+            statusEl.innerText = `Error ✗: ${err.message}`;
+          }
+        };
+        
+        tb.appendChild(promptAreaEl);
+        tb.appendChild(runActionBtn);
+      }
+    };
+    tb.appendChild(rerunBtn);
+  }
+  
+  // Upload Zone
+  if (options.canUpload) {
+    const uploadBtn = document.createElement("button");
+    uploadBtn.className = "admin-btn";
+    uploadBtn.innerText = `⬆ UPLOAD (${options.canUpload.toUpperCase()})`;
+    
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.style.display = "none";
+    fileInput.accept = options.canUpload === "png" ? ".png,.jpg,.jpeg,.webp" : ".mp4,.mp3,.m4a";
+    
+    uploadBtn.onclick = () => fileInput.click();
+    
+    fileInput.onchange = async () => {
+      if (fileInput.files && fileInput.files[0] && selectedSuttaId) {
+        const file = fileInput.files[0];
+        statusEl.className = "admin-status";
+        statusEl.innerText = `Uploading ${file.name}...`;
+        
+        const reader = new FileReader();
+        reader.onload = async () => {
+          const b64 = (reader.result as string).split(",")[1];
+          try {
+            const res = await fetch("/api/upload", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                sutta_id: selectedSuttaId,
+                field: fieldKey,
+                filename: file.name,
+                content_base64: b64
+              })
+            });
+            const data = await res.json();
+            if (res.ok) {
+              statusEl.className = "admin-status ok";
+              statusEl.innerText = "Uploaded ✓ Reloading...";
+              setTimeout(() => selectSutta(selectedSuttaId!), 1000);
+            } else {
+              throw new Error(data.error || "Upload failed");
+            }
+          } catch (err: any) {
+            statusEl.className = "admin-status err";
+            statusEl.innerText = `Upload Error ✗: ${err.message}`;
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+    
+    tb.appendChild(uploadBtn);
+    tb.appendChild(fileInput);
+  }
+  
+  // Voice Clone Dropdown (AUDIO)
+  if (options.canClone) {
+    const langSelect = document.createElement("select");
+    langSelect.className = "admin-btn";
+    langSelect.innerHTML = `
+      <option value="jp">🇯🇵 Japanese (JP)</option>
+      <option value="hi">🇮🇳 Hindi (HI)</option>
+      <option value="de">🇩🇪 German (DE)</option>
+      <option value="sw">🇰🇪 Swahili (SW)</option>
+    `;
+    
+    const cloneBtn = document.createElement("button");
+    cloneBtn.className = "admin-btn primary";
+    cloneBtn.innerText = "🎙️ CLONE VOICE";
+    
+    cloneBtn.onclick = async () => {
+      if (!selectedSuttaId) return;
+      const targetLang = langSelect.value;
+      statusEl.className = "admin-status";
+      statusEl.innerText = `Cloning track for ${targetLang.toUpperCase()}...`;
+      try {
+        const res = await fetch("/api/clone", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            sutta_id: selectedSuttaId,
+            target_lang: targetLang
+          })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          statusEl.className = "admin-status ok";
+          statusEl.innerText = `Cloned ${targetLang.toUpperCase()} ✓`;
+          setTimeout(() => selectSutta(selectedSuttaId!), 1000);
+        } else {
+          throw new Error(data.error || "Cloning failed");
+        }
+      } catch (err: any) {
+        statusEl.className = "admin-status err";
+        statusEl.innerText = `Clone Error ✗: ${err.message}`;
+      }
+    };
+    
+    tb.appendChild(langSelect);
+    tb.appendChild(cloneBtn);
+  }
+  
+  tb.appendChild(statusEl);
+  container.appendChild(tb);
+}
+
 // Populate the content panels
 function renderSuttaUI(details: SuttaDetail, entry: SuttaEntry) {
   getEl("suttaTitle").innerText = details.sutta_name || details.names?.official || details.sutta_id;
   
-  // Setup Visual Image
+  // 1. Setup VISUAL Image
   const leafImg = getEl<HTMLImageElement>("leafImg");
   let heroUrl = details.image_url || "";
   if (heroUrl) {
@@ -489,7 +755,6 @@ function renderSuttaUI(details: SuttaDetail, entry: SuttaEntry) {
     }
     leafImg.src = heroUrl;
   } else {
-    // Conceptual backup
     const nikFolder = appRegistry!.config.nikaya_folders[entry.nikaya];
     leafImg.src = `../${nikFolder}/${entry.folder}/${entry.folder}_graph.png`;
   }
@@ -498,7 +763,9 @@ function renderSuttaUI(details: SuttaDetail, entry: SuttaEntry) {
     leafImg.src = "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&q=80&w=300";
   };
   
-  // Setup media players in AUDIO accordion
+  renderAdminToolbar("accordion-visual", "image", { canUpload: "png", canRerun: true });
+  
+  // 2. Setup AUDIO Panel
   const ytPlayer = getEl<HTMLIFrameElement>("youtubePlayer");
   const localPlayer = getEl<HTMLVideoElement>("localVideoPlayer");
   
@@ -507,7 +774,6 @@ function renderSuttaUI(details: SuttaDetail, entry: SuttaEntry) {
   ytPlayer.src = "";
   localPlayer.src = "";
   
-  // Setup media players in AUDIO accordion (prioritize local file if available in folder)
   if (details.aud_file) {
     const nikFolder = appRegistry!.config.nikaya_folders[entry.nikaya];
     localPlayer.src = `../${nikFolder}/${entry.folder}/${details.aud_file}`;
@@ -523,11 +789,16 @@ function renderSuttaUI(details: SuttaDetail, entry: SuttaEntry) {
     `;
   }
   
-  // Populate text accordions
+  renderAdminToolbar("accordion-audio", "audio", { canUpload: "mp4", canClone: true });
+  
+  // 3. SUTTA Panel
   getEl("suttaProse").innerHTML = details.sutta 
     ? `<p>${details.sutta}</p>`
     : `<div style="color:var(--text-muted); font-size:0.85rem;">[!] Sutta script translation not found in json.</div>`;
+    
+  renderAdminToolbar("accordion-sutta", "sutta", { canEdit: true, canRerun: true }, () => details.sutta || "");
   
+  // 4. COMMENTARY Panel
   const commentaryHtml = details.commentary 
     ? details.commentary.split("\n")
         .filter(p => p.trim())
@@ -536,16 +807,9 @@ function renderSuttaUI(details: SuttaDetail, entry: SuttaEntry) {
     : `<div style="color:var(--text-muted); font-size:0.85rem;">[!] Commentary text not found in json.</div>`;
   getEl("commentaryProse").innerHTML = commentaryHtml;
   
-  // SuttaCentral links panel (support details.sc_url or details.sutta_central_link or entry.sc_url)
-  const scUrl = details.sc_url || (details as any).sutta_central_link || entry.sc_url || "";
-  getEl("suttaCentralMeta").innerHTML = scUrl ? `
-    <div style="display:flex; flex-direction:column; gap:10px;">
-      <p style="font-size:0.9rem; color:var(--text-muted);">Access parallel translations, grammar tools, and Pali notes on SuttaCentral:</p>
-      <a href="${scUrl}" target="_blank" class="go-back-btn" style="text-align:center; display:block; text-decoration:none;">Open on SuttaCentral ↗</a>
-    </div>
-  ` : `<div style="color:var(--text-muted); font-size:0.85rem;">[!] SuttaCentral link not found in json.</div>`;
+  renderAdminToolbar("accordion-commentary", "commentary", { canEdit: true, canRerun: true }, () => details.commentary || "");
   
-  // Render tree hierarchical structure
+  // 5. TREE Panel
   const treeContainer = getEl("treeVisualization");
   const treeRoot = transformKnowledgeGraph(details);
   if (treeRoot && treeRoot.children && treeRoot.children.length > 0) {
@@ -554,26 +818,13 @@ function renderSuttaUI(details: SuttaDetail, entry: SuttaEntry) {
     treeContainer.innerHTML = `<div style="color:var(--text-muted); font-size:0.85rem;">[!] Concept teaching structure not found in json.</div>`;
   }
   
-  // Render MCQ Quiz Card in practice pane
+  renderAdminToolbar("accordion-tree", "knowledge_graph", { canRerun: true });
+  
+  // 6. PRACTICE Panel (Quiz Card)
   const practiceContainer = getEl("practiceQuizCard");
   practiceContainer.innerHTML = "";
   
-  let quizData: SuttaQuiz | null = null;
-  if (details.quiz) {
-    quizData = details.quiz;
-  } else if (details.mcq && details.mcq.length > 0) {
-    const first = details.mcq[0];
-    quizData = {
-      quote: first.question || first.quote || "",
-      options: first.options.map((opt, idx) => ({
-        id: String(idx + 1),
-        title: typeof opt === "string" ? opt : opt.title || String(idx + 1),
-        body: typeof opt === "string" ? "" : opt.body || ""
-      })),
-      goldOptionId: String(((first.correct_index !== undefined ? first.correct_index : first.answer_index || 0) + 1)),
-      teacherSummary: first.explanation || ""
-    };
-  }
+  let quizData: SuttaQuiz | null = details.quiz || null;
   
   if (quizData) {
     const quizDiv = document.createElement("div");
@@ -628,8 +879,24 @@ function renderSuttaUI(details: SuttaDetail, entry: SuttaEntry) {
     quizDiv.innerHTML += `<div id="quizExplanation" style="display:none; padding:12px; background:rgba(245,158,11,0.05); border-left:3px solid var(--color-primary); font-size:0.85rem; border-radius:4px; margin-top:8px;"></div>`;
     practiceContainer.appendChild(quizDiv);
   } else {
-    practiceContainer.innerHTML = `<div style="color:var(--text-muted); text-align:center; font-size:0.85rem;">No conceptual quiz questions verified.</div>`;
+    practiceContainer.innerHTML = `<div style="color:var(--text-muted); font-size:0.85rem;">[!] Quiz MCQ questions not found in json.</div>`;
   }
+  
+  renderAdminToolbar("accordion-practice", "quiz", { canEdit: true, canRerun: true }, () => JSON.stringify(details.quiz || {}, null, 2));
+  
+  // 7. SUTTACENTRAL Panel
+  const scUrl = details.sc_url || (details as any).sutta_central_link || entry.sc_url || "";
+  getEl("suttaCentralMeta").innerHTML = scUrl ? `
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <p style="font-size:0.9rem; color:var(--text-muted);">Access parallel translations, grammar tools, and Pali notes on SuttaCentral:</p>
+      <a href="${scUrl}" target="_blank" class="go-back-btn" style="text-align:center; display:block; text-decoration:none;">Open on SuttaCentral ↗</a>
+    </div>
+  ` : `<div style="color:var(--text-muted); font-size:0.85rem;">[!] SuttaCentral link not found in json.</div>`;
+  
+  renderAdminToolbar("accordion-suttacentral", "sc_url", { canEdit: true }, () => scUrl);
+  
+  // 8. REFLECT Panel (Sutta Chatbot)
+  renderSuttaChatUI();
   
   // Sync Quiz/Metrics in the main Content Pane (right panel)
   const quizContainer = getEl("quizContainer");
@@ -643,9 +910,216 @@ function renderSuttaUI(details: SuttaDetail, entry: SuttaEntry) {
     </div>
   `;
   
-  // Default open the SUTTA accordion on load
   openAccordion("sutta");
 }
+
+// Native Sutta-Level Chatbot UI Renderer (REFLECT Panel)
+function renderSuttaChatUI() {
+  const container = getEl("accordion-reflect").querySelector(".accordion-content")!;
+  container.innerHTML = `
+    <div class="chat-container">
+      <div class="chat-messages" id="suttaChatMessages">
+        <div class="chat-bubble bot">
+           🙏 Welcome! Ask me anything about <strong>${selectedSuttaId}</strong> and its teachings.
+        </div>
+      </div>
+      <div class="chat-input-bar">
+        <input type="text" class="chat-input" id="suttaChatInput" placeholder="Ask about this sutta..." onkeypress="if(event.key==='Enter') sendSuttaChatMessage()">
+        <button class="admin-btn primary" onclick="sendSuttaChatMessage()">Send</button>
+      </div>
+    </div>
+  `;
+}
+
+async function sendSuttaChatMessage() {
+  const inputEl = getEl<HTMLInputElement>("suttaChatInput");
+  const msgText = inputEl.value.trim();
+  if (!msgText || !selectedSuttaId) return;
+  
+  inputEl.value = "";
+  suttaChatHistory.push({ role: "user", content: msgText });
+  
+  const msgContainer = getEl("suttaChatMessages");
+  msgContainer.innerHTML += `<div class="chat-bubble user">${msgText}</div>`;
+  const botLoading = document.createElement("div");
+  botLoading.className = "chat-bubble bot";
+  botLoading.innerText = "Thinking...";
+  msgContainer.appendChild(botLoading);
+  msgContainer.scrollTop = msgContainer.scrollHeight;
+  
+  try {
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sutta_id: selectedSuttaId, messages: suttaChatHistory })
+    });
+    const data = await res.json();
+    if (res.ok && data.reply) {
+      suttaChatHistory.push({ role: "model", content: data.reply });
+      botLoading.innerHTML = data.reply.replace(/\n/g, "<br>");
+    } else {
+      throw new Error(data.error || "Chat failed");
+    }
+  } catch (err: any) {
+    botLoading.innerText = `Error: ${err.message}`;
+  }
+  msgContainer.scrollTop = msgContainer.scrollHeight;
+}
+(window as any).sendSuttaChatMessage = sendSuttaChatMessage;
+
+// Render Home Screen View (Project Status Table + Home RAG Bot)
+function renderHomeScreen() {
+  getEl("suttaNotFoundCard").style.display = "none";
+  getEl("suttaViewActive").style.display = "flex";
+  
+  if (!appRegistry) return;
+  
+  // Calculate per-Nikaya status stats
+  const stats: Record<string, { complete: number; raw: number; ghost: number; total: number }> = {
+    "an": { complete: 0, raw: 0, ghost: 0, total: 0 },
+    "mn": { complete: 0, raw: 0, ghost: 0, total: 0 },
+    "sn": { complete: 0, raw: 0, ghost: 0, total: 0 },
+    "dn": { complete: 0, raw: 0, ghost: 0, total: 0 },
+    "kn": { complete: 0, raw: 0, ghost: 0, total: 0 }
+  };
+  
+  Object.values(appRegistry.entries).forEach(e => {
+    const nik = (e.nikaya || "").toLowerCase();
+    if (stats[nik]) {
+      stats[nik].total++;
+      if (e.status === "COMPLETE") stats[nik].complete++;
+      else if (e.status === "RAW") stats[nik].raw++;
+      else stats[nik].ghost++;
+    }
+  });
+  
+  let tableRows = "";
+  let totComp = 0, totRaw = 0, totGhost = 0, totTotal = 0;
+  
+  Object.keys(stats).forEach(nik => {
+    const s = stats[nik];
+    totComp += s.complete;
+    totRaw += s.raw;
+    totGhost += s.ghost;
+    totTotal += s.total;
+    
+    tableRows += `
+      <tr>
+        <td><strong>${getNikayaLabel(nik)}</strong></td>
+        <td style="color:#10b981; font-weight:700;">${s.complete}</td>
+        <td style="color:var(--color-primary); font-weight:600;">${s.raw}</td>
+        <td style="color:var(--text-muted);">${s.ghost}</td>
+        <td><strong>${s.total}</strong></td>
+      </tr>
+    `;
+  });
+  
+  const rightPane = getEl("rightViewPane");
+  rightPane.innerHTML = `
+    <div style="display:flex; flex-direction:column; gap:24px;">
+      <div>
+        <h2 style="font-family:'Playfair Display', serif; font-size:2rem; font-weight:700; margin-bottom:6px; color:var(--text-main);">DAMA Sutta Universe Status</h2>
+        <p style="font-size:0.9rem; color:var(--text-muted);">Overview of compiled suttas, translation tracks, and asset completeness.</p>
+      </div>
+      
+      <!-- Status Table -->
+      <table class="status-table">
+        <thead>
+          <tr>
+            <th>NIKAYA COLLECTION</th>
+            <th>COMPLETE</th>
+            <th>RAW</th>
+            <th>GHOST</th>
+            <th>TOTAL SUTTAS</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${tableRows}
+          <tr style="background:var(--bg-hover); font-weight:700;">
+            <td>TOTAL UNIVERSE</td>
+            <td style="color:#10b981;">${totComp}</td>
+            <td style="color:var(--color-primary);">${totRaw}</td>
+            <td style="color:var(--text-muted);">${totGhost}</td>
+            <td>${totTotal}</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <!-- Home RAG Chatbot Section -->
+      <div style="border-top:1px solid var(--border-color); padding-top:20px;">
+        <h3 style="font-family:'Playfair Display', serif; font-size:1.3rem; font-weight:600; margin-bottom:4px; color:var(--color-primary);">Corpus RAG Chatbot (Ollama Local Model)</h3>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;" id="ragFilterNotice">Filter Nikaya/Book above to narrow context, or ask across the entire corpus.</p>
+        
+        <div class="chat-container" style="height:320px;">
+          <div class="chat-messages" id="homeChatMessages">
+            <div class="chat-bubble bot">
+              🪷 Welcome to the DAMA Corpus Assistant. Ask questions across the Nikayas or use the header dropdowns to filter the context.
+            </div>
+          </div>
+          <div class="chat-input-bar">
+            <input type="text" class="chat-input" id="homeChatInput" placeholder="Query the Nikaya corpus..." onkeypress="if(event.key==='Enter') sendHomeChatMessage()">
+            <button class="admin-btn primary" onclick="sendHomeChatMessage()">Ask Corpus</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+async function sendHomeChatMessage() {
+  const inputEl = getEl<HTMLInputElement>("homeChatInput");
+  const msgText = inputEl.value.trim();
+  if (!msgText || !appRegistry) return;
+  
+  inputEl.value = "";
+  homeChatHistory.push({ role: "user", content: msgText });
+  
+  const msgContainer = getEl("homeChatMessages");
+  msgContainer.innerHTML += `<div class="chat-bubble user">${msgText}</div>`;
+  const botLoading = document.createElement("div");
+  botLoading.className = "chat-bubble bot";
+  botLoading.innerText = "Querying local Ollama model...";
+  msgContainer.appendChild(botLoading);
+  msgContainer.scrollTop = msgContainer.scrollHeight;
+  
+  // Filter context based on current dropdown selections
+  const nikVal = getEl<HTMLSelectElement>("nikayaSelector").value;
+  const bookVal = getEl<HTMLSelectElement>("bookSelector").value;
+  
+  let contextItems: any[] = [];
+  Object.keys(appRegistry.entries).forEach(sid => {
+    const entry = appRegistry!.entries[sid];
+    if (!nikVal || entry.nikaya.toLowerCase() === nikVal.toLowerCase()) {
+      if (!bookVal || entry.folder === bookVal) {
+        contextItems.push({ sutta_id: sid, title: entry.title, nikaya: entry.nikaya, status: entry.status });
+      }
+    }
+  });
+  
+  try {
+    const res = await fetch("/api/home_chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        messages: homeChatHistory,
+        context_json: contextItems,
+        nikaya: nikVal,
+        book: bookVal
+      })
+    });
+    const data = await res.json();
+    if (res.ok && data.reply) {
+      homeChatHistory.push({ role: "model", content: data.reply });
+      botLoading.innerHTML = `<em>[Model: ${data.model || "Ollama"}]</em><br>` + data.reply.replace(/\n/g, "<br>");
+    } else {
+      throw new Error(data.error || "Home chat failed");
+    }
+  } catch (err: any) {
+    botLoading.innerText = `Notice: ${err.message}`;
+  }
+  msgContainer.scrollTop = msgContainer.scrollHeight;
+}
+(window as any).sendHomeChatMessage = sendHomeChatMessage;
 
 // Open a specific Accordion panel
 function openAccordion(tabId: string) {

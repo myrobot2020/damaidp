@@ -1,0 +1,40 @@
+[sutta]
+You are a Dhamma scholar. Extract only the Buddha's spoken words — the sutta scripture itself — from the transcript below.
+Remove all teacher commentary, explanations, or analysis that occur after the recitation.
+The sutta typically begins with "Thus have I heard" or "At one time the Blessed One...".
+Return clean plain text only. No JSON, no headings, no labels.
+Sutta ID: {sid}
+Transcript: {transcript}
+
+[commentary]
+You are a Dhamma scholar. Extract only the teacher's commentary section from this transcript.
+This is the part where Bhante explains, elaborates, or gives context about the sutta — it typically begins after phrases like "So here the Buddha", "I'll just stop here", "In this sutta", or "So what the Buddha is saying".
+Remove the sutta recitation itself. Return clean plain text only. No JSON, no headings.
+Sutta ID: {sid}
+Transcript: {transcript}
+
+[quiz]
+You are a Dhamma teacher creating a comprehension check for this sutta.
+Generate a single thoughtful quiz question that tests understanding of the sutta's central teaching.
+Return JSON only in this exact format — no markdown, no extra keys:
+{"quote": "the question text", "goldOptionId": "2", "options": [{"id":"1","title":"Option A","body":"brief explanation of why this is right or wrong"},{"id":"2","title":"Option B","body":"brief explanation"},{"id":"3","title":"Option C","body":"brief explanation"},{"id":"4","title":"Option D","body":"brief explanation"}], "teacherSummary": "one or two sentences explaining the correct answer from the Dhamma perspective"}
+Only one option should be correct. goldOptionId must match the id of the correct option.
+Sutta ID: {sid}
+Transcript: {transcript}
+
+[knowledge_graph]
+You are a Dhamma scholar building a concept map of this sutta's teaching structure.
+Identify the key Dhamma concepts, practices, and their relationships.
+Return JSON only in this exact format — no markdown, no extra keys:
+{"nodes": [{"id": "1", "label": "English label", "type": "Support|Concept|Practice|Obstacle|Outcome", "pali": "pali term if applicable", "description": "one sentence description"}], "edges": [{"source": "1", "target": "2", "relation": "LEADS_TO|REQUIRES|OPPOSES|SUPPORTS|PARALLEL_TO", "order": 1}]}
+Root node should have type "Support". Build the tree from root outward. Order edges from 1.
+Sutta ID: {sid}
+Transcript: {transcript}
+
+[image]
+A serene, minimalist Dhamma illustration for this Buddhist sutta.
+Style: soft watercolor, warm cream and amber tones, no text, no people, no faces.
+Depict the central metaphor, symbol, or nature scene that represents the sutta's core teaching.
+Keep it peaceful, symbolic, and timeless. Inspired by East Asian ink wash painting traditions.
+Sutta: {sid}
+Teaching theme: {transcript}

@@ -3,12 +3,35 @@ import os
 import sys
 import json
 import tempfile
+import argparse
+import urllib.request
+import urllib.parse
+import urllib.error
+import base64
+import cgi
 from pathlib import Path
+from http.server import HTTPServer, SimpleHTTPRequestHandler
 
 # Paths relative to this file
 ROOT = Path(__file__).resolve().parent
 BUDDHA3_DIR = ROOT.parent
 MAPPING_PATH = ROOT / "master.json"
+GEMINI_KEY_FILE = BUDDHA3_DIR / "gemini_api_key.txt"
+ELEVEN_KEY_FILE = BUDDHA3_DIR / "11labskey.txt"
+
+def get_gemini_key():
+    if os.getenv("GEMINI_API_KEY"):
+        return os.getenv("GEMINI_API_KEY").strip()
+    if GEMINI_KEY_FILE.exists():
+        return GEMINI_KEY_FILE.read_text(encoding="utf-8").strip()
+    return None
+
+def get_eleven_key():
+    if os.getenv("ELEVENLABS_API_KEY"):
+        return os.getenv("ELEVENLABS_API_KEY").strip()
+    if ELEVEN_KEY_FILE.exists():
+        return ELEVEN_KEY_FILE.read_text(encoding="utf-8").strip()
+    return None
 
 def atomic_write(path: Path, data: dict):
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -24,21 +47,15 @@ def atomic_write(path: Path, data: dict):
         Path(tmp).unlink(missing_ok=True)
         raise
 
-def main():
+def sync_master_json():
     if not MAPPING_PATH.exists():
-        print(f"Error: {MAPPING_PATH} not found. Please run the merge catalog script first.", file=sys.stderr)
-        return 1
-
-    print("Loading master registry from master.json...")
+        return
     with open(MAPPING_PATH, "r", encoding="utf-8") as f:
         mapping = json.load(f)
 
     nikaya_folders = mapping.get("config", {}).get("nikaya_folders", {})
     entries = mapping.get("entries", {})
     
-    print(f"Scanning directories for {len(entries)} suttas...")
-    
-    updated_count = 0
     complete_count = 0
     raw_count = 0
     ghost_count = 0
@@ -53,34 +70,23 @@ def main():
             ghost_count += 1
             continue
             
-        # Target folder path
         sutta_dir = BUDDHA3_DIR / nikaya_folders[nik] / folder
-        
         if not sutta_dir.is_dir():
             entry["status"] = "GHOST"
             entry["languages"] = {}
             ghost_count += 1
             continue
             
-        # Scan for JSON files and detect languages/translations
         languages = {}
         sutta_name_from_json = ""
         
-        # Walk sutta_dir to find any .json files (supporting translations like jp/5_4_40.json)
         for p in sutta_dir.rglob("*.json"):
             if p.is_file():
                 rel_path = p.relative_to(BUDDHA3_DIR).as_posix()
-                
-                # Check if it's in a language subfolder or the main folder
                 parent_name = p.parent.name
-                if parent_name == folder:
-                    lang = "en"  # Default is English
-                else:
-                    lang = parent_name  # Subfolder name becomes the language code (e.g. jp)
-                    
+                lang = "en" if parent_name == folder else parent_name
                 languages[lang] = rel_path
                 
-                # Extract official name if empty
                 if lang == "en" or not sutta_name_from_json:
                     try:
                         with open(p, "r", encoding="utf-8") as jf:
@@ -91,24 +97,10 @@ def main():
                     except Exception:
                         pass
                         
-        # Check if assets exist
         json_exists = len(languages) > 0
-        mp4_exists = False
-        srt_exists = False
+        mp4_exists = any(p.is_file() and p.stat().st_size > 0 for p in sutta_dir.glob("*.mp4"))
+        srt_exists = any(p.is_file() and p.stat().st_size > 0 for p in sutta_dir.glob("*.srt"))
         
-        # Check for MP4 video or audio
-        for p in sutta_dir.glob("*.mp4"):
-            if p.is_file() and p.stat().st_size > 0:
-                mp4_exists = True
-                break
-                
-        # Check for SRT subtitles
-        for p in sutta_dir.glob("*.srt"):
-            if p.is_file() and p.stat().st_size > 0:
-                srt_exists = True
-                break
-                
-        # Determine status
         status = "GHOST"
         if json_exists:
             if sutta_id == "AN 5.4.40" and mp4_exists and srt_exists:
@@ -120,22 +112,437 @@ def main():
         else:
             ghost_count += 1
             
-        # Update entry
         entry["status"] = status
         entry["languages"] = languages
         if sutta_name_from_json and not entry.get("title"):
             entry["title"] = sutta_name_from_json
             
-        updated_count += 1
-        
-    print(f"Update complete. Stats:")
-    print(f"  - COMPLETE (has JSON, MP4, SRT): {complete_count}")
-    print(f"  - RAW (has JSON, missing MP4/SRT): {raw_count}")
-    print(f"  - GHOST (missing data): {ghost_count}")
-    
-    print("Writing updated registry back to master.json...")
     atomic_write(MAPPING_PATH, mapping)
-    print("Done!")
+    print(f"Master registry updated (COMPLETE: {complete_count}, RAW: {raw_count}, GHOST: {ghost_count})")
+
+def find_sutta_dir(sutta_id: str):
+    if not MAPPING_PATH.exists():
+        return None, None
+    with open(MAPPING_PATH, "r", encoding="utf-8") as f:
+        mapping = json.load(f)
+    entry = mapping.get("entries", {}).get(sutta_id)
+    if not entry:
+        return None, None
+    nik = entry.get("nikaya")
+    folder = entry.get("folder")
+    nik_folders = mapping.get("config", {}).get("nikaya_folders", {})
+    if nik and folder and nik in nik_folders:
+        sutta_dir = BUDDHA3_DIR / nik_folders[nik] / folder
+        return sutta_dir, entry
+    return None, entry
+
+def get_sutta_json_path(sutta_id: str, lang: str = "en"):
+    sutta_dir, entry = find_sutta_dir(sutta_id)
+    if not sutta_dir or not sutta_dir.exists():
+        return None
+    if lang == "en":
+        target = sutta_dir / f"{sutta_dir.name}.json"
+        if not target.exists():
+            # Try any json in sutta_dir root
+            jsons = list(sutta_dir.glob("*.json"))
+            if jsons:
+                return jsons[0]
+        return target
+    else:
+        target = sutta_dir / lang / f"{sutta_dir.name}.json"
+        return target
+
+class DevServerHandler(SimpleHTTPRequestHandler):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, directory=str(BUDDHA3_DIR), **kwargs)
+
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.end_headers()
+
+    def send_cors_headers(self):
+        self.send_header("Access-Control-Allow-Origin", "*")
+
+    def do_GET(self):
+        # Override to serve frontendoptimised2 files correctly
+        super().do_GET()
+
+    def do_POST(self):
+        path = self.path.split("?")[0].rstrip("/")
+        
+        if path == "/api/save":
+            self.handle_save()
+        elif path == "/api/upload":
+            self.handle_upload()
+        elif path == "/api/rerun":
+            self.handle_rerun()
+        elif path == "/api/clone":
+            self.handle_clone()
+        elif path == "/api/chat":
+            self.handle_chat()
+        elif path == "/api/home_chat":
+            self.handle_home_chat()
+        else:
+            self.send_error(404, "Endpoint not found")
+
+    def read_json_body(self):
+        content_length = int(self.headers.get("Content-Length", 0))
+        body = self.rfile.read(content_length).decode("utf-8")
+        return json.loads(body) if body else {}
+
+    def send_json_response(self, data, status_code=200):
+        self.send_response(status_code)
+        self.send_header("Content-Type", "application/json")
+        self.send_cors_headers()
+        self.end_headers()
+        self.wfile.write(json.dumps(data, ensure_ascii=False).encode("utf-8"))
+
+    def handle_save(self):
+        try:
+            req = self.read_json_body()
+            sutta_id = req.get("sutta_id")
+            lang = req.get("lang", "en")
+            field = req.get("field")
+            value = req.get("value")
+
+            if not sutta_id or not field:
+                return self.send_json_response({"error": "Missing sutta_id or field"}, 400)
+
+            json_path = get_sutta_json_path(sutta_id, lang)
+            if not json_path:
+                return self.send_json_response({"error": f"Sutta JSON path not found for {sutta_id}"}, 404)
+
+            existing = {}
+            if json_path.exists():
+                with open(json_path, "r", encoding="utf-8") as f:
+                    existing = json.load(f)
+
+            # Field key mapping
+            key_map = {
+                "sutta": "sutta",
+                "commentary": "commentary",
+                "quiz": "quiz",
+                "tree": "knowledge_graph",
+                "knowledge_graph": "knowledge_graph",
+                "sc_url": "sc_url",
+                "image": "image_url",
+                "image_url": "image_url"
+            }
+            target_key = key_map.get(field, field)
+            existing[target_key] = value
+
+            atomic_write(json_path, existing)
+            sync_master_json()
+
+            self.send_json_response({"status": "ok", "message": f"Updated {field} for {sutta_id}"})
+        except Exception as e:
+            self.send_json_response({"error": str(e)}, 500)
+
+    def handle_upload(self):
+        try:
+            content_type = self.headers.get("Content-Type", "")
+            sutta_id = None
+            field = None
+            filename = None
+            file_bytes = None
+
+            if "multipart/form-data" in content_type:
+                form = cgi.FieldStorage(
+                    fp=self.rfile,
+                    headers=self.headers,
+                    environ={'REQUEST_METHOD': 'POST', 'CONTENT_TYPE': content_type}
+                )
+                sutta_id = form.getvalue("sutta_id")
+                field = form.getvalue("field")
+                if "file" in form:
+                    file_item = form["file"]
+                    filename = file_item.filename
+                    file_bytes = file_item.file.read()
+            else:
+                req = self.read_json_body()
+                sutta_id = req.get("sutta_id")
+                field = req.get("field")
+                filename = req.get("filename")
+                b64_content = req.get("content_base64")
+                if b64_content:
+                    file_bytes = base64.b64decode(b64_content)
+
+            if not sutta_id or not file_bytes:
+                return self.send_json_response({"error": "Missing sutta_id or file data"}, 400)
+
+            sutta_dir, entry = find_sutta_dir(sutta_id)
+            if not sutta_dir:
+                return self.send_json_response({"error": f"Sutta dir not found for {sutta_id}"}, 404)
+
+            sutta_dir.mkdir(parents=True, exist_ok=True)
+            
+            ext = Path(filename).suffix.lower() if filename else ".bin"
+            if ext in [".png", ".jpg", ".jpeg", ".webp"]:
+                target_file = sutta_dir / f"{sutta_dir.name}_graph{ext}"
+                with open(target_file, "wb") as f:
+                    f.write(file_bytes)
+                # Update image_url in JSON
+                json_path = get_sutta_json_path(sutta_id, "en")
+                if json_path and json_path.exists():
+                    with open(json_path, "r", encoding="utf-8") as jf:
+                        jdata = json.load(jf)
+                    jdata["image_url"] = target_file.relative_to(BUDDHA3_DIR).as_posix()
+                    atomic_write(json_path, jdata)
+            elif ext in [".mp4", ".mp3", ".m4a"]:
+                target_file = sutta_dir / f"{sutta_dir.name}{ext}"
+                with open(target_file, "wb") as f:
+                    f.write(file_bytes)
+                json_path = get_sutta_json_path(sutta_id, "en")
+                if json_path and json_path.exists():
+                    with open(json_path, "r", encoding="utf-8") as jf:
+                        jdata = json.load(jf)
+                    jdata["aud_file"] = target_file.name
+                    atomic_write(json_path, jdata)
+            else:
+                target_file = sutta_dir / (filename or "upload.bin")
+                with open(target_file, "wb") as f:
+                    f.write(file_bytes)
+
+            sync_master_json()
+            self.send_json_response({"status": "ok", "message": f"Uploaded {target_file.name} to {sutta_id}"})
+        except Exception as e:
+            self.send_json_response({"error": str(e)}, 500)
+
+    def handle_rerun(self):
+        try:
+            req = self.read_json_body()
+            sutta_id = req.get("sutta_id")
+            field = req.get("field")
+            prompt_template = req.get("prompt", "")
+
+            if not sutta_id or not field:
+                return self.send_json_response({"error": "Missing sutta_id or field"}, 400)
+
+            key = get_gemini_key()
+            if not key:
+                return self.send_json_response({"error": "Gemini API key not found in gemini_api_key.txt"}, 400)
+
+            json_path = get_sutta_json_path(sutta_id, "en")
+            existing = {}
+            if json_path and json_path.exists():
+                with open(json_path, "r", encoding="utf-8") as f:
+                    existing = json.load(f)
+
+            transcript = existing.get("transcript") or existing.get("sutta") or ""
+            formatted_prompt = prompt_template.replace("{sid}", sutta_id).replace("{transcript}", transcript)
+
+            # Gemini API call
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={key}"
+            payload = {
+                "contents": [{"parts": [{"text": formatted_prompt}]}],
+                "generationConfig": {"temperature": 0.2}
+            }
+
+            if field in ["quiz", "knowledge_graph", "tree"]:
+                payload["generationConfig"]["responseMimeType"] = "application/json"
+
+            req_obj = urllib.request.Request(
+                url,
+                data=json.dumps(payload).encode("utf-8"),
+                headers={"Content-Type": "application/json"}
+            )
+            with urllib.request.urlopen(req_obj, timeout=60) as resp:
+                result_raw = json.loads(resp.read().decode("utf-8"))
+
+            text_output = result_raw["candidates"][0]["content"]["parts"][0]["text"]
+
+            # Parse and save result
+            key_map = {
+                "sutta": "sutta",
+                "commentary": "commentary",
+                "quiz": "quiz",
+                "tree": "knowledge_graph",
+                "knowledge_graph": "knowledge_graph",
+                "image": "image_url"
+            }
+            target_key = key_map.get(field, field)
+
+            if target_key in ["quiz", "knowledge_graph"]:
+                try:
+                    parsed_json = json.loads(text_output)
+                    existing[target_key] = parsed_json
+                except Exception:
+                    existing[target_key] = text_output
+            else:
+                existing[target_key] = text_output.strip()
+
+            if json_path:
+                atomic_write(json_path, existing)
+                sync_master_json()
+
+            self.send_json_response({"status": "ok", "field": field, "data": existing[target_key]})
+        except Exception as e:
+            self.send_json_response({"error": str(e)}, 500)
+
+    def handle_clone(self):
+        try:
+            req = self.read_json_body()
+            sutta_id = req.get("sutta_id")
+            target_lang = req.get("target_lang", "jp").lower()
+
+            if not sutta_id:
+                return self.send_json_response({"error": "Missing sutta_id"}, 400)
+
+            sutta_dir, entry = find_sutta_dir(sutta_id)
+            if not sutta_dir:
+                return self.send_json_response({"error": f"Sutta dir not found for {sutta_id}"}, 404)
+
+            lang_dir = sutta_dir / target_lang
+            lang_dir.mkdir(parents=True, exist_ok=True)
+
+            eleven_key = get_eleven_key()
+            
+            # Copy base English JSON to target language directory with translated placeholders
+            en_json = get_sutta_json_path(sutta_id, "en")
+            base_data = {}
+            if en_json and en_json.exists():
+                with open(en_json, "r", encoding="utf-8") as f:
+                    base_data = json.load(f)
+
+            target_json = lang_dir / f"{sutta_dir.name}.json"
+            base_data["language"] = target_lang
+            if target_lang == "jp":
+                base_data["sutta_name"] = f"（{target_lang.upper()}） " + (base_data.get("sutta_name") or sutta_id)
+            else:
+                base_data["sutta_name"] = f"[{target_lang.upper()}] " + (base_data.get("sutta_name") or sutta_id)
+
+            atomic_write(target_json, base_data)
+            sync_master_json()
+
+            self.send_json_response({"status": "ok", "target_lang": target_lang, "message": f"Cloned track for {target_lang.upper()}"})
+        except Exception as e:
+            self.send_json_response({"error": str(e)}, 500)
+
+    def handle_chat(self):
+        try:
+            req = self.read_json_body()
+            sutta_id = req.get("sutta_id")
+            messages = req.get("messages", [])
+
+            if not sutta_id:
+                return self.send_json_response({"error": "Missing sutta_id"}, 400)
+
+            key = get_gemini_key()
+            if not key:
+                return self.send_json_response({"error": "Gemini API key not found in gemini_api_key.txt"}, 400)
+
+            json_path = get_sutta_json_path(sutta_id, "en")
+            sutta_context = "{}"
+            if json_path and json_path.exists():
+                with open(json_path, "r", encoding="utf-8") as f:
+                    sutta_context = f.read()
+
+            system_instruction = f"""You are a wise and compassionate Dhamma teacher. Answer the user's questions strictly using the provided sutta scripture and teacher commentary context. Do not invent doctrine.
+
+[SUTTA CONTEXT DATA]:
+{sutta_context}"""
+
+            contents = []
+            for msg in messages:
+                role = "user" if msg.get("role") == "user" else "model"
+                contents.append({"role": role, "parts": [{"text": msg.get("content", "")}]})
+
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={key}"
+            payload = {
+                "systemInstruction": {"parts": [{"text": system_instruction}]},
+                "contents": contents,
+                "generationConfig": {"temperature": 0.3}
+            }
+
+            req_obj = urllib.request.Request(
+                url,
+                data=json.dumps(payload).encode("utf-8"),
+                headers={"Content-Type": "application/json"}
+            )
+            with urllib.request.urlopen(req_obj, timeout=60) as resp:
+                result_raw = json.loads(resp.read().decode("utf-8"))
+
+            reply = result_raw["candidates"][0]["content"]["parts"][0]["text"]
+            self.send_json_response({"status": "ok", "reply": reply})
+        except Exception as e:
+            self.send_json_response({"error": str(e)}, 500)
+
+    def handle_home_chat(self):
+        try:
+            req = self.read_json_body()
+            messages = req.get("messages", [])
+            context_json = req.get("context_json", {})
+            
+            # Detect available Ollama models
+            ollama_model = "llama3"
+            try:
+                tags_req = urllib.request.Request("http://localhost:11434/api/tags")
+                with urllib.request.urlopen(tags_req, timeout=3) as tags_resp:
+                    tags_data = json.loads(tags_resp.read().decode("utf-8"))
+                    models = tags_data.get("models", [])
+                    if models:
+                        ollama_model = models[0].get("name", "llama3")
+            except Exception:
+                pass
+
+            last_user_msg = messages[-1].get("content", "") if messages else "Hello"
+            
+            prompt_text = f"""[SYSTEM INSTRUCTION]: You are a Dhamma research assistant. Answer user queries strictly based on the provided Nikaya corpus context.
+
+[RETRIEVED CORPUS CONTEXT]:
+{json.dumps(context_json, ensure_ascii=False)[:12000]}
+
+[USER QUERY]: {last_user_msg}"""
+
+            ollama_url = "http://localhost:11434/api/generate"
+            ollama_payload = {
+                "model": ollama_model,
+                "prompt": prompt_text,
+                "stream": False
+            }
+
+            req_obj = urllib.request.Request(
+                ollama_url,
+                data=json.dumps(ollama_payload).encode("utf-8"),
+                headers={"Content-Type": "application/json"}
+            )
+            
+            try:
+                with urllib.request.urlopen(req_obj, timeout=90) as resp:
+                    res_data = json.loads(resp.read().decode("utf-8"))
+                    reply = res_data.get("response", "No response generated.")
+                    return self.send_json_response({"status": "ok", "reply": reply, "model": ollama_model})
+            except Exception as o_err:
+                # Fallback notice if Ollama server is offline
+                fallback_msg = f"[Ollama local model '{ollama_model}' not responding. Please run 'ollama serve' locally to enable home RAG chatbot. Context parsed: {len(context_json)} entries.]"
+                return self.send_json_response({"status": "ok", "reply": fallback_msg, "model": "offline"})
+
+        except Exception as e:
+            self.send_json_response({"error": str(e)}, 500)
+
+
+def main():
+    parser = argparse.ArgumentParser(description="DAMA Sutta Pipeline & Dev Server")
+    parser.add_argument("--serve", action="store_true", help="Run dev HTTP server")
+    parser.add_argument("--port", type=int, default=8000, help="Port to run dev HTTP server on (default: 8000)")
+    args = parser.parse_args()
+
+    if args.serve:
+        sync_master_json()
+        print(f"Starting DAMA Dev Server on http://localhost:{args.port} (serving root: {BUDDHA3_DIR})")
+        httpd = HTTPServer(("0.0.0.0", args.port), DevServerHandler)
+        try:
+            httpd.serve_forever()
+        except KeyboardInterrupt:
+            print("\nShutting down DAMA Dev Server.")
+            httpd.server_close()
+        return 0
+    else:
+        sync_master_json()
+        return 0
 
 if __name__ == "__main__":
     sys.exit(main())
