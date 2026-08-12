@@ -191,11 +191,16 @@ class DevServerHandler(SimpleHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.end_headers()
 
+    def end_headers(self):
+        self.send_header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0")
+        self.send_header("Pragma", "no-cache")
+        self.send_header("Expires", "0")
+        super().end_headers()
+
     def send_cors_headers(self):
         self.send_header("Access-Control-Allow-Origin", "*")
 
     def do_GET(self):
-        # Override to serve frontendoptimised2 files correctly
         super().do_GET()
 
     def do_POST(self):

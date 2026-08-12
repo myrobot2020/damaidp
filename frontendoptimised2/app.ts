@@ -543,10 +543,9 @@ async function selectSutta(suttaId: string) {
     let details: SuttaDetail;
     const cacheKey = `${suttaId}_${currentLanguage}`;
     
-    const response = await fetch("../" + langPath + `?t=${Date.now()}`, { cache: "no-cache" });
+    const response = await fetch("../" + langPath + `?t=${Date.now()}`, { cache: "no-store" });
     if (!response.ok) throw new Error("Failed to fetch sutta data file.");
     details = await response.json() as SuttaDetail;
-    detailCache[cacheKey] = details;
     
     renderSuttaUI(details, entry);
   } catch (err: any) {
@@ -832,10 +831,7 @@ function renderSuttaUI(details: SuttaDetail, entry: SuttaEntry) {
   const existingErr = visualCard.querySelector(".no-img-msg");
   if (existingErr) existingErr.remove();
   
-  let heroUrl = details.image_url || "";
-  if (!heroUrl && entry.folder) {
-    heroUrl = `../${nikFolder}/${entry.folder}/${entry.folder}_image.png`;
-  }
+  let heroUrl = (details && details.image_url) ? details.image_url.trim() : "";
   
   if (heroUrl) {
     if (heroUrl.startsWith("/")) heroUrl = ".." + heroUrl;
