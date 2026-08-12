@@ -1,0 +1,248 @@
+{
+  "aud_file": "5_4_40_audio_jp.mp3",
+  "commentary": "仏陀は言われました。「比丘たちよ、雪山という山々の王に 支えられた大沙羅の樹は、五つの成長を遂げる。五つとは何か？ それらは枝、葉、葉群において成長し、樹皮、新芽、辺材において 成長し、心材において成長する。比丘たちよ、大沙羅の樹は、 山々の王である雪山に支えられ、これら五つの成長を遂げる。 同様に、比丘たちよ、家庭の中の人々も、 信仰ある家長に支えられて、五つの成長を遂げる。五つとは何か？ 彼らは信（信仰）において、戒（道徳）において、聞（学習）において、施（寛大さ）において、 そして慧（知恵）において成長する。比丘たちよ、家庭の人々は 在家の人が成長することができるこれら五つの教えは、非常に重要な 優れた徳性です。すなわち、信、戒、聞、 施、そして慧です。 ここで少し立ち止まりましょう。これら五つの 徳性について、まず最初の一つ目は「信」です。 信とは…… 仏・法・僧の三宝（仏陀、ダンマ、サンガ）に対する 信仰を指します。つまり、もしあなたが 仏・法・僧に対する信仰を育むなら、 これは極めて素晴らしいことの一つです。 二つ目の「戒」とは、 道徳的であること、正しい道徳的行為、そして戒律を守ることを意味します。 三つ目は「聞（学習）」です。聞とはダンマ（法）の知識、 すなわち仏陀の教え（経典・スッタ）に関する知識を意味します。 そして四つ目は「施（寛大さ）」において、 成長することです。これは利己心を減らし、より寛大になり、 物惜しみをしないようになることを意味します。仏陀が言われるように、 他者から何かを求められたときには、 可能であれば与えるように努めることです。そして五つ目は「慧」です。 知恵において成長することは、学習と瞑想の自然な結果として生じます。 ですから、 ここで述べられているのは、 信仰ある家長に支えられることで、人はこれらの方法で成長できるということです。 現代社会において、このような「家長（一族の長）」は存在しません。 これは村長のような存在です。 そして現在、 他の誰かに仏法を教えることができる 在家の人は極めて稀です。したがって、 この点に関しては、これらの教えを説くことはむしろ比丘（出家者）の義務と言えます。",
+  "image_url": "/panels/an_5_4_40_hero.mp4",
+  "knowledge_graph": {
+    "edges": [
+      {
+        "relation": "SUPPORTS",
+        "source": "himalaya",
+        "target": "sal_trees"
+      },
+      {
+        "relation": "SUPPORTS",
+        "source": "clan_chief",
+        "target": "household"
+      },
+      {
+        "order": 1,
+        "relation": "HAS_GROWTH",
+        "source": "sal_trees",
+        "target": "t1"
+      },
+      {
+        "order": 2,
+        "relation": "HAS_GROWTH",
+        "source": "sal_trees",
+        "target": "t2"
+      },
+      {
+        "order": 3,
+        "relation": "HAS_GROWTH",
+        "source": "sal_trees",
+        "target": "t3"
+      },
+      {
+        "order": 4,
+        "relation": "HAS_GROWTH",
+        "source": "sal_trees",
+        "target": "t4"
+      },
+      {
+        "order": 5,
+        "relation": "HAS_GROWTH",
+        "source": "sal_trees",
+        "target": "t5"
+      },
+      {
+        "order": 1,
+        "relation": "HAS_GROWTH",
+        "source": "household",
+        "target": "f1"
+      },
+      {
+        "order": 2,
+        "relation": "HAS_GROWTH",
+        "source": "household",
+        "target": "f2"
+      },
+      {
+        "order": 3,
+        "relation": "HAS_GROWTH",
+        "source": "household",
+        "target": "f3"
+      },
+      {
+        "order": 4,
+        "relation": "HAS_GROWTH",
+        "source": "household",
+        "target": "f4"
+      },
+      {
+        "order": 5,
+        "relation": "HAS_GROWTH",
+        "source": "household",
+        "target": "f5"
+      },
+      {
+        "relation": "PARALLEL_TO",
+        "source": "t1",
+        "target": "f1"
+      },
+      {
+        "relation": "PARALLEL_TO",
+        "source": "t2",
+        "target": "f2"
+      },
+      {
+        "relation": "PARALLEL_TO",
+        "source": "t3",
+        "target": "f3"
+      },
+      {
+        "relation": "PARALLEL_TO",
+        "source": "t4",
+        "target": "f4"
+      },
+      {
+        "relation": "PARALLEL_TO",
+        "source": "t5",
+        "target": "f5"
+      }
+    ],
+    "nodes": [
+      {
+        "description": "山々の王",
+        "id": "himalaya",
+        "label": "雪山（ヒマラヤ）",
+        "pali": "Himavanta",
+        "type": "Support"
+      },
+      {
+        "description": "信仰心を持つ一家の主",
+        "id": "clan_chief",
+        "label": "信仰ある家長",
+        "pali": "saddha kulaputta",
+        "type": "Support"
+      },
+      {
+        "id": "sal_trees",
+        "label": "大沙羅の樹",
+        "pali": "mahāsālā",
+        "type": "GrowingEntity"
+      },
+      {
+        "id": "household",
+        "label": "家庭の人々",
+        "type": "GrowingEntity"
+      },
+      {
+        "domain": "Tree",
+        "id": "t1",
+        "label": "枝・葉・葉群",
+        "order": 1,
+        "pali": "sākhā-patta-palāsa",
+        "type": "GrowthAspect"
+      },
+      {
+        "domain": "Tree",
+        "id": "t2",
+        "label": "樹皮",
+        "order": 2,
+        "pali": "taca",
+        "type": "GrowthAspect"
+      },
+      {
+        "domain": "Tree",
+        "id": "t3",
+        "label": "新芽",
+        "order": 3,
+        "pali": "papaṭikā",
+        "type": "GrowthAspect"
+      },
+      {
+        "domain": "Tree",
+        "id": "t4",
+        "label": "内皮・辺材",
+        "order": 4,
+        "pali": "pheggu",
+        "type": "GrowthAspect"
+      },
+      {
+        "domain": "Tree",
+        "id": "t5",
+        "label": "心材",
+        "order": 5,
+        "pali": "sāra",
+        "type": "GrowthAspect"
+      },
+      {
+        "domain": "Household",
+        "id": "f1",
+        "label": "信（信仰）",
+        "order": 1,
+        "pali": "saddhā",
+        "type": "GrowthAspect"
+      },
+      {
+        "domain": "Household",
+        "id": "f2",
+        "label": "戒（道徳）",
+        "order": 2,
+        "pali": "sīla",
+        "type": "GrowthAspect"
+      },
+      {
+        "domain": "Household",
+        "id": "f3",
+        "label": "聞（学習）",
+        "order": 3,
+        "pali": "suta",
+        "type": "GrowthAspect"
+      },
+      {
+        "domain": "Household",
+        "id": "f4",
+        "label": "施（寛大さ）",
+        "order": 4,
+        "pali": "cāga",
+        "type": "GrowthAspect"
+      },
+      {
+        "domain": "Household",
+        "id": "f5",
+        "label": "慧（知恵）",
+        "order": 5,
+        "pali": "paññā",
+        "type": "GrowthAspect"
+      }
+    ]
+  },
+  "languages": [
+    "en",
+    "ja"
+  ],
+  "quiz": {
+    "goldOptionId": "2",
+    "options": [
+      {
+        "body": "知恵は学習を伴わず、ただ静寂の中に座ることのみによって得られる結果である。",
+        "id": "1",
+        "title": "瞑想のみ"
+      },
+      {
+        "body": "知恵において成長することは、学習と瞑想の自然な結果である。",
+        "id": "2",
+        "title": "自然な結果"
+      },
+      {
+        "body": "知恵は、一族において高い地位を獲得した者に与えられるものである。",
+        "id": "3",
+        "title": "社会的地位"
+      },
+      {
+        "body": "知恵は自然発生的に成長するものであり、努力によって培うことはできない。",
+        "id": "4",
+        "title": "偶然の幸運"
+      }
+    ],
+    "quote": "説法によると、どのようにして知恵（慧）において成長しますか？",
+    "suttaId": "5.4.40",
+    "teacherSummary": "説法者は、知恵は偶然に得られるものではなく、仏法の学習（聞）と瞑想の実践を組み合わせることによる直接的な成果であると明確に述べています。"
+  },
+  "sutta": "（音楽）",
+  "sutta_central_link": "https://suttacentral.net/an5.40",
+  "sutta_id": "5.4.40",
+  "sutta_name": "サーランダナ・スッタ (Sālandana Sutta)",
+  "valid": true
+}

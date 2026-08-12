@@ -1,0 +1,38 @@
+{
+  "entries": {
+    "AN 5.4.40": {
+      "aud_file": "5_4_40.mp4",
+      "folder": "5_4_40",
+      "json": "Anguttara Nikaya by Bhante Hye Dhammavuddho Mahathera/5_4_40/5_4_40.json",
+      "languages": [
+        "en",
+        "ja"
+      ],
+      "mp4": "Anguttara Nikaya by Bhante Hye Dhammavuddho Mahathera/5_4_40/5_4_40.mp4",
+      "nikaya": "an",
+      "path": "Anguttara Nikaya by Bhante Hye Dhammavuddho Mahathera/5_4_40",
+      "srt": "Anguttara Nikaya by Bhante Hye Dhammavuddho Mahathera/5_4_40/5_4_40.en.srt",
+      "status": "COMPLETE",
+      "sutta_id": "AN 5.4.40",
+      "sutta_name": "",
+      "video_id": "m7b47xzyHDE"
+    },
+    "MN 1": {
+      "aud_file": "1.mp4",
+      "folder": "1",
+      "json": "Majjhima Nikaya by Bhante Hye Dhammavuddho Mahathera/1/1.json",
+      "languages": [
+        "en"
+      ],
+      "mp4": "Majjhima Nikaya by Bhante Hye Dhammavuddho Mahathera/1/1.mp4",
+      "nikaya": "mn",
+      "path": "Majjhima Nikaya by Bhante Hye Dhammavuddho Mahathera/1",
+      "srt": "Majjhima Nikaya by Bhante Hye Dhammavuddho Mahathera/1/1.en.srt",
+      "status": "COMPLETE",
+      "sutta_id": "MN 1",
+      "sutta_name": "",
+      "video_id": "LTos07bzzbk"
+    }
+  },
+  "schema_version": "2.0"
+}

@@ -1,0 +1,6 @@
+# Python tooling for local pipeline + checks
+yt-dlp
+pytest
+deep-translator
+gradio_client
+requests

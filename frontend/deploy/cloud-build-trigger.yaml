@@ -1,0 +1,7 @@
+# Import: gcloud builds triggers import --source=deploy/cloud-build-trigger.yaml --region=us-central1 --project=damalight
+name: dama-mob-push-main
+repositoryEventConfig:
+  repository: projects/damalight/locations/us-central1/connections/dama-github/repositories/dama-mob
+  push:
+    branch: ^main$
+filename: deploy/cloudbuild.yaml

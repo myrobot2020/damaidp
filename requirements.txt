@@ -1,0 +1,5 @@
+yt-dlp
+google-cloud-storage
+openpyxl
+pytest
+playwright

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buddhist Sutta Mobile Explorer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent: #f59e0b;
+      --accent-hover: #fbbf24;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      margin-top: 20px;
+    }
+    
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(to right, #f59e0b, #fb7185);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+    
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      font-weight: 300;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .search-bar-container {
+      position: relative;
+      width: 100%;
+    }
+    
+    .search-bar {
+      width: 100%;
+      padding: 16px 20px;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      background: rgba(15, 23, 42, 0.6);
+      color: var(--text-main);
+      font-size: 1.1rem;
+      outline: none;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    }
+    
+    .search-bar:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+    }
+    
+    .tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    
+    .tab {
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      font-size: 0.95rem;
+    }
+    
+    .tab:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .tab.active {
+      background: var(--accent);
+      color: #0f172a;
+      border-color: var(--accent);
+    }
+    
+    .player-section {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 20px;
+      display: none;
+      flex-direction: column;
+      gap: 15px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+    
+    .player-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .player-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    
+    .close-player {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    
+    .close-player:hover {
+      color: #ef4444;
+    }
+    
+    .iframe-wrapper {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .iframe-wrapper iframe, .iframe-wrapper video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #000;
+    }
+    
+    .results-count {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-left: 5px;
+    }
+    
+    .sutta-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .sutta-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 20px;
+      backdrop-filter: blur(12px);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .sutta-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(245, 158, 11, 0.4);
+    }
+    
+    .sutta-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .sutta-id {
+      font-weight: 800;
+      color: var(--accent);
+      font-size: 1.15rem;
+      background: rgba(245, 158, 11, 0.1);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+    
+    .nikaya-badge {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 4px 10px;
+      border-radius: 6px;
+      color: var(--text-muted);
+    }
+    
+    .sutta-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+    
+    .sutta-details {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 5px;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    
+    .btn-primary {
+      background: var(--accent);
+      color: #0f172a;
+      border: none;
+    }
+    
+    .btn-primary:hover {
+      background: var(--accent-hover);
+    }
+    
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
+      .tab {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+      }
+      .sutta-name {
+        font-size: 1.3rem;
+      }
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Buddhist Sutta Mobile Explorer</h1>
+    <p class="subtitle">Search and stream teachings across the Nikayas</p>
+  </header>
+  
+  <div class="container">
+    <!-- Active Player -->
+    <div class="player-section" id="playerSection">
+      <div class="player-header">
+        <div class="player-title" id="playerTitle">Sutta Title</div>
+        <button class="close-player" onclick="closePlayer()">&times;</button>
+      </div>
+      <div class="iframe-wrapper">
+        <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+        <video id="localPlayer" controls style="display:none"></video>
+      </div>
+    </div>
+    
+    <!-- Filter and Search -->
+    <div class="search-bar-container">
+      <input type="text" class="search-bar" id="searchInput" placeholder="Search by Sutta ID or Name (e.g. 10.12, Alavaka)..." oninput="filterSuttas()">
+    </div>
+    
+    <div class="tabs">
+      <button class="tab active" id="tab-all" onclick="setTab('all')">All Nikayas</button>
+      <button class="tab" id="tab-dn" onclick="setTab('dn')">Digha</button>
+      <button class="tab" id="tab-sn" onclick="setTab('sn')">Samyutta</button>
+      <button class="tab" id="tab-an" onclick="setTab('an')">Anguttara</button>
+      <button class="tab" id="tab-kn" onclick="setTab('kn')">Khuddaka</button>
+      <div class="results-count" id="resultsCount">0 suttas found</div>
+    </div>
+    
+    <!-- Sutta Card List -->
+    <div class="sutta-list" id="suttaList">
+      <!-- Cards injected dynamically -->
+    </div>
+  </div>
+
+  <script>
+    // Embedded mapping database
+    const SUTTA_MAPPINGS = {"AN 5.4.40": {"video_id": "m7b47xzyHDE", "nikaya": "an", "path": "Anguttara Nikaya by Bhante Hye Dhammavuddho Mahathera/5_4_40", "sutta_name": "", "aud_file": "5_4_40.mp4"}, "MN 1": {"video_id": "LTos07bzzbk", "nikaya": "mn", "path": "Majjhima Nikaya by Bhante Hye Dhammavuddho Mahathera/1", "sutta_name": "", "aud_file": "1.mp4"}};
+    let activeTab = 'all';
+    
+    // Initialize
+    document.addEventListener("DOMContentLoaded", () => {
+      filterSuttas();
+    });
+    
+    function setTab(tabName) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById(`tab-${tabName}`).classList.add('active');
+      activeTab = tabName;
+      filterSuttas();
+    }
+    
+    function playVideo(videoId, title) {
+      const section = document.getElementById('playerSection');
+      const iframe = document.getElementById('videoPlayer');
+      const video = document.getElementById('localPlayer');
+      const titleDiv = document.getElementById('playerTitle');
+      
+      titleDiv.innerText = title;
+      video.style.display = 'none';
+      video.pause();
+      iframe.style.display = 'block';
+      iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+      section.style.display = 'flex';
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function playLocal(path, title) {
+      const section = document.getElementById('playerSection');
+      const iframe = document.getElementById('videoPlayer');
+      const video = document.getElementById('localPlayer');
+      const titleDiv = document.getElementById('playerTitle');
+
+      titleDiv.innerText = title;
+      iframe.style.display = 'none';
+      iframe.src = '';
+      video.style.display = 'block';
+      video.src = path;
+      video.play();
+      section.style.display = 'flex';
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    function closePlayer() {
+      const section = document.getElementById('playerSection');
+      const iframe = document.getElementById('videoPlayer');
+      const video = document.getElementById('localPlayer');
+      iframe.src = '';
+      video.pause();
+      video.src = '';
+      section.style.display = 'none';
+    }
+    
+    function filterSuttas() {
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+      const listContainer = document.getElementById('suttaList');
+      listContainer.innerHTML = '';
+      
+      let matchedCount = 0;
+      
+      const sortedKeys = Object.keys(SUTTA_MAPPINGS).sort((a, b) => {
+        return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
+      });
+      
+      for (const sid of sortedKeys) {
+        const item = SUTTA_MAPPINGS[sid];
+        const nikaya = item.nikaya || '';
+        const sName = item.sutta_name || '';
+        const folder = item.folder || '';
+        const vid = item.video_id || '';
+        const audFile = item.aud_file || '';
+        
+        // Filter by tab
+        if (activeTab !== 'all' && nikaya !== activeTab) {
+          continue;
+        }
+        
+        // Filter by search query
+        const textToMatch = `${sid} ${sName} ${folder}`.toLowerCase();
+        if (query && !textToMatch.includes(query)) {
+          continue;
+        }
+        
+        matchedCount++;
+        
+        // Create Card
+        const card = document.createElement('div');
+        card.className = 'sutta-card';
+        
+        let actionsHtml = '';
+        if (vid) {
+          actionsHtml += `<button class="btn btn-primary" onclick="playVideo('${vid}', '${sid} - ${sName || 'Sutta'}')">
+            <svg style="width:18px;height:18px;fill:currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> YouTube
+          </button>`;
+        }
+
+        const mp4Path = item.mp4 || (item.path && item.aud_file ? `${item.path}/${item.aud_file}` : '');
+        if (mp4Path) {
+          actionsHtml += `<button class="btn btn-primary" style="background:#10b981" onclick="playLocal('${mp4Path}', '${sid} - ${sName || 'Sutta'}')">
+            <svg style="width:18px;height:18px;fill:currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Play MP4
+          </button>`;
+        }
+        
+        // SuttaCentral link generator - Ensure prefix is included for direct navigating
+        let scId = sid.toLowerCase().replace(/\s+/g, '').replace(/_/g, '.');
+        if (!scId.match(/^(an|sn|dn|kn|mn)/)) {
+           scId = nikaya + scId;
+        }
+        const scLink = `https://suttacentral.net/${scId}`;
+        actionsHtml += `<a class="btn btn-secondary" href="${scLink}" target="_blank">
+          <svg style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg> SuttaCentral
+        </a>`;
+        
+        card.innerHTML = `
+          <div class="sutta-meta">
+            <span class="sutta-id">${sid}</span>
+            <span class="nikaya-badge">${nikaya.toUpperCase()} - ${folder}</span>
+          </div>
+          <div class="sutta-name">${sName || 'Sutta Discourse'}</div>
+          <div class="sutta-details">
+            ${audFile ? `<div><strong>Audio Source:</strong> ${audFile}</div>` : ''}
+            ${vid ? `<div><strong>YouTube ID:</strong> ${vid}</div>` : ''}
+          </div>
+          <div class="actions">
+            ${actionsHtml}
+          </div>
+        `;
+        listContainer.appendChild(card);
+      }
+      
+      document.getElementById('resultsCount').innerText = `${matchedCount} suttas found`;
+    }
+  </script>
+</body>
+</html>

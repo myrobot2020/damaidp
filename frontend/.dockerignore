@@ -1,0 +1,7 @@
+# Reduce Docker build context size (`.output/` must remain included).
+node_modules
+.git
+dist
+.tanstack
+.vinxi
+.nitro

@@ -1,0 +1,252 @@
+{
+  "aud_file": "5_4_40_audio.mp4",
+  "commentary": "stop here for a while these five uh qualities uh uh the first one is faith faith refers to like faith in the triple uh gems the buddha dharma and sangha that means if you um you grow in this faith in the buddha dharma and sangha this is one of the very good things the second one in virtue means being virtuous good moral conduct keeping the precepts third one is learning learning means knowledge of the dhamma knowledge of the buddha's teachings that means the sutasa the sutras and the fourth one is growing in generosity that means becoming less selfish becoming more generous becoming more open handed as buddha says whatever people ask of you you try to give if you can and the fifth one is wisdom to grow in wisdom grow in wisdom is a natural result of learning and meditation so here it says um supported by a believing clan chief a person can grow in these ways and nowadays in the modern times we don't have this clan chief it's like a village chief and now like a very few uh lay persons i would be able to like teach the dhamma to somebody else so and concerning this is more of a monk's duty here to teach these things",
+  "image_url": "/panels/an_5_4_40_hero.mp4",
+  "knowledge_graph": {
+    "edges": [
+      {
+        "relation": "SUPPORTS",
+        "source": "himalaya",
+        "target": "sal_trees"
+      },
+      {
+        "relation": "SUPPORTS",
+        "source": "clan_chief",
+        "target": "household"
+      },
+      {
+        "order": 1,
+        "relation": "HAS_GROWTH",
+        "source": "sal_trees",
+        "target": "t1"
+      },
+      {
+        "order": 2,
+        "relation": "HAS_GROWTH",
+        "source": "sal_trees",
+        "target": "t2"
+      },
+      {
+        "order": 3,
+        "relation": "HAS_GROWTH",
+        "source": "sal_trees",
+        "target": "t3"
+      },
+      {
+        "order": 4,
+        "relation": "HAS_GROWTH",
+        "source": "sal_trees",
+        "target": "t4"
+      },
+      {
+        "order": 5,
+        "relation": "HAS_GROWTH",
+        "source": "sal_trees",
+        "target": "t5"
+      },
+      {
+        "order": 1,
+        "relation": "HAS_GROWTH",
+        "source": "household",
+        "target": "f1"
+      },
+      {
+        "order": 2,
+        "relation": "HAS_GROWTH",
+        "source": "household",
+        "target": "f2"
+      },
+      {
+        "order": 3,
+        "relation": "HAS_GROWTH",
+        "source": "household",
+        "target": "f3"
+      },
+      {
+        "order": 4,
+        "relation": "HAS_GROWTH",
+        "source": "household",
+        "target": "f4"
+      },
+      {
+        "order": 5,
+        "relation": "HAS_GROWTH",
+        "source": "household",
+        "target": "f5"
+      },
+      {
+        "relation": "PARALLEL_TO",
+        "source": "t1",
+        "target": "f1"
+      },
+      {
+        "relation": "PARALLEL_TO",
+        "source": "t2",
+        "target": "f2"
+      },
+      {
+        "relation": "PARALLEL_TO",
+        "source": "t3",
+        "target": "f3"
+      },
+      {
+        "relation": "PARALLEL_TO",
+        "source": "t4",
+        "target": "f4"
+      },
+      {
+        "relation": "PARALLEL_TO",
+        "source": "t5",
+        "target": "f5"
+      }
+    ],
+    "nodes": [
+      {
+        "description": "King of mountains",
+        "id": "himalaya",
+        "label": "Himalaya",
+        "pali": "Himavanta",
+        "type": "Support"
+      },
+      {
+        "description": "Family head with faith",
+        "id": "clan_chief",
+        "label": "Believing Clan Chief",
+        "pali": "saddha kulaputta",
+        "type": "Support"
+      },
+      {
+        "id": "sal_trees",
+        "label": "Great Sal Trees",
+        "pali": "mahāsālā",
+        "type": "GrowingEntity"
+      },
+      {
+        "id": "household",
+        "label": "Folk within a home",
+        "type": "GrowingEntity"
+      },
+      {
+        "domain": "Tree",
+        "id": "t1",
+        "label": "Branches, leaves & foliage",
+        "order": 1,
+        "pali": "sākhā-patta-palāsa",
+        "type": "GrowthAspect"
+      },
+      {
+        "domain": "Tree",
+        "id": "t2",
+        "label": "Bark",
+        "order": 2,
+        "pali": "taca",
+        "type": "GrowthAspect"
+      },
+      {
+        "domain": "Tree",
+        "id": "t3",
+        "label": "Shoots",
+        "order": 3,
+        "pali": "papaṭikā",
+        "type": "GrowthAspect"
+      },
+      {
+        "domain": "Tree",
+        "id": "t4",
+        "label": "Softwood / pith",
+        "order": 4,
+        "pali": "pheggu",
+        "type": "GrowthAspect"
+      },
+      {
+        "domain": "Tree",
+        "id": "t5",
+        "label": "Heartwood",
+        "order": 5,
+        "pali": "sāra",
+        "type": "GrowthAspect"
+      },
+      {
+        "domain": "Household",
+        "id": "f1",
+        "label": "Faith",
+        "order": 1,
+        "pali": "saddhā",
+        "type": "GrowthAspect"
+      },
+      {
+        "domain": "Household",
+        "id": "f2",
+        "label": "Virtue",
+        "order": 2,
+        "pali": "sīla",
+        "type": "GrowthAspect"
+      },
+      {
+        "domain": "Household",
+        "id": "f3",
+        "label": "Learning",
+        "order": 3,
+        "pali": "suta",
+        "type": "GrowthAspect"
+      },
+      {
+        "domain": "Household",
+        "id": "f4",
+        "label": "Generosity",
+        "order": 4,
+        "pali": "cāga",
+        "type": "GrowthAspect"
+      },
+      {
+        "domain": "Household",
+        "id": "f5",
+        "label": "Wisdom",
+        "order": 5,
+        "pali": "paññā",
+        "type": "GrowthAspect"
+      }
+    ]
+  },
+  "languages": [
+    "en",
+    "ja"
+  ],
+  "nikaya": "Anguttara Nikaya by Bhante Hye Dhammavuddho Mahathera",
+  "quiz": {
+    "goldOptionId": "2",
+    "options": [
+      {
+        "body": "Wisdom is purely a result of sitting in silence without any study.",
+        "id": "1",
+        "title": "Meditation Only"
+      },
+      {
+        "body": "To grow in wisdom is a natural result of learning and meditation.",
+        "id": "2",
+        "title": "Natural Result"
+      },
+      {
+        "body": "Wisdom is granted to those who achieve a high rank in the clan.",
+        "id": "3",
+        "title": "Social Status"
+      },
+      {
+        "body": "Wisdom grows spontaneously and cannot be cultivated through effort.",
+        "id": "4",
+        "title": "Random Luck"
+      }
+    ],
+    "quote": "According to the teacher, how does one grow in wisdom?",
+    "suttaId": "5.4.40",
+    "teacherSummary": "The teacher states clearly that wisdom is not accidental—it is the direct outcome of combining Dhamma study (learning) with meditative practice."
+  },
+  "schema_version": "2.0",
+  "sutta": "that is 5.4.40 the buddha said monks the great saal trees supported by himalayan the king of the mountains grow in five growths what five they grow in branches leaves and foliage they grow in bark shoots in pith they grow in heart or heart wood monks the great salt trees or salah trees supported by himalaya the king of the mountains grow in these five growths even so amongst folk within a home supported by a believing clan chief grow in five growths what five they grow in faith in virtue in learning in generosity they grow in wisdom monks folk within the home supported by a believing clan chief grow in these five growths these five things that a lay person can grow in are very important good qualities faith virtue learning generosity and wisdom",
+  "sutta_central_link": "https://suttacentral.net/an5.40",
+  "sutta_id": "AN 5.4.40",
+  "sutta_name": "Sālandana Sutta",
+  "transcript": "that is 5.4.40 the buddha said monks the great saal trees supported by himalayan the king of the mountains grow in five growths what five they grow in branches leaves and foliage they grow in bark shoots in pith they grow in heart or heart wood monks the great salt trees or salah trees supported by himalaya the king of the mountains grow in these five growths even so amongst folk within a home supported by a believing clan chief grow in five growths what five they grow in faith in virtue in learning in generosity they grow in wisdom monks folk within the home supported by a believing clan chief grow in these five growths these five things that a lay person can grow in are very important good qualities faith virtue learning generosity and wisdom stop here for a while these five uh qualities uh uh the first one is faith faith refers to like faith in the triple uh gems the buddha dharma and sangha that means if you um you grow in this faith in the buddha dharma and sangha this is one of the very good things the second one in virtue means being virtuous good moral conduct keeping the precepts third one is learning learning means knowledge of the dhamma knowledge of the buddha's teachings that means the sutasa the sutras and the fourth one is growing in generosity that means becoming less selfish becoming more generous becoming more open handed as buddha says whatever people ask of you you try to give if you can and the fifth one is wisdom to grow in wisdom grow in wisdom is a natural result of learning and meditation so here it says um supported by a believing clan chief a person can grow in these ways and nowadays in the modern times we don't have this clan chief it's like a village chief and now like a very few uh lay persons i would be able to like teach the dhamma to somebody else so and concerning this is more of a monk's duty here to teach these things",
+  "valid": true,
+  "video_id": "m7b47xzyHDE"
+}

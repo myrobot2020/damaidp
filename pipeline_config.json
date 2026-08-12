@@ -1,0 +1,122 @@
+{
+  "default_buddha_dir": "C:/Users/ADMIN/Desktop/buddha3",
+  "bounds_csv": "data/raw/bounds/sutta_bounds_an_folders.csv",
+  "gcs_bucket_name": "damalight-dama-json",
+  "catalog_path": "docs/sutta_id_chain.txt",
+  "default_book_fallback": 11,
+  "ollama": {
+    "default_host": "http://127.0.0.1:11434",
+    "default_model": "llama3.2:3b",
+    "timeout": 120,
+    "seed_examples": 0,
+    "rolling_examples": 3,
+    "system_prompt": "You extract explicit doctrinal chains from Buddhist sutta records (Anguttara Nikaya).\n\nRules:\n1. Primary source is the sutta text.\n2. Use commentary only to disambiguate ASR errors or clarify wording.\n3. Anguttara is organized by number: Book N gives discourses framed as N-fold sets. A useful chain for this corpus is exactly ONE list of N items when the sutta presents that N-fold teaching. chain.count and len(items) must equal N.\n4. If the sutta mixes a different number of factors (e.g. 3 plus 7) or has no single list of exactly N items, return has_chain false — do not output a shorter or longer list.\n5. Do not invent missing items from outside knowledge.\n6. Preserve original wording as much as possible, with only light cleanup for spelling/punctuation.\n7. If there is no single clear chain of exactly N items (see user message for N), return has_chain false.\n8. Return exactly one JSON object and nothing else.\n\nRequired JSON shape:\n{\n  \"has_chain\": true,\n  \"chain\": {\n    \"items\": [\"...\"],\n    \"count\": N,\n    \"is_ordered\": true,\n    \"category\": \"short label\"\n  }\n}\n\nIf no suitable chain:\n{\n  \"has_chain\": false\n}",
+    "user_template": "Extract a single explicit chain from this sutta record.\n\n{anguttara_book_line}SUTTA_ID: {sutta_id}\n\nSUTTA TEXT:\n{sutta}\n\nTEACHER COMMENTARY:\n{commentary}",
+    "user_template_primary_only": "Extract a single explicit chain from this sutta record.\n\n{anguttara_book_line}SUTTA_ID: {sutta_id}\n\nSUTTA TEXT:\n{sutta}",
+    "repair_system_prompt": "You repair malformed JSON payloads. Output strictly valid JSON. Do not include markdown code block formatting or explanations."
+  },
+  "playlists": {
+    "sn_playlist_id": "PLD8I9vPmsYXz4HFUFPsA0b6mYyhluXq0a",
+    "playlists_map": {
+      "sn": "PLD8I9vPmsYXz4HFUFPsA0b6mYyhluXq0a",
+      "dn": "PLD8I9vPmsYXyeQPTfw_D6mtywW7Jzv5tW",
+      "mn": "PLD8I9vPmsYXyNK67SVKu3KSa2YdrHJToA",
+      "kn": "PLD8I9vPmsYXwegw16WAhjxfjfoe0Mnmon",
+      "an": "PLD8I9vPmsYXxR_Qt36EbquMkYTOZbXWpM"
+    }
+  },
+  "nikayas": [
+    {
+      "id": "dn",
+      "folder": "Digha Nikaya by Bhante Hye Dhammavuddho Mahathera"
+    },
+    {
+      "id": "sn",
+      "folder": "Samyutta Nikaya by Bhante Hye Dhammavuddho Mahathera"
+    },
+    {
+      "id": "an",
+      "folder": "Anguttara Nikaya by Bhante Hye Dhammavuddho Mahathera"
+    },
+    {
+      "id": "kn",
+      "folder": "Khuddaka Nikaya by Bhante Dhammavuddho Hye Mahathera"
+    }
+  ],
+  "video_mappings": {
+    "NORM_ROWS": [
+      {
+        "vid": "7J0h61kRqBg",
+        "rel": "sn/sn1/suttas/1.1.json",
+        "safe": "SN_1_1"
+      },
+      {
+        "vid": "G9KEzovtvfE",
+        "rel": "sn/sn1/suttas/1.2.json",
+        "safe": "SN_1_2"
+      },
+      {
+        "vid": "U_4WrY1s4Hk",
+        "rel": "dn/dn1/suttas/1.1.json",
+        "safe": "DN_1_1"
+      },
+      {
+        "vid": "I94ZyzJ97NE",
+        "rel": "dn/dn1/suttas/1.2.json",
+        "safe": "DN_1_2"
+      },
+      {
+        "vid": "LTos07bzzbk",
+        "rel": "mn/mn1/suttas/1.1.json",
+        "safe": "MN_1_1"
+      },
+      {
+        "vid": "3QT6dyjFTfE",
+        "rel": "mn/mn1/suttas/1.2.json",
+        "safe": "MN_1_2"
+      },
+      {
+        "vid": "euxEqyNyUb8",
+        "rel": "kn/kn1/suttas/1.1.json",
+        "safe": "KN_1_1"
+      },
+      {
+        "vid": "0ToXHUNZFaQ",
+        "rel": "kn/kn1/suttas/1.2.json",
+        "safe": "KN_1_2"
+      }
+    ]
+  },
+  "text_heuristics": {
+    "start_phrase": "thus have i heard",
+    "end_phrase": "end of the suta",
+    "commentary_min_start_pos": 200,
+    "sutta_end_pattern": "\\b(?:that'?s\\s+)?the\\s+end\\s+of\\s+the\\s+sut(?:ta|a|e|i)\\b",
+    "commentary_start_patterns": [
+      "i\\s+just\\s+stopped\\s+here",
+      "i'?ll\\s+just\\s+stop\\s+here",
+      "so\\s+here\\s+(?:the\\s+)?buddha",
+      "so\\s+in\\s+this\\s+sut(?:ta|a|e|i)",
+      "this\\s+sut(?:ta|a|e|i)\\s+is",
+      "this\\s+is\\s+one\\s+of\\s+those\\s+sut(?:tas|as|es|is)",
+      "i\\s+will\\s+just\\s+stop\\s+here"
+    ],
+    "slice_fallback_short": 400,
+    "slice_fallback_threshold": 700,
+    "slice_fallback_sutta": 550,
+    "slice_fallback_max_len": 3200,
+    "valid_sutta_min_chars": 40
+  },
+  "audio_defaults": {
+    "fallback_audio_file": "005_Anguttara Nikaya Book 1D 1184 - 12148 by Bhante Hye Dhammavuddho Mahathera.mp3",
+    "fallback_start_s": 0.0,
+    "fallback_end_s": 120.0,
+    "fallback_duration": 3600.0
+  },
+  "audio_transcode": {
+    "enabled": true,
+    "bitrate": "48k",
+    "channels": 1,
+    "format": "mp3"
+  }
+}

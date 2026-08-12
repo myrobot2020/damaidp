@@ -1,0 +1,19 @@
+SUPPORT BASE
+    │
+    ├── Himalaya (king of mountains)
+    │   │
+    │   └── Great Sal Trees grow in 5 ways
+    │       ├── Branches, leaves & foliage
+    │       ├── Bark
+    │       ├── Shoots
+    │       ├── Softwood / pith
+    │       └── HeartwoodD
+    │
+    └── Believing clan chief / family head with faith
+            │
+            └── Folk in the household grow in 5 ways
+                    ├── Faith (saddhā)
+                    ├── Virtue / ethics (sīla)
+                    ├── Learning (suta)
+                    ├── Generosity (cāga)
+                    └── Wisdom (paññā)

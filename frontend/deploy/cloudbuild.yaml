@@ -1,0 +1,92 @@
+# Cloud Build: GitHub push → npm build (GCP/Nitro) → Artifact Registry → Cloud Run.
+#
+# One-time (Console or gcloud):
+#   gcloud config set project damalight
+#   gcloud services enable cloudbuild.googleapis.com run.googleapis.com artifactregistry.googleapis.com
+#   gcloud artifacts repositories create dama-mob --repository-format=docker --location=asia-south1
+#
+# Connect GitHub: Cloud Build → Repositories → Connect repository → GitHub → select myrobot2020/dama-mob
+# Create trigger: branch ^main$, config: /deploy/cloudbuild.yaml, service account with roles:
+#   Cloud Build Editor, Artifact Registry Writer, Cloud Run Admin (or custom least-privilege).
+#
+substitutions:
+  # Mumbai (South Asia). Artifact Registry + Cloud Run deploy target.
+  _REGION: asia-south1
+  _SERVICE_NAME: dama-mob
+  _AR_REPO: dama-mob
+  # Public HTTPS base for teacher MP3s (GCS): https://storage.googleapis.com/BUCKET_NAME
+  # Create bucket + upload: see deploy/GCS_AUD.md. Leave empty to use /dama-aud/ from the image.
+  _VITE_DAMA_AUD_PUBLIC_BASE: "https://storage.googleapis.com/damalight-dama-aud"
+  _VITE_DAMA_CORPUS_GCS_BASE: "https://storage.googleapis.com/damalight-dama-json"
+  # Public browser config. The GitHub trigger overrides these with production values.
+  _VITE_SUPABASE_URL: ""
+  _VITE_SUPABASE_ANON_KEY: ""
+  # Server-only key is mounted from Secret Manager at runtime.
+  _OPENAI_SECRET: "dama-openai-api-key"
+  _OPENAI_REFLECTION_MODEL: "gpt-4o-mini"
+  _SHORT_SHA: "manual"
+
+steps:
+  # npm ci was failing: lockfile peer trees differ from npm's strict ci check (nitro/unstorage peers).
+  - id: install
+    name: node:22
+    dir: .
+    env:
+      - CI_GCP=1
+    args: ["npm", "install", "--no-audit", "--no-fund"]
+
+  # Vitest unit tests (no Supabase secrets required).
+  - id: test
+    name: node:22
+    dir: .
+    args: ["npm", "run", "test"]
+
+  - id: build
+    name: node:22
+    dir: .
+    env:
+      - CI_GCP=1
+      - VITE_DAMA_AUD_PUBLIC_BASE=${_VITE_DAMA_AUD_PUBLIC_BASE}
+      - VITE_DAMA_CORPUS_GCS_BASE=${_VITE_DAMA_CORPUS_GCS_BASE}
+      - VITE_SUPABASE_URL=${_VITE_SUPABASE_URL}
+      - VITE_SUPABASE_ANON_KEY=${_VITE_SUPABASE_ANON_KEY}
+    args: ["npm", "run", "build"]
+
+  - id: docker-build
+    name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -f
+      - deploy/Dockerfile
+      - -t
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/${_SERVICE_NAME}:${_SHORT_SHA}
+      - -t
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/${_SERVICE_NAME}:latest
+      - .
+
+  # Cloud Build's `images:` push runs *after* all steps; deploy must pull from AR first.
+  - id: push-images
+    name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - --all-tags
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/${_SERVICE_NAME}
+
+  - id: deploy
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - ${_SERVICE_NAME}
+      - --image=${_REGION}-docker.pkg.dev/$PROJECT_ID/${_AR_REPO}/${_SERVICE_NAME}:${_SHORT_SHA}
+      - --region=${_REGION}
+      - --platform=managed
+      - --allow-unauthenticated
+      - --remove-env-vars=VITE_DAMA_CORPUS_GCS_BASE,VITE_DAMA_AUD_PUBLIC_BASE,VITE_SUPABASE_URL,VITE_SUPABASE_ANON_KEY
+      - --update-env-vars=OPENAI_REFLECTION_MODEL=${_OPENAI_REFLECTION_MODEL}
+      - --update-secrets=OPENAI_API_KEY=${_OPENAI_SECRET}:latest
+      - --quiet
+
+options:
+  logging: CLOUD_LOGGING_ONLY
