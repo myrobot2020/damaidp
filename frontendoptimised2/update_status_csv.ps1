@@ -1,9 +1,12 @@
-# Standalone PowerShell Script: Naturally Sorted Sutta Ground Truth CSV Generator
-# Audits physical disk folders across BOTH root and downloads directories (993 clean suttas)
+# Standalone PowerShell Script: Dual Master JSON & CSV Ground Truth Generator
+# 1. Scans physical disk folders across root & downloads (992 clean suttas)
+# 2. Generates master.json as the Single JSON Source of Truth for Web Frontend
+# 3. Generates sutta_status_matrix.csv reflecting master.json for R Shiny & Excel Audit
 
 $baseDir = "C:\Users\ADMIN\Desktop\buddha3"
 $frontendDir = Join-Path $baseDir "frontendoptimised2"
 $downloadsDir = Join-Path $frontendDir "downloads"
+$masterJsonFile = Join-Path $frontendDir "master.json"
 $csvFile = Join-Path $frontendDir "sutta_status_matrix.csv"
 
 $nikayaFolders = [ordered]@{
@@ -22,7 +25,8 @@ $nikayaNames = @{
     "KN" = "Khuddaka Nikaya"
 }
 
-$results = [System.Collections.Generic.List[PSObject]]::new()
+$entriesMap = [ordered]@{}
+$resultsList = [System.Collections.Generic.List[PSObject]]::new()
 
 foreach ($nikCode in $nikayaFolders.Keys) {
     $folderName = $nikayaFolders[$nikCode]
@@ -55,7 +59,6 @@ foreach ($nikCode in $nikayaFolders.Keys) {
         }
     }
     
-    # Natural order sort key for folder names (Book 1 < Book 2 < ... < Book 9 < Book 10 < Book 11)
     $sortedFolderIds = $uniqueUnits.Keys | Sort-Object {
         [regex]::Replace($_, '\d+', { $args[0].Value.PadLeft(8, '0') })
     }
@@ -164,7 +167,31 @@ foreach ($nikCode in $nikayaFolders.Keys) {
         $youtubeUrl = if ($videoId) { "https://www.youtube.com/watch?v=$videoId" } else { "" }
         $featsList = ($feats | Sort-Object) -join " "
         $langsList = ($langs | Sort-Object) -join " "
+        $sortedFeatsArray = $feats | Sort-Object
         
+        # Build JSON Entry object
+        $entryObj = [ordered]@{
+            nikaya                = $nikCode.ToLower()
+            folder                = $folderId
+            title                 = $title
+            video_id              = $videoId
+            sc_url                = $scUrl
+            status                = $status
+            last_edited_timestamp = $ts
+            active_features_count = $feats.Count
+            features_list         = $sortedFeatsArray
+            languages             = [ordered]@{
+                en = if ($jsonPathRel) { $jsonPathRel } else { "../$($nikayaFolders[$nikCode])/$folderId/$folderId.json" }
+            }
+        }
+        
+        if ($hasJp) {
+            $entryObj.languages["jp"] = "../$($nikayaFolders[$nikCode])/$folderId/$folderId.jp.json"
+        }
+        
+        $entriesMap[$sid] = $entryObj
+        
+        # Build CSV Row object
         $row = [PSCustomObject]@{
             sutta_id              = $sid
             title                 = $title
@@ -197,13 +224,33 @@ foreach ($nikCode in $nikayaFolders.Keys) {
             last_edited_timestamp = $ts
         }
         
-        $results.Add($row)
+        $resultsList.Add($row)
     }
 }
 
+# Build Master JSON payload
+$nikayaFoldersJson = [ordered]@{}
+foreach ($k in $nikayaFolders.Keys) {
+    $nikayaFoldersJson[$k.ToLower()] = $nikayaFolders[$k]
+}
+
+$masterData = [ordered]@{
+    config = [ordered]@{
+        total_entries       = $entriesMap.Count
+        nikaya_folders      = $nikayaFoldersJson
+        generated_timestamp = [long]((Get-Date).ToUniversalTime() - $([datetime]"1970-01-01")).TotalMilliseconds
+    }
+    entries = $entriesMap
+}
+
+# Write master.json (Single JSON Source of Truth for Frontend)
+$masterData | ConvertTo-Json -Depth 10 | Set-Content -Path $masterJsonFile -Encoding UTF8
+Write-Host "✓ Generated master.json as Single JSON Source of Truth ($($entriesMap.Count) suttas) -> $masterJsonFile ($((Get-Item $masterJsonFile).Length) bytes)" -ForegroundColor Green
+
+# Write sutta_status_matrix.csv reflecting master.json for R Shiny & Excel
 try {
-    $results | Export-Csv -Path $csvFile -NoTypeInformation -Encoding UTF8 -Force
-    Write-Host "✓ Audited $($results.Count) clean suttas (Naturally Sorted) -> $csvFile ($((Get-Item $csvFile).Length) bytes)" -ForegroundColor Green
+    $resultsList | Export-Csv -Path $csvFile -NoTypeInformation -Encoding UTF8 -Force
+    Write-Host "✓ Generated sutta_status_matrix.csv reflecting master.json -> $csvFile ($((Get-Item $csvFile).Length) bytes)" -ForegroundColor Green
 } catch {
-    Write-Warning "Could not write to $csvFile (file may be open in Excel). Please close Excel and re-run."
+    Write-Warning "CSV notice: $csvFile (file may be open in Excel). master.json updated cleanly!"
 }

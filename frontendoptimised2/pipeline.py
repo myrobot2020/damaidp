@@ -17,6 +17,20 @@ from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
+# --- .env File Auto-Loader ---
+_SCRIPT_ROOT = Path(__file__).resolve().parent
+for _env_candidate in [_SCRIPT_ROOT / ".env", _SCRIPT_ROOT.parent / ".env"]:
+    if _env_candidate.exists():
+        try:
+            for _line in _env_candidate.read_text(encoding="utf-8").splitlines():
+                _line = _line.strip()
+                if _line and not _line.startswith("#") and "=" in _line:
+                    _k, _v = _line.split("=", 1)
+                    os.environ.setdefault(_k.strip(), _v.strip().strip("'\""))
+        except Exception:
+            pass
+
+
 # Constants & Configuration
 DEFAULT_SERVER_PORT = 8000
 HTTP_TIMEOUT_SECONDS = 60

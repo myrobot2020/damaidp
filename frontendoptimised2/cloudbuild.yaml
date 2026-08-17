@@ -1,0 +1,57 @@
+# ==============================================================================
+# Google Cloud Build Pipeline Configuration
+# Project: frontendoptimised2
+# Note: Do not run manually; triggered via GCP Cloud Build / GitHub Triggers
+# ==============================================================================
+
+steps:
+  # Step 1: Security & Syntax Checks
+  - name: 'python:3.11-slim'
+    id: 'syntax-validation'
+    entrypoint: 'sh'
+    args:
+      - '-c'
+      - |
+        echo "=== Running Python Syntax Validation ==="
+        python3 -m py_compile pipeline.py
+        echo "=== Validating File Structure ==="
+        test -f sutta_status_matrix.csv && echo "Matrix present" || exit 1
+
+  # Step 2: Build Container Image
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'docker-build'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/frontendoptimised2:$COMMIT_SHA'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/frontendoptimised2:latest'
+      - '.'
+
+  # Step 3: Push Container Image to GCP Artifact / Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'docker-push'
+    args:
+      - 'push'
+      - 'gcr.io/$PROJECT_ID/frontendoptimised2:$COMMIT_SHA'
+
+  # Step 4: Deploy to Cloud Run (Serverless Container)
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: 'cloud-run-deploy'
+    entrypoint: 'gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'frontendoptimised2-service'
+      - '--image=gcr.io/$PROJECT_ID/frontendoptimised2:$COMMIT_SHA'
+      - '--region=us-central1'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      - '--set-env-vars=GCP_PROJECT_ID=$PROJECT_ID'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+images:
+  - 'gcr.io/$PROJECT_ID/frontendoptimised2:$COMMIT_SHA'
+  - 'gcr.io/$PROJECT_ID/frontendoptimised2:latest'
