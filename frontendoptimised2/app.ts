@@ -99,29 +99,46 @@ function getEl<T extends HTMLElement>(id: string): T {
   return el;
 }
 
+// Helper: Check if entry is a real Sutta (filters out video/folder placeholders like "AN Book 5C...")
+function isGenuineSutta(sid: string, entry: SuttaEntry): boolean {
+  if (!sid || !entry) return false;
+  const sLower = sid.toLowerCase();
+  const folderLower = (entry.folder || "").toLowerCase();
+  if (sLower.includes("book") || folderLower.startsWith("book")) {
+    return false;
+  }
+  return true;
+}
+
 // Map book numbers to clean English labels
 function getBookLabel(bookFolder: string, nikaya: string): string {
-  if (nikaya.toLowerCase() === "an" && bookFolder.includes("_")) {
-    const bookNum = parseInt(bookFolder.split("_")[0]);
-    const ordinals: Record<number, string> = {
-      1: "BOOK OF ONES",
-      2: "BOOK OF TWOS",
-      3: "BOOK OF THREES",
-      4: "BOOK OF FOURS",
-      5: "BOOK OF FIVES",
-      6: "BOOK OF SIXES",
-      7: "BOOK OF SEVENS",
-      8: "BOOK OF EIGHTS",
-      9: "BOOK OF NINES",
-      10: "BOOK OF TENS",
-      11: "BOOK OF ELEVENS"
-    };
-    return ordinals[bookNum] || `BOOK ${bookNum}`;
-  }
+  const nik = (nikaya || "").toLowerCase();
+  let clean = bookFolder.replace(/^book\s+/i, "").replace(/^[0_]+/, "").trim();
+  if (clean.includes("_")) clean = clean.split("_")[0];
+  if (clean.includes(" ")) clean = clean.split(" ")[0];
   
-  const cleanFolder = bookFolder.replace(/^[0_]+/, "").trim();
-  return cleanFolder ? `BOOK ${cleanFolder}` : "BOOK GENERAL";
+  const num = parseInt(clean);
+  if (nik === "an") {
+    const ordinals: Record<number, string> = {
+      1: "Book 1 (Ones)",
+      2: "Book 2 (Twos)",
+      3: "Book 3 (Threes)",
+      4: "Book 4 (Fours)",
+      5: "Book 5 (Fives)",
+      6: "Book 6 (Sixes)",
+      7: "Book 7 (Sevens)",
+      8: "Book 8 (Eights)",
+      9: "Book 9 (Nines)",
+      10: "Book 10 (Tens)",
+      11: "Book 11 (Elevens)"
+    };
+    if (!isNaN(num) && ordinals[num]) {
+      return ordinals[num];
+    }
+  }
+  return clean ? `Book ${clean}` : "Book General";
 }
+
 
 // Translate raw Nikaya abbreviations
 function getNikayaLabel(nik: string): string {
@@ -191,11 +208,12 @@ async function loadPrompts() {
 // Populates Nikaya capsule selector
 function initNikayaSelector() {
   const sel = getEl<HTMLSelectElement>("nikayaSelector");
-  sel.innerHTML = '<option value="">NIKAYA</option>';
+  sel.innerHTML = '<option value="">SELECT NIKAYA</option>';
   
   const nikayas = new Set<string>();
-  Object.values(appRegistry!.entries).forEach(entry => {
-    if (entry.nikaya) {
+  Object.keys(appRegistry!.entries).forEach(sid => {
+    const entry = appRegistry!.entries[sid];
+    if (isGenuineSutta(sid, entry) && entry.nikaya) {
       nikayas.add(entry.nikaya.toLowerCase());
     }
   });
@@ -204,20 +222,23 @@ function initNikayaSelector() {
     const opt = document.createElement("option");
     opt.value = nik;
     
-    let hasData = false;
-    Object.values(appRegistry!.entries).forEach(e => {
-      if (e.nikaya && e.nikaya.toLowerCase() === nik && (e.status === "COMPLETE" || e.status === "RAW")) {
-        hasData = true;
+    let hasComplete = false;
+    Object.keys(appRegistry!.entries).forEach(sid => {
+      const e = appRegistry!.entries[sid];
+      if (isGenuineSutta(sid, e) && e.nikaya && e.nikaya.toLowerCase() === nik) {
+        if (e.status === "COMPLETE") {
+          hasComplete = true;
+        }
       }
     });
     
-    if (hasData) {
+    if (hasComplete) {
       opt.innerText = `🟢 ${getNikayaLabel(nik)}`;
       opt.style.color = "#065f46";
       opt.style.fontWeight = "bold";
     } else {
-      opt.innerText = `⚪ [GHOST] ${getNikayaLabel(nik)}`;
-      opt.style.color = "#9ca3af";
+      opt.innerText = `⚪ ${getNikayaLabel(nik)}`;
+      opt.style.color = "#6b7280";
     }
     sel.appendChild(opt);
   });
@@ -229,21 +250,22 @@ function onNikayaChange() {
   const bookSel = getEl<HTMLSelectElement>("bookSelector");
   const suttaSel = getEl<HTMLSelectElement>("suttaSelector");
   
-  bookSel.innerHTML = '<option value="">BOOK</option>';
-  suttaSel.innerHTML = '<option value="">SUTTA</option>';
+  bookSel.innerHTML = '<option value="">SELECT BOOK</option>';
+  suttaSel.innerHTML = '<option value="">SELECT SUTTA</option>';
   
   if (!nikVal) {
     return;
   }
   
   const books = new Set<string>();
-  Object.values(appRegistry!.entries).forEach(entry => {
-    if (entry.nikaya.toLowerCase() === nikVal && entry.folder) {
+  Object.keys(appRegistry!.entries).forEach(sid => {
+    const entry = appRegistry!.entries[sid];
+    if (isGenuineSutta(sid, entry) && entry.nikaya.toLowerCase() === nikVal && entry.folder) {
+      let bKey = entry.folder;
       if (nikVal === "an" && entry.folder.includes("_")) {
-        books.add(entry.folder.split("_")[0]);
-      } else {
-        books.add(entry.folder);
+        bKey = entry.folder.split("_")[0];
       }
+      books.add(bKey);
     }
   });
   
@@ -258,28 +280,27 @@ function onNikayaChange() {
     const opt = document.createElement("option");
     opt.value = book;
     
-    let hasData = false;
-    Object.values(appRegistry!.entries).forEach(e => {
-      if (e.nikaya.toLowerCase() === nikVal && e.folder) {
-        let match = false;
+    let hasComplete = false;
+    Object.keys(appRegistry!.entries).forEach(sid => {
+      const e = appRegistry!.entries[sid];
+      if (isGenuineSutta(sid, e) && e.nikaya.toLowerCase() === nikVal && e.folder) {
+        let bKey = e.folder;
         if (nikVal === "an" && e.folder.includes("_")) {
-          match = (e.folder.split("_")[0] === book);
-        } else {
-          match = (e.folder === book);
+          bKey = e.folder.split("_")[0];
         }
-        if (match && (e.status === "COMPLETE" || e.status === "RAW")) {
-          hasData = true;
+        if (bKey === book && e.status === "COMPLETE") {
+          hasComplete = true;
         }
       }
     });
     
-    if (hasData) {
+    if (hasComplete) {
       opt.innerText = `🟢 ${getBookLabel(book, nikVal)}`;
       opt.style.color = "#065f46";
       opt.style.fontWeight = "bold";
     } else {
-      opt.innerText = `⚪ [GHOST] ${getBookLabel(book, nikVal)}`;
-      opt.style.color = "#9ca3af";
+      opt.innerText = `⚪ ${getBookLabel(book, nikVal)}`;
+      opt.style.color = "#6b7280";
     }
     bookSel.appendChild(opt);
   });
@@ -292,43 +313,47 @@ function onBookChange() {
   const bookVal = getEl<HTMLSelectElement>("bookSelector").value;
   const suttaSel = getEl<HTMLSelectElement>("suttaSelector");
   
-  suttaSel.innerHTML = '<option value="">SUTTA</option>';
+  suttaSel.innerHTML = '<option value="">SELECT SUTTA</option>';
   
   if (!nikVal || !bookVal) {
     return;
   }
   
+  const matchedSuttas: string[] = [];
   Object.keys(appRegistry!.entries).forEach(sid => {
     const entry = appRegistry!.entries[sid];
+    if (!isGenuineSutta(sid, entry)) return;
     if (entry.nikaya.toLowerCase() === nikVal) {
-      let match = false;
+      let bKey = entry.folder;
       if (nikVal === "an" && entry.folder.includes("_")) {
-        match = (entry.folder.split("_")[0] === bookVal);
-      } else {
-        match = (entry.folder === bookVal);
+        bKey = entry.folder.split("_")[0];
       }
-      
-      if (match) {
-        const opt = document.createElement("option");
-        opt.value = sid;
-        const status = entry.status || "GHOST";
-        if (status === "COMPLETE") {
-          opt.innerText = `🟢 ${sid} - ${entry.title || "Untitled"}`;
-          opt.style.color = "#065f46";
-          opt.style.fontWeight = "bold";
-        } else if (status === "RAW") {
-          opt.innerText = `🟡 [RAW] ${sid} - ${entry.title || "Untitled"}`;
-          opt.style.color = "#b45309";
-        } else {
-          opt.innerText = `⚪ [GHOST] ${sid} - ${entry.title || "Untitled"}`;
-          opt.style.color = "#9ca3af";
-        }
-        suttaSel.appendChild(opt);
+      if (bKey === bookVal) {
+        matchedSuttas.push(sid);
       }
     }
   });
+  
+  matchedSuttas.sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
+  
+  matchedSuttas.forEach(sid => {
+    const entry = appRegistry!.entries[sid];
+    const opt = document.createElement("option");
+    opt.value = sid;
+    const isComplete = (entry.status === "COMPLETE");
+    if (isComplete) {
+      opt.innerText = `🟢 ${sid} - ${entry.title || "Untitled"}`;
+      opt.style.color = "#065f46";
+      opt.style.fontWeight = "bold";
+    } else {
+      opt.innerText = `⚪ ${sid} - ${entry.title || "Untitled"}`;
+      opt.style.color = "#6b7280";
+    }
+    suttaSel.appendChild(opt);
+  });
 }
 (window as any).onBookChange = onBookChange;
+
 
 // Fired when user changes Sutta
 function onSuttaChange() {
@@ -531,19 +556,44 @@ async function selectSutta(suttaId: string) {
   getEl("suttaViewActive").style.display = "flex";
   
   try {
-    const nikFolder = appRegistry!.config.nikaya_folders[entry.nikaya];
-    let langPath = entry.languages[currentLanguage];
-    if (!langPath) {
-      if (currentLanguage === "ja" || currentLanguage === "jp") {
-        langPath = `${nikFolder}/${entry.folder}/jp/${entry.folder}.json`;
-      } else {
-        langPath = `${nikFolder}/${entry.folder}/${entry.folder}.json`;
+    const candidateUrls: string[] = [];
+    const nikFolder = appRegistry!.config.nikaya_folders[entry.nikaya.toLowerCase()] || "";
+    const langSub = (currentLanguage === "ja" || currentLanguage === "jp") ? "/jp" : "";
+    
+    if (entry.languages && entry.languages[currentLanguage]) {
+      let rawP = entry.languages[currentLanguage].replace(/\\/g, "/");
+      if (rawP.startsWith("frontendoptimised2/")) {
+        rawP = rawP.substring("frontendoptimised2/".length);
+      }
+      if (!rawP.startsWith("/")) rawP = "/" + rawP;
+      candidateUrls.push(rawP);
+      candidateUrls.push(rawP.substring(1));
+      candidateUrls.push("../" + rawP.substring(1));
+    }
+    
+    if (nikFolder && entry.folder) {
+      candidateUrls.push(`/${nikFolder}/${entry.folder}${langSub}/${entry.folder}.json`);
+      candidateUrls.push(`/downloads/${nikFolder}/${entry.folder}${langSub}/${entry.folder}.json`);
+      candidateUrls.push(`downloads/${nikFolder}/${entry.folder}${langSub}/${entry.folder}.json`);
+    }
+    
+    let details: SuttaDetail | null = null;
+    let lastErr = "";
+    for (const urlCandidate of candidateUrls) {
+      try {
+        const response = await fetch(urlCandidate + `?t=${Date.now()}`, { cache: "no-store" });
+        if (response.ok) {
+          details = await response.json() as SuttaDetail;
+          break;
+        } else {
+          lastErr = `HTTP ${response.status} from ${urlCandidate}`;
+        }
+      } catch (e: any) {
+        lastErr = e.message;
       }
     }
     
-    let details: SuttaDetail;
-    const response = await fetch("../" + langPath + `?t=${Date.now()}`, { cache: "no-store" });
-    if (!response.ok) {
+    if (!details) {
       if (currentLanguage === "ja" || currentLanguage === "jp") {
         details = {
           sutta_id: suttaId,
@@ -553,11 +603,10 @@ async function selectSutta(suttaId: string) {
           transcript: "[!] 日本語の文字起こしはまだありません。"
         };
       } else {
-        throw new Error("Failed to fetch sutta data file.");
+        throw new Error(`Failed to fetch sutta data file (${lastErr}).`);
       }
-    } else {
-      details = await response.json() as SuttaDetail;
     }
+
     
     renderSuttaUI(details, entry);
   } catch (err: any) {
