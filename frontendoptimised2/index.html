@@ -558,6 +558,90 @@
       font-size: 0.72rem;
       letter-spacing: 0.05em;
     }
+
+    /* Stats Dashboard Styles */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .stat-hero-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+      transition: var(--transition-smooth);
+    }
+    .stat-hero-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--color-primary);
+      box-shadow: 0 6px 16px rgba(245,158,11,0.1);
+    }
+    .stat-card-title {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+    .stat-card-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.1;
+    }
+    .stat-card-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .stat-progress-bar {
+      width: 100%;
+      height: 8px;
+      background: var(--bg-hover);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .stat-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--color-primary), #10b981);
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+    .badge-rank {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #f59e0b;
+    }
+    .stats-search-input {
+      width: 100%;
+      padding: 10px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-page);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.88rem;
+      color: var(--text-main);
+      outline: none;
+      margin-bottom: 12px;
+      transition: var(--transition-smooth);
+    }
+    .stats-search-input:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(245,158,11,0.15);
+    }
   </style>
 </head>
 <body>
@@ -585,6 +669,7 @@
       </select>
       <button class="capsule-select" id="langEnBtn" onclick="switchLanguage('en')" style="background-image:none; padding-right:12px;">🇬🇧 EN</button>
       <button class="capsule-select" id="langJpBtn" onclick="switchLanguage('ja')" style="background-image:none; padding-right:12px;">🇯🇵 JPN</button>
+      <button class="capsule-select" id="statsTabBtn" onclick="showStatsView()" style="background-image:none; padding-right:16px;">📈 STATS</button>
       <button class="capsule-select" id="ragTabBtn" onclick="showHomeView()" style="background-image:none; padding-right:16px;">📊 UNIVERSE & RAG</button>
     </div>
     
@@ -728,6 +813,9 @@
       
       <!-- Home View Pane (Status Table + Home RAG Bot) -->
       <div id="homeViewPane" style="display:none; flex-direction:column; gap:24px;"></div>
+      
+      <!-- Stats View Pane (Corpus Analytics + ML Feature Rankings) -->
+      <div id="statsViewPane" style="display:none; flex-direction:column; gap:24px;"></div>
       
     </section>
   </main>

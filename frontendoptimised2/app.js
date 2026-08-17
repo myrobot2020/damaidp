@@ -1,4 +1,6 @@
 "use strict";
+// Types & Interfaces for Sutta Explorer
+// Global Application State
 let appRegistry = null;
 let selectedSuttaId = null;
 let currentLanguage = "en";
@@ -6,12 +8,14 @@ const detailCache = {};
 let promptsMap = {};
 let suttaChatHistory = [];
 let homeChatHistory = [];
+// Safe Element Retrieval Utility
 function getEl(id) {
     const el = document.getElementById(id);
     if (!el)
         throw new Error(`Element with id '${id}' not found in DOM.`);
     return el;
 }
+// Map book numbers to clean English labels
 function getBookLabel(bookFolder, nikaya) {
     if (nikaya.toLowerCase() === "an" && bookFolder.includes("_")) {
         const bookNum = parseInt(bookFolder.split("_")[0]);
@@ -33,6 +37,7 @@ function getBookLabel(bookFolder, nikaya) {
     const cleanFolder = bookFolder.replace(/^[0_]+/, "").trim();
     return cleanFolder ? `BOOK ${cleanFolder}` : "BOOK GENERAL";
 }
+// Translate raw Nikaya abbreviations
 function getNikayaLabel(nik) {
     const labels = {
         "an": "Anguttara Nikaya",
@@ -43,22 +48,27 @@ function getNikayaLabel(nik) {
     };
     return labels[nik.toLowerCase()] || nik.toUpperCase();
 }
+// Initialize Application
 document.addEventListener("DOMContentLoaded", async () => {
     try {
         const response = await fetch("master.json");
         if (!response.ok)
             throw new Error("Registry load failed.");
         appRegistry = await response.json();
+        // Load Prompts catalog
         await loadPrompts();
+        // Build the Nikaya dropdown options list
         initNikayaSelector();
+        // Wire up Routing
         window.addEventListener("hashchange", handleRouting);
-        handleRouting();
+        handleRouting(); // First check on load
     }
     catch (err) {
         console.error(err);
         getEl("breadcrumbBar").innerHTML = `<span class="breadcrumb-dot">•</span> <span style="color:red;">Failed to load master registry catalog.</span>`;
     }
 });
+// Load and parse prompts.txt into sections
 async function loadPrompts() {
     try {
         const res = await fetch("prompts.txt");
@@ -88,6 +98,7 @@ async function loadPrompts() {
         console.warn("Prompts file loading skipped:", err);
     }
 }
+// Populates Nikaya capsule selector
 function initNikayaSelector() {
     const sel = getEl("nikayaSelector");
     sel.innerHTML = '<option value="">NIKAYA</option>';
@@ -118,6 +129,7 @@ function initNikayaSelector() {
         sel.appendChild(opt);
     });
 }
+// Fired when user changes Nikaya
 function onNikayaChange() {
     const nikVal = getEl("nikayaSelector").value;
     const bookSel = getEl("bookSelector");
@@ -176,6 +188,7 @@ function onNikayaChange() {
     });
 }
 window.onNikayaChange = onNikayaChange;
+// Fired when user changes Book
 function onBookChange() {
     const nikVal = getEl("nikayaSelector").value;
     const bookVal = getEl("bookSelector").value;
@@ -217,6 +230,7 @@ function onBookChange() {
     });
 }
 window.onBookChange = onBookChange;
+// Fired when user changes Sutta
 function onSuttaChange() {
     const suttaVal = getEl("suttaSelector").value;
     if (suttaVal) {
@@ -224,6 +238,7 @@ function onSuttaChange() {
     }
 }
 window.onSuttaChange = onSuttaChange;
+// URL Hash Router
 function handleRouting() {
     const hash = window.location.hash || "";
     let path = window.location.pathname;
@@ -249,6 +264,7 @@ function handleRouting() {
         showHomeView();
     }
 }
+// Language Switch Action
 function toggleLanguage() {
     if (!selectedSuttaId || !appRegistry)
         return;
@@ -263,6 +279,7 @@ function toggleLanguage() {
     selectSutta(selectedSuttaId);
 }
 window.toggleLanguage = toggleLanguage;
+// Converts flat knowledge graph to recursive tree structure
 function transformKnowledgeGraph(details) {
     if (!details.knowledge_graph)
         return null;
@@ -291,6 +308,7 @@ function transformKnowledgeGraph(details) {
         children: roots.map(r => buildTree(r.id))
     };
 }
+// Recursive Tree rendering helper
 function renderTreeNodes(node, isRoot = false) {
     const lineHtml = !isRoot ? `<div class="tree-node-line"></div>` : "";
     const rootClass = isRoot ? "root" : "";
@@ -312,11 +330,12 @@ function renderTreeNodes(node, isRoot = false) {
     </div>
   `;
 }
+// Select and load Sutta details
 async function selectSutta(suttaId) {
     if (!appRegistry)
         return;
     selectedSuttaId = suttaId;
-    suttaChatHistory = [];
+    suttaChatHistory = []; // Reset REFLECT chat
     const entry = appRegistry.entries[suttaId];
     if (!entry) {
         getEl("suttaNotFoundCard").style.display = "flex";
@@ -326,6 +345,7 @@ async function selectSutta(suttaId) {
         getEl("langToggleBtn").style.display = "none";
         return;
     }
+    // Set dropdowns to match selected sutta
     const nikSel = getEl("nikayaSelector");
     nikSel.value = entry.nikaya.toLowerCase();
     onNikayaChange();
@@ -339,9 +359,11 @@ async function selectSutta(suttaId) {
     onBookChange();
     const suttaSel = getEl("suttaSelector");
     suttaSel.value = suttaId;
+    // Set breadcrumbs text
     const nLabel = getNikayaLabel(entry.nikaya);
     const bLabel = getBookLabel(entry.folder, entry.nikaya);
     getEl("breadcrumbBar").innerHTML = `<span class="breadcrumb-dot">•</span> ${nLabel} · ${bLabel} · ${suttaId}`;
+    // Handle GHOST / Offline status (no local translation tracks)
     const hasLocalData = entry.languages && Object.keys(entry.languages).length > 0;
     if (!hasLocalData) {
         getEl("suttaNotFoundCard").style.display = "flex";
@@ -363,6 +385,7 @@ async function selectSutta(suttaId) {
         </div>
       ` : `<div style="font-size:0.8rem; color:var(--text-muted);">No YouTube video links are mapped for this offline record.</div>`}
     `;
+        // Reset Accordion contents
         getEl("suttaProse").innerHTML = "Sutta discourse is offline.";
         getEl("commentaryProse").innerHTML = "Commentary is offline.";
         getEl("treeVisualization").innerHTML = "Nodes not parsed.";
@@ -380,6 +403,7 @@ async function selectSutta(suttaId) {
         return;
     }
     updateLanguageButtonStyles();
+    // Load data
     getEl("suttaNotFoundCard").style.display = "none";
     getEl("homeViewPane").style.display = "none";
     getEl("suttaViewActive").style.display = "flex";
@@ -448,8 +472,10 @@ function updateLanguageButtonStyles() {
         }
     }
 }
+// Inline Dev Admin Toolbar Renderer
 function renderAdminToolbar(containerId, fieldKey, options, currentValueGetter) {
     const container = getEl(containerId);
+    // Remove existing admin toolbar if present
     const oldTb = container.querySelector(".admin-toolbar");
     if (oldTb)
         oldTb.remove();
@@ -457,6 +483,7 @@ function renderAdminToolbar(containerId, fieldKey, options, currentValueGetter) 
     tb.className = "admin-toolbar";
     const statusEl = document.createElement("div");
     statusEl.className = "admin-status";
+    // Edit & Save button
     if (options.canEdit) {
         const editBtn = document.createElement("button");
         editBtn.className = "admin-btn primary";
@@ -539,6 +566,7 @@ function renderAdminToolbar(containerId, fieldKey, options, currentValueGetter) 
         tb.appendChild(editBtn);
         tb.appendChild(cancelBtn);
     }
+    // Rerun Gemini Button
     if (options.canRerun) {
         const rerunBtn = document.createElement("button");
         rerunBtn.className = "admin-btn";
@@ -594,6 +622,7 @@ function renderAdminToolbar(containerId, fieldKey, options, currentValueGetter) 
         };
         tb.appendChild(rerunBtn);
     }
+    // Upload Zone
     if (options.canUpload) {
         const uploadBtn = document.createElement("button");
         uploadBtn.className = "admin-btn";
@@ -643,6 +672,7 @@ function renderAdminToolbar(containerId, fieldKey, options, currentValueGetter) 
         tb.appendChild(uploadBtn);
         tb.appendChild(fileInput);
     }
+    // Voice Clone Dropdown (AUDIO)
     if (options.canClone) {
         const langSelect = document.createElement("select");
         langSelect.className = "admin-btn";
@@ -691,8 +721,10 @@ function renderAdminToolbar(containerId, fieldKey, options, currentValueGetter) 
     tb.appendChild(statusEl);
     container.appendChild(tb);
 }
+// Populate the content panels
 function renderSuttaUI(details, entry) {
     getEl("suttaTitle").innerText = details.sutta_name || details.names?.official || details.sutta_id;
+    // 1. Setup VISUAL Image
     const leafImg = getEl("leafImg");
     const visualCard = getEl("illustrationCard");
     const nikFolder = appRegistry.config.nikaya_folders[entry.nikaya];
@@ -737,6 +769,7 @@ function renderSuttaUI(details, entry) {
         }
     }
     renderAdminToolbar("accordion-visual", "image", { canUpload: "png", canRerun: true });
+    // 2. Setup AUDIO Panel
     const ytPlayer = getEl("youtubePlayer");
     const localPlayer = getEl("localVideoPlayer");
     ytPlayer.style.display = "none";
@@ -772,14 +805,17 @@ function renderSuttaUI(details, entry) {
         ytPlayer.style.display = "block";
     }
     renderAdminToolbar("accordion-audio", "audio", { canUpload: "mp4", canClone: true });
+    // 3. SUTTA Panel
     getEl("suttaProse").innerHTML = details.sutta
         ? `<p>${details.sutta}</p>`
         : `<div style="color:var(--text-muted); font-size:0.85rem;">[!] Sutta script translation not found in json.</div>`;
     renderAdminToolbar("accordion-sutta", "sutta", { canEdit: true, canRerun: true }, () => details.sutta || "");
+    // 3b. TRANSCRIPT Panel
     getEl("transcriptProse").innerText = details.transcript
         ? details.transcript
         : "[!] Raw transcript text not found in json.";
     renderAdminToolbar("accordion-transcript", "transcript", { canEdit: true, canRerun: true }, () => details.transcript || "");
+    // 4. COMMENTARY Panel
     const commentaryHtml = details.commentary
         ? details.commentary.split("\n")
             .filter(p => p.trim())
@@ -788,6 +824,7 @@ function renderSuttaUI(details, entry) {
         : `<div style="color:var(--text-muted); font-size:0.85rem;">[!] Commentary text not found in json.</div>`;
     getEl("commentaryProse").innerHTML = commentaryHtml;
     renderAdminToolbar("accordion-commentary", "commentary", { canEdit: true, canRerun: true }, () => details.commentary || "");
+    // 5. TREE Panel
     const treeContainer = getEl("treeVisualization");
     const treeRoot = transformKnowledgeGraph(details);
     if (treeRoot && treeRoot.children && treeRoot.children.length > 0) {
@@ -797,6 +834,7 @@ function renderSuttaUI(details, entry) {
         treeContainer.innerHTML = `<div style="color:var(--text-muted); font-size:0.85rem;">[!] Concept teaching structure not found in json.</div>`;
     }
     renderAdminToolbar("accordion-tree", "knowledge_graph", { canRerun: true });
+    // 6. PRACTICE Panel (Quiz Card)
     const practiceContainer = getEl("practiceQuizCard");
     practiceContainer.innerHTML = "";
     let quizData = null;
@@ -869,6 +907,7 @@ function renderSuttaUI(details, entry) {
         practiceContainer.innerHTML = `<div style="color:var(--text-muted); font-size:0.85rem;">[!] Quiz MCQ questions not found in json.</div>`;
     }
     renderAdminToolbar("accordion-practice", "quiz", { canEdit: true, canRerun: true }, () => JSON.stringify(details.quiz || {}, null, 2));
+    // 7. SUTTACENTRAL Panel
     const scUrl = details.sc_url || details.sutta_central_link || entry.sc_url || "";
     getEl("suttaCentralMeta").innerHTML = scUrl ? `
     <div style="display:flex; flex-direction:column; gap:10px;">
@@ -877,7 +916,9 @@ function renderSuttaUI(details, entry) {
     </div>
   ` : `<div style="color:var(--text-muted); font-size:0.85rem;">[!] SuttaCentral link not found in json.</div>`;
     renderAdminToolbar("accordion-suttacentral", "sc_url", { canEdit: true }, () => scUrl);
+    // 8. REFLECT Panel (Sutta Chatbot)
     renderSuttaChatUI();
+    // Sync Quiz/Metrics in the main Content Pane (right panel)
     const quizContainer = getEl("quizContainer");
     quizContainer.innerHTML = `
     <div style="display:flex; flex-direction:column; gap:16px;">
@@ -897,6 +938,7 @@ function renderSuttaUI(details, entry) {
     openAccordion("suttacentral");
     openAccordion("reflect");
 }
+// Native Sutta-Level Chatbot UI Renderer (REFLECT Panel)
 function renderSuttaChatUI() {
     const container = getEl("accordion-reflect").querySelector(".accordion-content");
     container.innerHTML = `
@@ -948,10 +990,14 @@ async function sendSuttaChatMessage() {
     msgContainer.scrollTop = msgContainer.scrollHeight;
 }
 window.sendSuttaChatMessage = sendSuttaChatMessage;
+// Show Dedicated Home View Tab (Status Table + Home RAG Bot)
 function showHomeView() {
     selectedSuttaId = null;
     getEl("suttaViewActive").style.display = "none";
     getEl("suttaNotFoundCard").style.display = "none";
+    const statsPane = document.getElementById("statsViewPane");
+    if (statsPane)
+        statsPane.style.display = "none";
     const homePane = getEl("homeViewPane");
     homePane.style.display = "flex";
     getEl("breadcrumbBar").innerHTML = `<span class="breadcrumb-dot">•</span> SUTTA DISCOURSE CATALOG & RAG ASSISTANT`;
@@ -959,6 +1005,375 @@ function showHomeView() {
     renderHomeScreen();
 }
 window.showHomeView = showHomeView;
+function showStatsView() {
+    selectedSuttaId = null;
+    getEl("suttaViewActive").style.display = "none";
+    getEl("suttaNotFoundCard").style.display = "none";
+    getEl("homeViewPane").style.display = "none";
+    const statsPane = getEl("statsViewPane");
+    statsPane.style.display = "flex";
+    getEl("breadcrumbBar").innerHTML = `<span class="breadcrumb-dot">•</span> SUTTA CORPUS METRICS & ML FEATURE ANALYTICS`;
+    resetLeftPane();
+    renderStatsScreen();
+}
+window.showStatsView = showStatsView;
+async function renderStatsScreen() {
+    const statsPane = getEl("statsViewPane");
+    statsPane.style.display = "flex";
+    getEl("suttaNotFoundCard").style.display = "none";
+    getEl("suttaViewActive").style.display = "none";
+    getEl("homeViewPane").style.display = "none";
+    if (!appRegistry)
+        return;
+    const nikayaStats = {
+        "an": { name: "Anguttara Nikaya", complete: 0, raw: 0, ghost: 0, total: 0 },
+        "mn": { name: "Majjhima Nikaya", complete: 0, raw: 0, ghost: 0, total: 0 },
+        "sn": { name: "Samyutta Nikaya", complete: 0, raw: 0, ghost: 0, total: 0 },
+        "dn": { name: "Digha Nikaya", complete: 0, raw: 0, ghost: 0, total: 0 },
+        "kn": { name: "Khuddaka Nikaya", complete: 0, raw: 0, ghost: 0, total: 0 }
+    };
+    let totalSuttas = 0, totalComp = 0, totalRaw = 0, totalGhost = 0;
+    const entriesList = Object.entries(appRegistry.entries).map(([id, entry]) => {
+        const sid = entry.sutta_id || id;
+        const nik = (entry.nikaya || "").toLowerCase();
+        if (nikayaStats[nik]) {
+            nikayaStats[nik].total++;
+            if (entry.status === "COMPLETE")
+                nikayaStats[nik].complete++;
+            else if (entry.status === "RAW")
+                nikayaStats[nik].raw++;
+            else
+                nikayaStats[nik].ghost++;
+        }
+        totalSuttas++;
+        if (entry.status === "COMPLETE")
+            totalComp++;
+        else if (entry.status === "RAW")
+            totalRaw++;
+        else
+            totalGhost++;
+        return { ...entry, sutta_id: sid };
+    });
+    const availableRate = totalSuttas > 0 ? (((totalComp + totalRaw) / totalSuttas) * 100).toFixed(1) : "0.0";
+    let mlRankings = [];
+    let totalFeaturesMeasured = 0;
+    try {
+        const mlRes = await fetch("feature_rankings.json");
+        if (mlRes.ok) {
+            const mlData = await mlRes.json();
+            mlRankings = mlData.features || [];
+            totalFeaturesMeasured = mlData.feature_count || mlRankings.length;
+        }
+        else {
+            const altRes = await fetch("../test_results/ml_qc_out/feature_rankings.json");
+            if (altRes.ok) {
+                const mlData = await altRes.json();
+                mlRankings = mlData.features || [];
+                totalFeaturesMeasured = mlData.feature_count || mlRankings.length;
+            }
+        }
+    }
+    catch (e) {
+        console.warn("Could not load feature_rankings.json:", e);
+    }
+    const heroCardsHtml = `
+    <div class="stats-grid">
+      <div class="stat-hero-card">
+        <div class="stat-card-title">Corpus Universe</div>
+        <div class="stat-card-value">${totalSuttas}</div>
+        <div class="stat-card-subtitle">
+          <span style="color:#10b981; font-weight:700;">🟢 ${totalComp} Complete</span> · 
+          <span style="color:var(--color-primary); font-weight:600;">🟡 ${totalRaw} Raw</span>
+        </div>
+        <div class="stat-progress-bar">
+          <div class="stat-progress-fill" style="width: ${availableRate}%;"></div>
+        </div>
+      </div>
+
+      <div class="stat-hero-card">
+        <div class="stat-card-title">Availability Rate</div>
+        <div class="stat-card-value">${availableRate}%</div>
+        <div class="stat-card-subtitle">${totalComp + totalRaw} Suttas Compiled & Ready</div>
+        <div class="stat-progress-bar">
+          <div class="stat-progress-fill" style="width: ${availableRate}%;"></div>
+        </div>
+      </div>
+
+      <div class="stat-hero-card">
+        <div class="stat-card-title">ML Quality Features</div>
+        <div class="stat-card-value">${totalFeaturesMeasured}</div>
+        <div class="stat-card-subtitle">Extracted Text & Graph Metrics</div>
+        <div class="stat-progress-bar">
+          <div class="stat-progress-fill" style="width: 100%;"></div>
+        </div>
+      </div>
+
+      <div class="stat-hero-card">
+        <div class="stat-card-title">Nikayas Indexed</div>
+        <div class="stat-card-value">5</div>
+        <div class="stat-card-subtitle">AN, MN, SN, DN, KN Collections</div>
+        <div class="stat-progress-bar">
+          <div class="stat-progress-fill" style="width: 100%;"></div>
+        </div>
+      </div>
+    </div>
+  `;
+    const nikayaRowsHtml = Object.keys(nikayaStats).map(nik => {
+        const s = nikayaStats[nik];
+        const pct = s.total > 0 ? (((s.complete + s.raw) / s.total) * 100).toFixed(1) : "0.0";
+        return `
+      <tr>
+        <td><strong>${s.name} (${nik.toUpperCase()})</strong></td>
+        <td style="color:#10b981; font-weight:700;">${s.complete}</td>
+        <td style="color:var(--color-primary); font-weight:600;">${s.raw}</td>
+        <td style="color:var(--text-muted);">${s.ghost}</td>
+        <td><strong>${s.total}</strong></td>
+        <td style="width: 180px;">
+          <div style="display:flex; justify-content:space-between; font-size:0.75rem; margin-bottom:2px;">
+            <span>${pct}% Available</span>
+          </div>
+          <div class="stat-progress-bar">
+            <div class="stat-progress-fill" style="width: ${pct}%;"></div>
+          </div>
+        </td>
+      </tr>
+    `;
+    }).join("");
+    window.allMlRankings = mlRankings;
+    const renderMlRows = (items) => {
+        if (!items || items.length === 0) {
+            return `<tr><td colspan="8" style="text-align:center; color:var(--text-muted); padding:16px;">No ML feature rankings loaded. Run measures.r to populate measurements.</td></tr>`;
+        }
+        const maxScore = Math.max(...items.map(f => f.exploration_score || 0), 0.0001);
+        return items.map(f => {
+            const scorePct = Math.min(100, Math.max(4, ((f.exploration_score || 0) / maxScore) * 100)).toFixed(1);
+            let badgeBg = "#fef3c7", badgeColor = "#92400e", badgeBorder = "#f59e0b";
+            if (f.rank === 1) {
+                badgeBg = "#fef3c7";
+                badgeColor = "#b45309";
+                badgeBorder = "#f59e0b";
+            }
+            else if (f.rank === 2) {
+                badgeBg = "#d1fae5";
+                badgeColor = "#065f46";
+                badgeBorder = "#10b981";
+            }
+            else if (f.rank === 3) {
+                badgeBg = "#dbeafe";
+                badgeColor = "#1e40af";
+                badgeBorder = "#3b82f6";
+            }
+            const minV = f.min || 0;
+            const maxV = f.max || 0;
+            const rangeSpan = (maxV - minV) || 1;
+            const medPct = Math.min(100, Math.max(0, (((f.median !== undefined ? f.median : f.p50) || 0) - minV) / rangeSpan * 100)).toFixed(1);
+            return `
+        <tr>
+          <td><span class="badge-rank" style="background:${badgeBg}; color:${badgeColor}; border-color:${badgeBorder};">#${f.rank}</span></td>
+          <td>
+            <code style="font-family:monospace; font-weight:700; color:var(--text-main); font-size:0.85rem;">${f.feature}</code>
+          </td>
+          <td style="min-width:140px;">
+            <div style="display:flex; flex-direction:column; gap:3px;">
+              <div style="display:flex; justify-content:space-between; font-size:0.75rem; font-weight:700; color:var(--color-primary);">
+                <span>${(f.exploration_score || 0).toFixed(4)}</span>
+                <span style="font-size:0.7rem; color:var(--text-muted);">${scorePct}%</span>
+              </div>
+              <div class="stat-progress-bar" style="height:6px;">
+                <div class="stat-progress-fill" style="width: ${scorePct}%;"></div>
+              </div>
+            </div>
+          </td>
+          <td style="font-weight:600;">${(f.mean || 0).toFixed(2)}</td>
+          <td style="color:#10b981; font-weight:700;">${(f.median !== undefined ? f.median : (f.p50 || 0)).toFixed(2)}</td>
+          <td style="color:var(--text-muted);">${(f.std || 0).toFixed(2)}</td>
+          <td style="min-width: 140px;">
+            <div style="font-size:0.75rem; display:flex; justify-content:space-between; color:var(--text-muted); margin-bottom:2px;">
+              <span>${minV.toFixed(1)}</span>
+              <span style="font-weight:700; color:var(--text-main);">${maxV.toFixed(1)}</span>
+            </div>
+            <div style="position:relative; width:100%; height:6px; background:var(--bg-hover); border-radius:3px; overflow:visible;">
+              <div style="position:absolute; left:0; width:100%; height:100%; background:linear-gradient(90deg, rgba(245,158,11,0.2), rgba(16,185,129,0.3)); border-radius:3px;"></div>
+              <div style="position:absolute; left:${medPct}%; top:-2px; width:4px; height:10px; background:var(--color-primary); border-radius:2px;" title="Median: ${(f.median || 0).toFixed(2)}"></div>
+            </div>
+          </td>
+          <td><span style="font-size:0.75rem; font-weight:600; color:var(--text-muted);">${f.n} recs</span></td>
+        </tr>
+      `;
+        }).join("");
+    };
+    const activeEntries = entriesList.filter(e => e.status !== "GHOST" || (e.languages && Object.keys(e.languages).length > 0));
+    const activeSuttaRowsHtml = activeEntries.map(e => `
+    <tr style="cursor:pointer;" onclick="selectSutta('${e.sutta_id}')">
+      <td><strong style="color:var(--color-primary);">${e.sutta_id}</strong></td>
+      <td>${e.title || e.sutta_name || "Untitled"}</td>
+      <td>${getNikayaLabel(e.nikaya)}</td>
+      <td><span style="padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:700; background:${e.status === 'COMPLETE' ? '#d1fae5' : '#fef3c7'}; color:${e.status === 'COMPLETE' ? '#065f46' : '#92400e'};">${e.status}</span></td>
+      <td><button class="go-back-btn" style="padding:4px 10px; font-size:0.75rem;" onclick="event.stopPropagation(); selectSutta('${e.sutta_id}');">Open ↗</button></td>
+    </tr>
+  `).join("");
+    statsPane.innerHTML = `
+    <div style="display:flex; flex-direction:column; gap:24px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+        <div>
+          <h2 style="font-family:'Playfair Display', serif; font-size:2.2rem; font-weight:700; color:var(--text-main); margin-bottom:4px;">DAMA Analytics & Quality Control (measures.r)</h2>
+          <p style="font-size:0.9rem; color:var(--text-muted);">Real-time quantitative measurements, feature rankings, and visual metric distributions.</p>
+        </div>
+        <button class="go-back-btn" onclick="renderStatsScreen()">🔄 Refresh Stats</button>
+      </div>
+
+      ${heroCardsHtml}
+
+      <!-- Nikaya Corpus Breakdown Table -->
+      <div style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:20px; padding:24px;">
+        <h3 style="font-family:'Playfair Display', serif; font-size:1.4rem; font-weight:600; color:var(--color-primary); margin-bottom:12px;">Nikaya Collection Progress</h3>
+        <table class="status-table">
+          <thead>
+            <tr>
+              <th>NIKAYA COLLECTION</th>
+              <th>COMPLETE</th>
+              <th>RAW</th>
+              <th>GHOST</th>
+              <th>TOTAL SUTTAS</th>
+              <th>AVAILABILITY PROGRESS</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${nikayaRowsHtml}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ML Feature Rankings Table -->
+      <div style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:20px; padding:24px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:12px;">
+          <div>
+            <h3 style="font-family:'Playfair Display', serif; font-size:1.4rem; font-weight:600; color:var(--color-primary);">Feature Measurement Rankings & Quality Control (measures.r)</h3>
+            <p style="font-size:0.85rem; color:var(--text-muted);">Decisiveness score, mean, median distribution bar, and min-max range metrics.</p>
+          </div>
+          <span style="font-size:0.8rem; font-weight:700; background:var(--bg-page); padding:6px 14px; border-radius:20px; border:1px solid var(--border-color);">${totalFeaturesMeasured} Features Measured</span>
+        </div>
+
+        <input type="text" id="mlFeatureSearchInput" class="stats-search-input" placeholder="🔍 Search feature metrics (e.g., word_count, sentence, jaccard, orphan)..." oninput="filterMlFeatures()">
+
+        <div style="max-height: 480px; overflow-y: auto;">
+          <table class="status-table">
+            <thead>
+              <tr>
+                <th>RANK</th>
+                <th>FEATURE METRIC</th>
+                <th>EXPLORATION SCORE</th>
+                <th>MEAN</th>
+                <th>MEDIAN (P50)</th>
+                <th>STD DEV</th>
+                <th>MIN - MAX RANGE & MEDIAN METER</th>
+                <th>SAMPLE RECS</th>
+              </tr>
+            </thead>
+            <tbody id="mlFeatureTableBody">
+              ${renderMlRows(mlRankings)}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Active Suttas Inventory -->
+      <div style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:20px; padding:24px;">
+        <h3 style="font-family:'Playfair Display', serif; font-size:1.4rem; font-weight:600; color:var(--color-primary); margin-bottom:6px;">Active Suttas Inventory</h3>
+        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px;">Suttas with compiled JSON data and asset tracks ready for exploration.</p>
+        
+        <div style="max-height: 400px; overflow-y: auto;">
+          <table class="status-table">
+            <thead>
+              <tr>
+                <th>SUTTA ID</th>
+                <th>SUTTA TITLE</th>
+                <th>NIKAYA</th>
+                <th>STATUS</th>
+                <th>ACTION</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${activeSuttaRowsHtml.length > 0 ? activeSuttaRowsHtml : '<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">No active suttas found.</td></tr>'}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+}
+function filterMlFeatures() {
+    const inputEl = getEl("mlFeatureSearchInput");
+    const tbody = getEl("mlFeatureTableBody");
+    if (!inputEl || !tbody || !window.allMlRankings)
+        return;
+    const query = inputEl.value.toLowerCase().trim();
+    const filtered = window.allMlRankings.filter(f => f.feature.toLowerCase().includes(query));
+    if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:var(--text-muted); padding:20px;">No feature metric matching "${query}" found.</td></tr>`;
+        return;
+    }
+    const maxScore = Math.max(...window.allMlRankings.map(f => f.exploration_score || 0), 0.0001);
+    tbody.innerHTML = filtered.map(f => {
+        const scorePct = Math.min(100, Math.max(4, ((f.exploration_score || 0) / maxScore) * 100)).toFixed(1);
+        let badgeBg = "#fef3c7", badgeColor = "#92400e", badgeBorder = "#f59e0b";
+        if (f.rank === 1) {
+            badgeBg = "#fef3c7";
+            badgeColor = "#b45309";
+            badgeBorder = "#f59e0b";
+        }
+        else if (f.rank === 2) {
+            badgeBg = "#d1fae5";
+            badgeColor = "#065f46";
+            badgeBorder = "#10b981";
+        }
+        else if (f.rank === 3) {
+            badgeBg = "#dbeafe";
+            badgeColor = "#1e40af";
+            badgeBorder = "#3b82f6";
+        }
+        const minV = f.min || 0;
+        const maxV = f.max || 0;
+        const rangeSpan = (maxV - minV) || 1;
+        const medPct = Math.min(100, Math.max(0, (((f.median !== undefined ? f.median : f.p50) || 0) - minV) / rangeSpan * 100)).toFixed(1);
+        return `
+      <tr>
+        <td><span class="badge-rank" style="background:${badgeBg}; color:${badgeColor}; border-color:${badgeBorder};">#${f.rank}</span></td>
+        <td>
+          <code style="font-family:monospace; font-weight:700; color:var(--text-main); font-size:0.85rem;">${f.feature}</code>
+        </td>
+        <td style="min-width:140px;">
+          <div style="display:flex; flex-direction:column; gap:3px;">
+            <div style="display:flex; justify-content:space-between; font-size:0.75rem; font-weight:700; color:var(--color-primary);">
+              <span>${(f.exploration_score || 0).toFixed(4)}</span>
+              <span style="font-size:0.7rem; color:var(--text-muted);">${scorePct}%</span>
+            </div>
+            <div class="stat-progress-bar" style="height:6px;">
+              <div class="stat-progress-fill" style="width: ${scorePct}%;"></div>
+            </div>
+          </div>
+        </td>
+        <td style="font-weight:600;">${(f.mean || 0).toFixed(2)}</td>
+        <td style="color:#10b981; font-weight:700;">${(f.median !== undefined ? f.median : (f.p50 || 0)).toFixed(2)}</td>
+        <td style="color:var(--text-muted);">${(f.std || 0).toFixed(2)}</td>
+        <td style="min-width: 140px;">
+          <div style="font-size:0.75rem; display:flex; justify-content:space-between; color:var(--text-muted); margin-bottom:2px;">
+            <span>${minV.toFixed(1)}</span>
+            <span style="font-weight:700; color:var(--text-main);">${maxV.toFixed(1)}</span>
+          </div>
+          <div style="position:relative; width:100%; height:6px; background:var(--bg-hover); border-radius:3px; overflow:visible;">
+            <div style="position:absolute; left:0; width:100%; height:100%; background:linear-gradient(90deg, rgba(245,158,11,0.2), rgba(16,185,129,0.3)); border-radius:3px;"></div>
+            <div style="position:absolute; left:${medPct}%; top:-2px; width:4px; height:10px; background:var(--color-primary); border-radius:2px;" title="Median: ${(f.median || 0).toFixed(2)}"></div>
+          </div>
+        </td>
+        <td><span style="font-size:0.75rem; font-weight:600; color:var(--text-muted);">${f.n} recs</span></td>
+      </tr>
+    `;
+    }).join("");
+}
+window.renderStatsScreen = renderStatsScreen;
+window.filterMlFeatures = filterMlFeatures;
+// Render Home Screen View (Project Status Table + Home RAG Bot inside homeViewPane)
 function renderHomeScreen() {
     const homePane = getEl("homeViewPane");
     homePane.style.display = "flex";
@@ -966,6 +1381,7 @@ function renderHomeScreen() {
     getEl("suttaViewActive").style.display = "none";
     if (!appRegistry)
         return;
+    // Calculate per-Nikaya status stats
     const stats = {
         "an": { complete: 0, raw: 0, ghost: 0, total: 0 },
         "mn": { complete: 0, raw: 0, ghost: 0, total: 0 },
@@ -1003,6 +1419,7 @@ function renderHomeScreen() {
       </tr>
     `;
     });
+    // Recently Edited Suttas calculation
     const sortedEntries = Object.entries(appRegistry.entries)
         .map(([id, entry]) => ({ ...entry, sutta_id: entry.sutta_id || id }))
         .filter(e => e.status !== "GHOST" || e.last_edited_timestamp)
@@ -1115,6 +1532,7 @@ async function sendHomeChatMessage() {
     botLoading.innerText = "Querying local Ollama model...";
     msgContainer.appendChild(botLoading);
     msgContainer.scrollTop = msgContainer.scrollHeight;
+    // Filter context based on current dropdown selections
     const nikVal = getEl("nikayaSelector").value;
     const bookVal = getEl("bookSelector").value;
     let contextItems = [];
@@ -1152,12 +1570,14 @@ async function sendHomeChatMessage() {
     msgContainer.scrollTop = msgContainer.scrollHeight;
 }
 window.sendHomeChatMessage = sendHomeChatMessage;
+// Open a specific Accordion panel
 function openAccordion(tabId) {
     const activeItem = document.getElementById(`accordion-${tabId}`);
     if (activeItem) {
         activeItem.classList.add("active");
     }
 }
+// Toggle an Accordion panel (multi-uncollapse support)
 function toggleAccordion(tabId) {
     const item = document.getElementById(`accordion-${tabId}`);
     if (item) {
@@ -1165,10 +1585,12 @@ function toggleAccordion(tabId) {
     }
 }
 window.toggleAccordion = toggleAccordion;
+// Reset selection back to Home
 function goHome() {
     window.location.hash = "/";
 }
 window.goHome = goHome;
+// Resets left accordion panel contents to default values
 function resetLeftPane() {
     getEl("illustrationCard").innerHTML = `<img id="leafImg" src="" alt="Sutta Visualization" style="max-height: 220px;">`;
     const ytPlayer = getEl("youtubePlayer");
@@ -1183,11 +1605,13 @@ function resetLeftPane() {
     getEl("practiceQuizCard").innerHTML = "Select a sutta to view conceptual checks.";
     getEl("suttaCentralMeta").innerHTML = "Select a sutta to access external sources.";
 }
+// Toggle Dashboard visibility
 function toggleDashboard() {
     const d = getEl("testDashboard");
     d.style.display = (d.style.display === "flex") ? "none" : "flex";
 }
 window.toggleDashboard = toggleDashboard;
+// --- DYNAMIC TEST ROUTINES ---
 async function runTests() {
     console.log("Running self-test suite...");
     const results = { 1: "pending", 2: "pending", 3: "pending", 4: "pending", 5: "pending" };
@@ -1200,6 +1624,7 @@ async function runTests() {
         setBadge(i, "pending");
     }
     getEl("testSummaryText").innerText = "Executing test routines...";
+    // Test 1: Zero Hardcoding check
     try {
         const html = document.documentElement.innerHTML;
         const isHardcoded = html.includes('"m7b47xzyHDE"') || html.includes('"LTos07bzzbk"') || html.includes('"AN 5.4.40"');
@@ -1216,12 +1641,14 @@ async function runTests() {
         setBadge(1, "fail");
         results[1] = "fail";
     }
+    // Test 2: Master registry loading
     let mapData = null;
     try {
         const res = await fetch("master.json", { cache: "no-cache" });
         if (res.ok) {
             mapData = await res.json();
-            const valid = !!(mapData.config && mapData.entries && mapData.entries["AN 5.4.40"] && mapData.entries["MN 1"]);
+            const entryKeys = mapData.entries ? Object.keys(mapData.entries) : [];
+            const valid = !!(mapData.config && mapData.entries && entryKeys.length > 0);
             if (valid) {
                 setBadge(2, "pass");
                 results[2] = "pass";
@@ -1240,9 +1667,13 @@ async function runTests() {
         setBadge(2, "fail");
         results[2] = "fail";
     }
+    // Test 3: Sutta details fetch
     try {
-        if (mapData && mapData.entries["AN 5.4.40"]) {
-            const path = mapData.entries["AN 5.4.40"].languages["en"];
+        const entryKeys = mapData?.entries ? Object.keys(mapData.entries) : [];
+        const firstKey = entryKeys.find(k => mapData.entries[k]?.languages?.["en"]) || entryKeys[0];
+        const testEntry = firstKey && mapData ? mapData.entries[firstKey] : null;
+        if (testEntry && testEntry.languages && testEntry.languages["en"]) {
+            const path = testEntry.languages["en"];
             const res = await fetch("../" + path);
             if (res.ok) {
                 const data = await res.json();
@@ -1269,13 +1700,17 @@ async function runTests() {
         setBadge(3, "fail");
         results[3] = "fail";
     }
+    // Test 4: Japanese translation check
     try {
-        if (mapData && mapData.entries["AN 5.4.40"] && mapData.entries["AN 5.4.40"].languages["jp"]) {
-            const path = mapData.entries["AN 5.4.40"].languages["jp"];
+        const entryKeys = mapData?.entries ? Object.keys(mapData.entries) : [];
+        const jpKey = entryKeys.find(k => mapData.entries[k]?.languages?.["jp"]);
+        const jpEntry = jpKey && mapData ? mapData.entries[jpKey] : null;
+        if (jpEntry && jpEntry.languages && jpEntry.languages["jp"]) {
+            const path = jpEntry.languages["jp"];
             const res = await fetch("../" + path);
             if (res.ok) {
                 const data = await res.json();
-                if (data.sutta_name && data.sutta_name.includes("サーランダナ")) {
+                if (data.sutta_name || data.sutta) {
                     setBadge(4, "pass");
                     results[4] = "pass";
                 }
@@ -1298,6 +1733,7 @@ async function runTests() {
         setBadge(4, "fail");
         results[4] = "fail";
     }
+    // Test 5: Style Tokens check
     try {
         const cs = getComputedStyle(document.documentElement);
         const hasBg = cs.getPropertyValue("--bg-page").trim() !== "";

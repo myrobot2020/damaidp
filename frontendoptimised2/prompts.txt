@@ -1,40 +1,90 @@
+[transcript]
+This field contains the complete, unabridged audio/video recording transcript containing EVERY word spoken.
+Do not omit, summarize, rewrite, or alter any words spoken by either the Buddha or the teacher (Bhante).
+Return the full verbatim transcript text.
+Sutta ID: {sid}
+Transcript: {transcript}
+
 [sutta]
-You are a Dhamma scholar. Extract only the Buddha's spoken words — the sutta scripture itself — from the transcript below.
-Remove all teacher commentary, explanations, or analysis that occur after the recitation.
-The sutta typically begins with "Thus have I heard" or "At one time the Blessed One...".
-Return clean plain text only. No JSON, no headings, no labels.
+Extract ONLY the Buddha's spoken words (the sutta scripture recitation itself) from the transcript.
+CRITICAL RULE: Do not alter, paraphrase, or rewrite any words. Only split out the Buddha's verbatim spoken scripture.
+Remove all teacher commentary, introductions, or post-recitation explanations.
+Return clean, faithful, unabridged verbatim text of the Buddha's words. No JSON, no headings, no labels.
 Sutta ID: {sid}
 Transcript: {transcript}
 
 [commentary]
-You are a Dhamma scholar. Extract only the teacher's commentary section from this transcript.
-This is the part where Bhante explains, elaborates, or gives context about the sutta — it typically begins after phrases like "So here the Buddha", "I'll just stop here", "In this sutta", or "So what the Buddha is saying".
-Remove the sutta recitation itself. Return clean plain text only. No JSON, no headings.
+Extract ONLY the teacher's (Bhante's) words from this transcript — including his commentary, explanations, historical context, and any scripture verses he quotes during his explanation.
+CRITICAL RULE: Do not alter, paraphrase, or rewrite any words. Only split out the teacher's commentary section.
+Remove the standalone sutta scripture recitation itself. Return clean, verbatim text of the teacher's commentary.
 Sutta ID: {sid}
 Transcript: {transcript}
 
 [quiz]
 You are a Dhamma teacher creating a comprehension check for this sutta.
-Generate a single thoughtful quiz question that tests understanding of the sutta's central teaching.
-Return JSON only in this exact format — no markdown, no extra keys:
-{"quote": "the question text", "goldOptionId": "2", "options": [{"id":"1","title":"Option A","body":"brief explanation of why this is right or wrong"},{"id":"2","title":"Option B","body":"brief explanation"},{"id":"3","title":"Option C","body":"brief explanation"},{"id":"4","title":"Option D","body":"brief explanation"}], "teacherSummary": "one or two sentences explaining the correct answer from the Dhamma perspective"}
-Only one option should be correct. goldOptionId must match the id of the correct option.
+Generate a single thoughtful quiz question that tests understanding of the sutta's central psychological teaching.
+Return JSON only in this exact format — no markdown syntax, no wrapping backticks, no extra keys:
+{"quote": "the central question from the sutta text", "goldOptionId": "2", "suttaId": "{sid}", "options": [{"id":"1","title":"Short Option Title","body":"Explanation of option 1"},{"id":"2","title":"Short Option Title","body":"Explanation of correct option 2"},{"id":"3","title":"Short Option Title","body":"Explanation of option 3"},{"id":"4","title":"Short Option Title","body":"Explanation of option 4"}]}
+Only one option should be correct. goldOptionId must match the string id of the correct option.
 Sutta ID: {sid}
 Transcript: {transcript}
 
 [knowledge_graph]
-You are a Dhamma scholar building a concept map of this sutta's teaching structure.
-Identify the key Dhamma concepts, practices, and their relationships.
-Return JSON only in this exact format — no markdown, no extra keys:
-{"nodes": [{"id": "1", "label": "English label", "type": "Support|Concept|Practice|Obstacle|Outcome", "pali": "pali term if applicable", "description": "one sentence description"}], "edges": [{"source": "1", "target": "2", "relation": "LEADS_TO|REQUIRES|OPPOSES|SUPPORTS|PARALLEL_TO", "order": 1}]}
-Root node should have type "Support". Build the tree from root outward. Order edges from 1.
+You are a Dhamma scholar building a structured concept map of this sutta's teaching structure.
+Identify the core Dhamma concepts, obstacles, goals, practices, and their causal or oppositional relationships.
+Return JSON only in this exact format — no markdown syntax, no wrapping backticks, no extra keys:
+{"nodes": [{"id": "inner_fever", "label": "Inner Fever", "type": "Obstacle", "domain": "Mind", "pali": "Ātapa / Kilesa", "description": "The burning of greed, hate, and delusion that torments beings."}, {"id": "cooling", "label": "Cooling", "type": "Goal", "domain": "Nibbana", "pali": "Sītibhūta", "description": "The cessation of defilements leading to ultimate peace."}], "edges": [{"source": "inner_fever", "target": "cooling", "relation": "OPPOSITE_OF", "order": 1}]}
+Node type must be one of: "Obstacle", "Goal", "Practice", "Concept", "Support".
+Edge relation must be one of: "OPPOSITE_OF", "LEADS_TO", "REQUIRES", "SUPPORTS", "PARALLEL_TO".
 Sutta ID: {sid}
 Transcript: {transcript}
 
 [image]
-A serene, minimalist Dhamma illustration for this Buddhist sutta.
-Style: soft watercolor, warm cream and amber tones, no text, no people, no faces.
-Depict the central metaphor, symbol, or nature scene that represents the sutta's core teaching.
-Keep it peaceful, symbolic, and timeless. Inspired by East Asian ink wash painting traditions.
-Sutta: {sid}
-Teaching theme: {transcript}
+A serene, minimalist watercolor painting depicting the central setting or simile of this Buddhist sutta.
+Style: Soft watercolor, warm cream and amber tones, peaceful lighting, inspired by East Asian ink wash painting traditions. No modern elements, no text overlay, no close-up faces.
+Depict a traditional ancient Indian scene (e.g., a wise ascetic in golden robes speaking calmly under a flowering sala tree to a listener, surrounded by soft glowing light), symbolizing peace and the cooling of inner fires.
+Sutta ID: {sid}
+Transcript: {transcript}
+
+[sutta_name]
+Extract the exact formal Pali name of this sutta (e.g., "Sālandana Sutta", "Kālama Sutta") from the transcript or Sutta ID.
+Return ONLY the title string. No quotes, no markdown, no explanation.
+Sutta ID: {sid}
+Transcript: {transcript}
+
+[sutta_central_link]
+Construct the standard canonical SuttaCentral URL for this sutta ID.
+Format: https://suttacentral.net/<nikaya_code><book>.<number>?view=normal&lang=en
+Example for AN 5.4.40: https://suttacentral.net/an5.40?view=normal&lang=en
+Return ONLY the full URL string. No quotes, no markdown, no explanation.
+Sutta ID: {sid}
+
+[sutta_jp]
+You are a Dhamma and Japanese translator scholar.
+Translate the Buddha's spoken words (sutta scripture) accurately into fluent, respectful Japanese (日本語).
+Do not alter the meaning or remove any verses. Output Japanese text only.
+Sutta ID: {sid}
+Transcript: {transcript}
+
+[commentary_jp]
+You are a Dhamma and Japanese translator scholar.
+Translate the teacher's commentary and explanations accurately into fluent Japanese (日本語).
+Output Japanese text only.
+Sutta ID: {sid}
+Transcript: {transcript}
+
+[quiz_jp]
+You are a Dhamma teacher creating a comprehension check in Japanese for this sutta.
+Generate a single thoughtful quiz question in fluent Japanese (日本語).
+Return JSON only in this exact format — no markdown syntax, no wrapping backticks:
+{"quote": "日本語のお経からの引用質問", "goldOptionId": "2", "suttaId": "{sid}", "options": [{"id":"1","title":"選択肢A","body":"説明1"},{"id":"2","title":"選択肢B","body":"説明2"},{"id":"3","title":"選択肢C","body":"説明3"},{"id":"4","title":"選択肢D","body":"説明4"}]}
+Sutta ID: {sid}
+Transcript: {transcript}
+
+[knowledge_graph_jp]
+You are a Dhamma scholar building a concept map in Japanese.
+Output nodes with Japanese labels (日本語) and Pali terms.
+Return JSON only in this exact format:
+{"nodes": [{"id": "inner_fever", "label": "心の熱病 (Inner Fever)", "type": "Obstacle", "domain": "Mind", "pali": "Ātapa / Kilesa", "description": "貪・瞋・痴の熱病。"}, {"id": "cooling", "label": "清涼 (Cooling)", "type": "Goal", "domain": "Nibbana", "pali": "Sītibhūta", "description": "煩悩の消滅と究極の平和。"}], "edges": [{"source": "inner_fever", "target": "cooling", "relation": "OPPOSITE_OF", "order": 1}]}
+Sutta ID: {sid}
+Transcript: {transcript}
