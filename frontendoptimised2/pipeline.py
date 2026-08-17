@@ -1009,56 +1009,141 @@ class DevServerHandler(SimpleHTTPRequestHandler):
         except Exception as e:
             self.send_json_response({"error": str(e)}, 500)
 
+def retrieve_rag_context(query: str, nikaya: str = "", book: str = "", top_k: int = 4) -> list:
+    if not query:
+        return []
+    
+    keywords = [w.lower() for w in re.findall(r'\w+', query) if len(w) > 2]
+    if not keywords:
+        return []
+    
+    master_path = FRONTEND_OPT / "master.json"
+    if not master_path.exists():
+        return []
+    
+    try:
+        with open(master_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            entries = data.get("entries", {})
+    except Exception:
+        return []
+    
+    scored_results = []
+    for sid, entry in entries.items():
+        if "book" in sid.lower() or (entry.get("folder", "").lower().startswith("book")):
+            continue
+        
+        if nikaya and entry.get("nikaya", "").lower() != nikaya.lower():
+            continue
+            
+        score = 0
+        title = entry.get("title", "").lower()
+        sutta_id = sid.lower()
+        
+        for kw in keywords:
+            if kw in sutta_id:
+                score += 10
+            if kw in title:
+                score += 5
+                
+        json_path = get_sutta_json_path(sid, "en")
+        sutta_text = ""
+        commentary_text = ""
+        if json_path and json_path.exists():
+            try:
+                with open(json_path, "r", encoding="utf-8") as jf:
+                    s_detail = json.load(jf)
+                    sutta_text = s_detail.get("sutta", "")
+                    commentary_text = s_detail.get("commentary", "")
+                    for kw in keywords:
+                        score += sutta_text.lower().count(kw) * 2
+                        score += commentary_text.lower().count(kw) * 3
+            except Exception:
+                pass
+                
+        if score > 0:
+            scored_results.append({
+                "sutta_id": sid,
+                "title": entry.get("title", ""),
+                "nikaya": entry.get("nikaya", "").upper(),
+                "sc_url": entry.get("sc_url", f"https://suttacentral.net/{sid.lower().replace(' ', '')}"),
+                "status": entry.get("status", "GHOST"),
+                "score": score,
+                "sutta_snippet": sutta_text[:1200] if sutta_text else "",
+                "commentary_snippet": commentary_text[:1200] if commentary_text else ""
+            })
+            
+    scored_results.sort(key=lambda x: x["score"], reverse=True)
+    return scored_results[:top_k]
+
     def handle_home_chat(self):
         try:
             req = self.read_json_body()
             messages = req.get("messages", [])
-            context_json = req.get("context_json", {})
+            nikaya = req.get("nikaya", "")
+            book = req.get("book", "")
             
-            ollama_model = "llama3"
-            try:
-                tags_req = urllib.request.Request("http://localhost:11434/api/tags")
-                with urllib.request.urlopen(tags_resp, timeout=3) as tags_resp:
-                    tags_data = json.loads(tags_resp.read().decode("utf-8"))
-                    models = tags_data.get("models", [])
-                    if models:
-                        ollama_model = models[0].get("name", "llama3")
-            except Exception:
-                pass
-
             last_user_msg = messages[-1].get("content", "") if messages else "Hello"
             
-            prompt_text = f"""[SYSTEM INSTRUCTION]: You are a Dhamma research assistant. Answer user queries strictly based on the provided Nikaya corpus context.
-
-[RETRIEVED CORPUS CONTEXT]:
-{json.dumps(context_json, ensure_ascii=False)[:12000]}
-
-[USER QUERY]: {last_user_msg}"""
-
-            ollama_url = "http://localhost:11434/api/generate"
-            ollama_payload = {
-                "model": ollama_model,
-                "prompt": prompt_text,
-                "stream": False
-            }
-
-            req_obj = urllib.request.Request(
-                ollama_url,
-                data=json.dumps(ollama_payload).encode("utf-8"),
-                headers={"Content-Type": "application/json"}
-            )
+            # 1. Perform NotebookLM Grounded RAG Retrieval
+            retrieved_sources = retrieve_rag_context(last_user_msg, nikaya=nikaya, book=book, top_k=4)
             
-            try:
-                with urllib.request.urlopen(req_obj, timeout=90) as resp:
-                    res_data = json.loads(resp.read().decode("utf-8"))
-                    reply = res_data.get("response", "No response generated.")
-                    return self.send_json_response({"status": "ok", "reply": reply, "model": ollama_model})
-            except Exception:
-                fallback_msg = f"[Ollama local model '{ollama_model}' not responding. Please run 'ollama serve' locally to enable home RAG chatbot.]"
-                return self.send_json_response({"status": "ok", "reply": fallback_msg, "model": "offline"})
+            # 2. Construct Grounded Context Block
+            context_blocks = []
+            source_citations = []
+            for src in retrieved_sources:
+                source_citations.append(f"• [{src['sutta_id']} - {src['title']}]({src['sc_url']}) (Status: {src['status']})")
+                context_blocks.append(f"""--- GROUNDING SOURCE: {src['sutta_id']} ({src['title']}) ---
+SUTTA SCRIPTURE RECITATION:
+{src['sutta_snippet'] or 'Transcript available in audio recording.'}
+
+TEACHER COMMENTARY:
+{src['commentary_snippet'] or 'Commentary track indexed.'}
+""")
+            
+            grounded_context_str = "\n\n".join(context_blocks) if context_blocks else "No specific Sutta text matches query keywords. Answer using core Theravada Dhamma principles."
+            
+            system_prompt = f"""You are NotebookLM DAMA RAG Assistant — an expert, grounded AI research assistant for the Buddhist Sutta Corpus.
+Your objective is to answer user queries with high scholarly accuracy, strictly citing the retrieved Suttas and Bhante's commentary insights.
+
+FORMATTING REQUIREMENTS:
+1. Provide a clear, well-structured response with bold section headers and bullet points.
+2. Quote scripture verses accurately when present in the context.
+3. At the end of your response, list the cited sources under a '### 📌 NotebookLM Grounded Sources' header.
+
+[RETRIEVED GROUNDING SOURCES]:
+{grounded_context_str}"""
+
+            key = get_gemini_key()
+            if key:
+                contents = []
+                for msg in messages:
+                    role = "user" if msg.get("role") == "user" else "model"
+                    contents.append({"role": role, "parts": [{"text": msg.get("content", "")}]})
+                    
+                payload = {
+                    "systemInstruction": {"parts": [{"text": system_prompt}]},
+                    "contents": contents,
+                    "generationConfig": {"temperature": 0.2}
+                }
+                reply = call_gemini_api(payload, key)
+                
+                citations_footer = "\n\n### 📌 NotebookLM Grounded Sources\n" + "\n".join(source_citations) if source_citations else ""
+                full_reply = reply + citations_footer
+                
+                return self.send_json_response({
+                    "status": "ok",
+                    "reply": full_reply,
+                    "model": "NotebookLM Gemini 1.5/3.6 RAG Engine",
+                    "sources": retrieved_sources
+                })
+            else:
+                return self.send_json_response({"error": "Gemini API key not found. Please set GEMINI_API_KEY in .env"}, 400)
 
         except Exception as e:
             self.send_json_response({"error": str(e)}, 500)
+
+
 
 
 def main():
